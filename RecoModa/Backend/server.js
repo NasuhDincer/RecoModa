@@ -2,13 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import userRouter from './routers/UserRouter.js'
 
 const app = express();
+dotenv.config()
 
 const PORT = process.env.PORT || 5000;
 
 const connection_url =  "mongodb+srv://tarik:" + process.env.MONGO_PASSWORD + "@cluster0.ymimfnq.mongodb.net/Shop?retryWrites=true&w=majority";
-
+app.use("/users", userRouter);
 mongoose.connect(connection_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
