@@ -8,7 +8,6 @@ import {
   verifyTokenAndAdmin,
 } from "./verifyToken.js";
 
-
 import express from "express";
 
 const router = express.Router();
@@ -16,7 +15,10 @@ const router = express.Router();
 //UPDATE
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   if (req.body.password) {
-    req.body.password = bcrypt.hashSync(req.body.password,process.env.PASSWORD_HASH)
+    req.body.password = bcrypt.hashSync(
+      req.body.password,
+      process.env.PASSWORD_HASH
+    );
   }
 
   try {
@@ -88,7 +90,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
         },
       },
     ]);
-    res.status(200).json(data)
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -96,7 +98,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
 
 router.post("/signup", async (req, res) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const { username, password, phoneNumber, email } = req.body;
 
     const userExists = await User.findOne({ email });
@@ -112,7 +114,9 @@ router.post("/signup", async (req, res) => {
       phoneNumber,
     });
 
-    return res.status(201).json({user :createdUser, message :"you are successfully registered"});
+    return res
+      .status(201)
+      .json({ user: createdUser, message: "you are successfully registered" });
   } catch (error) {
     console.log(error);
     return res.json({ message: "create user failed" });

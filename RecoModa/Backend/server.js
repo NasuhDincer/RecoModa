@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userRoute from "./routers/UserRouter.js";
 import authRoute from "./routers/AuthRouter.js";
+import authRoute from "./routers/CartRouter.js";
+
 
 const app = express();
 
@@ -35,6 +37,7 @@ app.use(cors({
 app.use(express.json());
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/cart", cartRoute);
 
 app.listen(PORT,()=>{
     console.log(`Example app listening on port ${PORT}`)
