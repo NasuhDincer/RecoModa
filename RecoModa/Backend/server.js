@@ -2,12 +2,14 @@ import express from 'express';
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import userRoute from "./routers/UserRouter.js";
+import authRoute from "./routers/AuthRouter.js";
 
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-const connection_url =  "mongodb+srv://tarik:" + process.env.MONGO_PASSWORD + "@cluster0.ymimfnq.mongodb.net/Shop?retryWrites=true&w=majority";
+const connection_url =  "mongodb+srv://tarik:" + process.env.MONGO_PASSWORD + "@cluster0.ymimfnq.mongodb.net/RecoModa?retryWrites=true&w=majority";
 
 mongoose.connect(connection_url, {
     useNewUrlParser: true,
@@ -31,6 +33,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
 
 app.listen(PORT,()=>{
     console.log(`Example app listening on port ${PORT}`)
