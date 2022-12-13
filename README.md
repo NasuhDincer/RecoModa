@@ -2,4 +2,4 @@
 
 RecoModa is a mobile shopping application that combines the features of both shopping and social media in one. In the application, the users will be able to share combines of their clothes, which is possible for other users to bought with only finger print scanning. Application will gather users' address, card information, and body information such as height, weight, shoulder width, etc. and use this information to determine all of the suitable sizes of clothes for the user.  RecoModa will have a very simple UI design and a very elaborate recommendation system where every user will get a different front page of recommendations.  Every data such as, how much users spent on looking at one image, the likes, the bought ones etc. will be used to enlarge and elaborate the recommendation system. Bots will be scraping data from other clothing companies so RecoModa will not be dependent on other brands and update their database constantly.
 
-Recomoda Website: https://nasuhdincer.github.io/RecoModa/
+RecoModa Website: https://nasuhdincer.github.io/RecoModa/
