@@ -1,12 +1,6 @@
 //Zülal
 import Product from "../models/Product.js";
 import multer from 'multer';
-import {
-    verifyToken,
-    verifyTokenAndAuthorization,
-    verifyTokenAndAdmin,
-  } from "./verifyToken.js";
-
 import express from "express";
 import mongoose from "mongoose";
 
