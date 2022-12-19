@@ -66,8 +66,8 @@ router.put("/:id", async (req, res) => {
         { new: true }
       );
       console.log("Güncelledi");
-      console.log(updatedCart);
-      res.status(200).json(updatedCart);
+      console.log(updatedProduct);
+      res.status(200).json(updatedProduct);
     } catch (err) {
       res.status(500).json(err);
     }
