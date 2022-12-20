@@ -6,7 +6,7 @@ import userRoute from "./routers/UserRouter.js";
 import authRoute from "./routers/AuthRouter.js";
 import cartRoute from "./routers/CartRouter.js";
 import mediaRouter from "./routers/MediaRouter.js";
-import product from "./routers/ProductRouter.js";
+import productRouter from "./routers/ProductRouter.js";
 
 
 const app = express();
@@ -41,7 +41,7 @@ app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/media", mediaRouter);
-app.use("/api/product", product);
+app.use("/api/product", productRouter);
 
 app.listen(PORT,()=>{
     console.log(`Example app listening on port ${PORT}`)

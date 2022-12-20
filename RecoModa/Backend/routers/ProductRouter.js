@@ -28,6 +28,7 @@ const imageUpload = multer({
      cb(undefined, true)
   }
 });
+//upload multiple images
 router.post('/uploadProductImage', imageUpload.array('images', 4),     (req, res) => {
     res.send(req.files)
  }, (error, req, res, next) => {
@@ -49,7 +50,7 @@ router.post ('/uploadProducts', imageUpload.array ('images',4), async(req,res)=>
         inStock: req.body.inStock
     });
     try { 
-        const newProduct = await Product.bulkSave();
+        const newProduct = await Product.save();
         res.status(200).json(product);
     }catch(err){
         res.status(500).json(err);
@@ -72,12 +73,23 @@ router.put("/:id", async (req, res) => {
       res.status(500).json(err);
     }
   });
-  //DELETE CART
+  //DELETE Product
 router.delete("/:id", async (req, res) => {
     try {
       await Product.findByIdAndDelete(req.params.id);
-      res.status(200).json("Cart has been deleted...");
+      res.status(200).json("Product has been deleted...");
     } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
+  //get all product 
+  router.get ("/", async(req,res)=>{
+    try{
+      const products = await Product.find();
+      res.status(200).json(products);
+    }
+    catch (err) {
       res.status(500).json(err);
     }
   });
