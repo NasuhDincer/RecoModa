@@ -47,7 +47,7 @@ router.post('/uploadImage', imageUpload.array('images', 4),     (req, res) => {
  /*
 UPLOAD POST
 */
-router.post('/uploadImages', imageUpload.array('images', 4), async (req, res) => {
+router.post('/uploadImages', imageUpload.array('images'), async (req, res) => {
   const post = new Post({
     _id: new mongoose.Types.ObjectId(),
     mediaId : req.body.mediaId,
