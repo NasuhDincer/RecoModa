@@ -27,10 +27,14 @@ router.post("/", async (req, res) => {
 });
 
 //UPDATE CART
+//successfully tested
 router.put("/:id", async (req, res) => {
+  console.log(req.body);
+  // console.log(req.params.id)
   try {
-    const updatedCart = await Cart.findByIdAndUpdate(
-      req.params.id,
+ 
+    const updatedCart = await Cart.findOneAndUpdate(
+      { userId: req.params.id },
       {
         $set: req.body,
       },
@@ -55,6 +59,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET USER CART
+//successfully tested
 router.get("/find/:userId", async (req, res) => {
   //console.log("geldi")
   try {
@@ -66,8 +71,8 @@ router.get("/find/:userId", async (req, res) => {
 });
 
 //GET ALL
-
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
+//successfully tested
+router.get("/", async (req, res) => {
   try {
     const carts = await Cart.find();
     res.status(200).json(carts);

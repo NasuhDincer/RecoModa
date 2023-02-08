@@ -1,12 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
+
 import cors from 'cors';
 import userRoute from "./routers/UserRouter.js";
 import authRoute from "./routers/AuthRouter.js";
 import cartRoute from "./routers/CartRouter.js";
 import mediaRouter from "./routers/MediaRouter.js";
-import productRouter from "./routers/ProductRouter.js";
+import product from "./routers/ProductRouter.js";
+import post from "./routers/PostRouter.js";
+import mediaProfile from "./routers/MediaProfileRouter.js";
 
 
 const app = express();
@@ -36,12 +39,16 @@ app.use(cors({
     origin: "*"
 }));
 
+
+
 app.use(express.json());
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/media", mediaRouter);
-app.use("/api/product", productRouter);
+app.use("/api/product", product);
+app.use("/api/post", post);
+app.use("/api/mediaProfile", mediaProfile);
 
 app.listen(PORT,()=>{
     console.log(`Example app listening on port ${PORT}`)

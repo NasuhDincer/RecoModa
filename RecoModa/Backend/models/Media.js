@@ -8,7 +8,6 @@ const Media = new mongoose.Schema(
         followerList:{ type: Array},
         followedList:{type: Array},
         favoritePostList: {type: Array},
-        postList: {type: Array}
 
     },
     { timestamps: true }

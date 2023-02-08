@@ -46,7 +46,9 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET USER
-router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+//successfully tested
+
+router.get("/find/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const { password, ...others } = user._doc;
@@ -56,8 +58,23 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+router.get("/findname/:username", async (req, res) => {
+  try {
+    console.log(req.params.username)
+    const user = await User.findOne({username : req.params.username});
+    console.log(user.username)
+    const { password, ...others } = user._doc;
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //GET ALL USER
-router.get("/", async (req, res) => {
+//successfully tested
+router.get("/all", async (req, res) => {
+
+  console.log("get all");
   const query = req.query.new;
   try {
     const users = query
@@ -69,33 +86,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//GET USER STATS
-
-router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
-  const date = new Date();
-  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
-
-  try {
-    const data = await User.aggregate([
-      { $match: { createdAt: { $gte: lastYear } } },
-      {
-        $project: {
-          month: { $month: "$createdAt" },
-        },
-      },
-      {
-        $group: {
-          _id: "$month",
-          total: { $sum: 1 },
-        },
-      },
-    ]);
-    res.status(200).json(data);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
+//Successfully tested
 router.post("/signup", async (req, res) => {
   try {
     console.log(req.body);

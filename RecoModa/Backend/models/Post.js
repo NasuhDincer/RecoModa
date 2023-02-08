@@ -1,13 +1,16 @@
 //Tarık 
 import mongoose from "mongoose";
-const Post = new mongoose.Schema(
+const PostSchema = new mongoose.Schema(
     {
-        mediaId: { type: String, required: true, unique: true },
+        mediaId: { type: String},
         description : {type : String},
-        fileList: {type: Array}
+        category: {type: String},
+        likeList: {type : Array},
+        commentList : {type : Array},
+        img:{type : Array}
 
     },
     { timestamps: true }
 );
 
-export default mongoose.model("Post", Post);
+export default mongoose.model("Post", PostSchema);
