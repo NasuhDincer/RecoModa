@@ -10,6 +10,8 @@ import mediaRouter from "./routers/MediaRouter.js";
 import product from "./routers/ProductRouter.js";
 import post from "./routers/PostRouter.js";
 import mediaProfile from "./routers/MediaProfileRouter.js";
+import color from "./routers/ColorDetectRouter.js";
+
 
 
 const app = express();
@@ -49,6 +51,8 @@ app.use("/api/media", mediaRouter);
 app.use("/api/product", product);
 app.use("/api/post", post);
 app.use("/api/mediaProfile", mediaProfile);
+app.use("/api/color", color);
+
 
 app.listen(PORT,()=>{
     console.log(`Example app listening on port ${PORT}`)
