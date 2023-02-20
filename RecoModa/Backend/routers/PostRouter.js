@@ -195,6 +195,43 @@ router.put("/removeLike/:id", async (req, res) => {
   }
 });
 
+//LIKE FUNCTION
+//successfully tested
+router.put("/addComment/:id", async (req, res) => {
+  //console.log(req.body);
+  // console.log(req.params.id)
+  try {
+    const updatedPost = await Post.findById(req.params.id);
+    console.log(updatedPost.likeList);
+    var isLike = true;
+    var likeArr = updatedPost.likeList;
+    console.log(req.body.userId)
+    likeArr.forEach(element => {
+      if(element == req.body.userId)
+        isLike = false;
+    });
+
+    console.log(isLike)
+   
+    if(isLike)
+    {
+      likeArr.push(req.body.userId);
+      console.log(likeArr)
+
+      const updatePost = await Post.findOneAndUpdate(req.params.id,
+        {
+          $set: {likeList : likeArr},
+        },
+        { new: true });
+      console.log(updatePost.likeList)
+      res.status(200).json(updatePost.likeList);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
 
 //DELETE POST
 //successfully tested
