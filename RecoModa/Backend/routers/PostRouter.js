@@ -122,7 +122,82 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+
+//LIKE FUNCTION
+//successfully tested
+router.put("/addLike/:id", async (req, res) => {
+  //console.log(req.body);
+  // console.log(req.params.id)
+  try {
+    const updatedPost = await Post.findById(req.params.id);
+    console.log(updatedPost.likeList);
+    var isLike = true;
+    var likeArr = updatedPost.likeList;
+    console.log(req.body.userId)
+    likeArr.forEach(element => {
+      if(element == req.body.userId)
+        isLike = false;
+    });
+
+    console.log(isLike)
+   
+    if(isLike)
+    {
+      likeArr.push(req.body.userId);
+      console.log(likeArr)
+
+      const updatePost = await Post.findOneAndUpdate(req.params.id,
+        {
+          $set: {likeList : likeArr},
+        },
+        { new: true });
+      console.log(updatePost.likeList)
+      res.status(200).json(updatePost.likeList);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//REMOVE LIKE FUNCTION
+//successfully tested
+router.put("/removeLike/:id", async (req, res) => {
+  //console.log(req.body);
+  // console.log(req.params.id)
+  try {
+    const updatedPost = await Post.findById(req.params.id);
+    
+    var isLike = true;
+    var likeArr = updatedPost.likeList;
+    console.log(req.body.userId)
+    likeArr.forEach(element => {
+      if(element == req.body.userId)
+        isLike = false;
+    });
+
+    console.log(isLike)
+   
+    if(isLike)
+    {
+      likeArr.remove(req.body.userId);
+      console.log(likeArr)
+
+      const updatePost = await Post.findOneAndUpdate(req.params.id,
+        {
+          $set: {likeList : likeArr},
+        },
+        { new: true });
+      console.log(updatePost.likeList)
+      res.status(200).json(updatePost.likeList);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
 //DELETE POST
+//successfully tested
 router.delete("/:id", async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
@@ -137,7 +212,7 @@ router.delete("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
   //console.log("geldi")
   try {
-    const post = await Post.findById(req.params.userId);
+    const post = await Post.findById(req.params.id);
     res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err);
@@ -145,7 +220,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET ALL POSTS
-
+//successfully tested
 router.get("/allPosts/:mediaId", async (req, res) => {
   try {
     const post = await Post.find({ mediaId: req.params.mediaId });
@@ -156,7 +231,7 @@ router.get("/allPosts/:mediaId", async (req, res) => {
 });
 
 //GET ALL CATEGORY
-
+//successfully tested
 router.get("/allCategory/:category", async (req, res) => {
   try {
     const post = await Post.find({ category: req.params.category });
