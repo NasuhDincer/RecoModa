@@ -1,11 +1,43 @@
-<mxfile host="app.diagrams.net" modified="2023-03-11T18:16:55.982Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" etag="JoY9d4lKNcXxpTU34TMc" version="21.0.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-11T18:24:18.537Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" etag="mDMWWMzPUo-uSh10upFc" version="21.0.6" type="github">
   <diagram name="Sayfa -1" id="w6ycRWIads_JaV81GpJl">
     <mxGraphModel dx="472" dy="746" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="dFy6fVf-kGJqd-gRL-9V-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="60" width="430" height="550" as="geometry" />
+          <mxGeometry x="50" y="60" width="430" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-6" value="User Interface Layer" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;recursiveResize=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="100" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-7" value="GUI" style="html=1;whiteSpace=wrap;" vertex="1" parent="dFy6fVf-kGJqd-gRL-9V-6">
+          <mxGeometry width="110" height="30" relative="1" as="geometry">
+            <mxPoint x="20" y="50" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-8" value="Logic Layer" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;recursiveResize=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="230" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-9" value="Services of App" style="html=1;whiteSpace=wrap;" vertex="1" parent="dFy6fVf-kGJqd-gRL-9V-8">
+          <mxGeometry width="110" height="30" relative="1" as="geometry">
+            <mxPoint x="20" y="50" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-10" value="Data Layer" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;recursiveResize=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="490" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-11" value="Storage" style="html=1;whiteSpace=wrap;" vertex="1" parent="dFy6fVf-kGJqd-gRL-9V-10">
+          <mxGeometry width="110" height="30" relative="1" as="geometry">
+            <mxPoint x="20" y="50" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-12" value="Data Processing Layer" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=1;collapsible=0;recursiveResize=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="190" y="360" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="dFy6fVf-kGJqd-gRL-9V-13" value="Scrapping and Other Processes" style="html=1;whiteSpace=wrap;" vertex="1" parent="dFy6fVf-kGJqd-gRL-9V-12">
+          <mxGeometry width="110" height="30" relative="1" as="geometry">
+            <mxPoint x="20" y="50" as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
