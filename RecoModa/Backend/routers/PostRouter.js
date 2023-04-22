@@ -27,7 +27,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload", upload.single("images"), (req, res) => {
-
   const saveImage = Post({
     mediaId: req.body.mediaId,
     description: req.body.description,
@@ -41,8 +40,6 @@ router.post("/upload", upload.single("images"), (req, res) => {
   saveImage
     .save()
     .then((res) => {
-      console.log(res.mediaId)
-      console.log(typeof(res._id))
       const options = {
         mode : "text",
         scriptPath: "../Model/",
