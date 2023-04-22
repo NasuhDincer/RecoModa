@@ -7,8 +7,8 @@ const PostSchema = new mongoose.Schema(
         category: {type: String},
         likeList: {type : Array},
         commentList : {type : Array},
-        img:{type : Array}
-
+        img:{type : Array},
+        embedArray :{ type: Array},
     },
     { timestamps: true }
 );
