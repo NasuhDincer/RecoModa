@@ -8,16 +8,14 @@ import requests
 import base64
 from io import BytesIO
 from PIL import Image
-"""
-import tensorflow as tf
+
 import keras
 from keras import Model
-from keras.applications.resnet50 import ResNet50
+from keras.applications import ResNet50
 from keras.preprocessing import image
-from keras.applications.resnet50 import preprocess_input, decode_predictions
+from keras.applications import preprocess_input, decode_predictions
 from keras.layers import GlobalMaxPooling2D
-tf.version
-"""
+#tf.version
 
 print(sys.argv[1])
 
@@ -43,9 +41,9 @@ if response.status_code == 200:
     print(type(img_str64))
     print(type(img_data))
 
-    """
+    
     ### RESNET MODEL:
-    img_width, imgheight,  = 224, 224, 3 #load_image(df.iloc[0].image).shape
+    img_width, img_height,  = 224, 224, 3 #load_image(df.iloc[0].image).shape
 
     # Pre-Trained Model
     base_model = ResNet50(weights='imagenet', 
@@ -58,9 +56,9 @@ if response.status_code == 200:
         base_model,
         GlobalMaxPooling2D()
     ])
-
+    
     model.summary()
-    """
+    
 
 else:
     print('Error retrieving post:', response.text)
