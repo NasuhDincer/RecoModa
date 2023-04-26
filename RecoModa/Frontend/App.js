@@ -10,6 +10,8 @@ import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import Shop from "./screens/Shop";
 import Search from "./screens/Search";
+import RegisterScreen from "./screens/RegisterScreen";
+import ForgotPassword from "./screens/ForgotPassword";
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -59,8 +61,10 @@ export default function App() {
         initialRouteName={"Login"}
       >
         <Stack.Screen name="UserScreens" component={UserScreens}></Stack.Screen>
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen}></Stack.Screen>
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
         <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
