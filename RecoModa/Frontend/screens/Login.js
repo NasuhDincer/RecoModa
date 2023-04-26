@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import RegisterScreen from "../screens/RegisterScreen";
 
 class Login extends Component {
   constructor(props) {
@@ -67,7 +68,9 @@ class Login extends Component {
           />
         </View>
 
-        <TouchableOpacity style={styles.btnForgotPassword}>
+        <TouchableOpacity style={styles.btnForgotPassword}
+        onPress={() => this.props.navigation.navigate("ForgotPassword")}
+        >
           <Text style={styles.btnText}>Forgot your password?</Text>
         </TouchableOpacity>
 
@@ -79,6 +82,7 @@ class Login extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={() => this.props.navigation.navigate("RegisterScreen")}
           style={[styles.buttonContainer, styles.registerButton]}
         >
           <Text style={styles.btnText}>{"Register"}</Text>
