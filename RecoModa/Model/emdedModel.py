@@ -40,9 +40,6 @@ if response.status_code == 200:
     img = Image.open(img_bytesio)
     # If you want to see the image uncomment below line:
     #img.show()
-    #print(type(img_str64))
-    #print(type(img_data))
-    #print(type(img))
     
     ### LOAD IMAGE ###
     def load_image(img, resized_fac = 0.1):
