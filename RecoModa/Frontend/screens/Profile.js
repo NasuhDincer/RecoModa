@@ -50,7 +50,7 @@ export default class Profile extends Component {
         </View>
         <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.profileImage} source={require("../assets/user.png")} />
+        <Image style={styles.profileImage} source={require("../Assets/user.png")} />
         <View style={styles.stats}>
         <Text style={styles.stat}>20 posts</Text>
         <Text style={styles.stat}>100 followers</Text>
@@ -71,12 +71,12 @@ export default class Profile extends Component {
       </View>
       <View style={styles.postsContainer}>
         <View style={styles.postsRow}>
-          <Image style={styles.postImage} source={require('../assets/user.png')} />
-          <Image style={styles.postImage} source={require('../assets/user.png')} />
+          <Image style={styles.postImage} source={require('../Assets/user.png')} />
+          <Image style={styles.postImage} source={require('../Assets/user.png')} />
         </View>
         <View style={styles.postsRow}>
-          <Image style={styles.postImage} source={require('../assets/user.png')} />
-          <Image style={styles.postImage} source={require('../assets/user.png')} />
+          <Image style={styles.postImage} source={require('../Assets/user.png')} />
+          <Image style={styles.postImage} source={require('../Assets/user.png')} />
         </View>
       </View>
     </View>

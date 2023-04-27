@@ -32,7 +32,7 @@ class Login extends Component {
       <View style={styles.container}>
         <Image
           style={styles.bgImage}
-          source={require("../assets/back1.jpg")}
+          source={require("../Assets/back1.jpg")}
         />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>RecoModa</Text>

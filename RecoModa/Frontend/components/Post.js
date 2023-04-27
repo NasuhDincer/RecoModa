@@ -37,7 +37,7 @@ export default class Post extends Component {
             }}
           >
             <Image
-              source={require("../assets/user.png")}
+              source={require("../Assets/user.png")}
               style={{
                 width: undefined,
                 height: "100%",
@@ -61,7 +61,7 @@ export default class Post extends Component {
         </View>
         <View style={{ width: "100%", height: "60%" }}>
           <Image
-            source={require("../assets/logoicon.png")}
+            source={require("../Assets/logoicon.png")}
             style={{
               width: "100%",
               height: undefined,
@@ -79,7 +79,7 @@ export default class Post extends Component {
             style={{ width: "100%", height: "40%", paddingTop: "5%" }}
           >
             <Image
-              source={require("../assets/like.png")}
+              source={require("../Assets/like.png")}
               style={{
                 height: "100%",
                 aspectRatio: 1,
