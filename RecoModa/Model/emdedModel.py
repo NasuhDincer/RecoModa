@@ -3,17 +3,17 @@ import json
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
-import os # accessing directory structure
 import requests
 import base64
 from io import BytesIO
 from PIL import Image
-
+import cv2
+import tensorflow as tf
 import keras
 from keras import Model
 from keras.applications import ResNet50
-from keras.preprocessing import image
-from keras.applications import preprocess_input, decode_predictions
+import keras.utils as image
+from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 from keras.layers import GlobalMaxPooling2D
 #tf.version
 
@@ -34,31 +34,47 @@ if response.status_code == 200:
     imgalt2 = imgalt[0]
     img_str64 = str(imgalt2['data'])
 
-    ### OPENING THE IMAGE:
+    ### OPENING THE IMAGE ###
     img_data = base64.b64decode(img_str64)
-    img = Image.open(BytesIO(img_data))
-    img.show() 
-    print(type(img_str64))
-    print(type(img_data))
-
+    img_bytesio = BytesIO(img_data)
+    img = Image.open(img_bytesio)
+    # If you want to see the image uncomment below line:
+    #img.show()
     
-    ### RESNET MODEL:
-    img_width, img_height,  = 224, 224, 3 #load_image(df.iloc[0].image).shape
+    ### LOAD IMAGE ###
+    def load_image(img, resized_fac = 0.1):
+        img = image.img_to_array(img)
+        w, h, _ = img.shape
+        resized = cv2.resize(img, (int(h*resized_fac), int(w*resized_fac)), interpolation = cv2.INTER_AREA)
+        return resized
 
+    img_width, img_height, _ = 224, 224, 3 #load_image(df.iloc[0].image).shape
+
+    ### RESNET MODEL ###
     # Pre-Trained Model
-    base_model = ResNet50(weights='imagenet', 
-                        include_top=False, 
-                        input_shape = (img_width, img_height, 3))
+    base_model = ResNet50(weights='imagenet', include_top=False, input_shape = (img_width, img_height, 3))
     base_model.trainable = False
 
     # Add Layer Embedding
-    model = keras.Sequential([
-        base_model,
-        GlobalMaxPooling2D()
-    ])
+    model = keras.Sequential([base_model, GlobalMaxPooling2D()])
+    #print( model.summary() )
+
+    ### EMBEDDING ###
+    def get_embedding(model, img):
+        # Reshape
+        img = image.load_img(img, target_size=(img_width, img_height))
+        # img to Array
+        x   = image.img_to_array(img)
+        # Expand Dim (1, w, h)
+        x   = np.expand_dims(x, axis=0)
+        # Pre process Input
+        x   = preprocess_input(x)
+        return model.predict(x).reshape(-1)
     
-    model.summary()
-    
+    emb = get_embedding(model, img_bytesio)
+    print( type(emb) )
+    print( emb.shape )
+
 
 else:
     print('Error retrieving post:', response.text)
