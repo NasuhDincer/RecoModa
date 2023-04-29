@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import fs from "fs";
 import multer from "multer";
 import Post from "../models/Post.js";
-import path from "path"
+import path from "path";
 import { PythonShell } from "python-shell";
 import {
   verifyToken,
@@ -41,17 +41,17 @@ router.post("/upload", upload.single("images"), (req, res) => {
     .save()
     .then((res) => {
       const options = {
-        mode : "text",
+        mode: "text",
         scriptPath: "../Model/",
-        args:  [res._id], 
+        args: [res._id],
       };
-      PythonShell.run('emdedModel.py', options).then(results => {
-        console.log("here")
-        console.log(results)
+      PythonShell.run("emdedModel.py", options).then((results) => {
+        console.log("here");
+        console.log(results);
       });
-      
-      let pyshell = new PythonShell('emdedModel.py',options);
-      pyshell.on('message', function (message) {
+
+      let pyshell = new PythonShell("emdedModel.py", options);
+      pyshell.on("message", function (message) {
         console.log(message);
       });
       console.log("image is saved");
@@ -98,11 +98,6 @@ router.post("/uploads", upload.array("images"), (req, res) => {
   res.send("image is saved");
 });
 
-router.get("/", async (req, res) => {
-  const allData = await Post.find();
-  res.json(allData);
-});
-
 /*
 CREATE POST
 
@@ -119,7 +114,7 @@ router.post("/", async (req, res) => {
 
 //UPDATE POST
 //successfully tested
-router.put("/:id", async (req, res) => {
+router.put("/post/:id", async (req, res) => {
   //console.log(req.body);
   // console.log(req.params.id)
   try {
@@ -248,10 +243,21 @@ router.put("/addComment/:id", async (req, res) => {
 
 //DELETE POST
 //successfully tested
-router.delete("/:id", async (req, res) => {
+router.delete("/post/:id", async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
-    res.status(200).json("Cart has been deleted...");
+    res.status(200).json("Post has been deleted...");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//DELETE All Media
+//successfully tested
+router.delete("/media/:mediaId", async (req, res) => {
+  try {
+    await Post.deleteMany({ mediaId: req.params.mediaId })
+    res.status(200).json("Posts has been deleted...");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -259,7 +265,7 @@ router.delete("/:id", async (req, res) => {
 
 //GET POST
 //successfully tested
-router.get("/:id", async (req, res) => {
+router.get("/post/:id", async (req, res) => {
   //console.log("geldi")
   try {
     const post = await Post.findById(req.params.id);
@@ -273,6 +279,7 @@ router.get("/:id", async (req, res) => {
 //successfully tested
 router.get("/allPosts/:mediaId", async (req, res) => {
   try {
+    console.log("medd")
     const post = await Post.find({ mediaId: req.params.mediaId });
     res.status(200).json(post);
   } catch (err) {
@@ -292,16 +299,6 @@ router.get("/allCategory/:category", async (req, res) => {
   }
 });
 
-//GET ALL
-//successfully tested
-router.get("/", async (req, res) => {
-  try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 router.get("/media/:id", async (req, res) => {
   console.log(req.body);
@@ -331,11 +328,31 @@ router.get("/embed/:id", async (req, res) => {
 });
 
 //GET ALL EMBED ARRAY OF POSTS
-router.get("/embedAll", async (req, res) => {
-  console.log(req.body);
+router.get("/embed", async (req, res) => {
   try {
     const posts = await Post.find();
-    res.status(200).json(posts.embedArray);
+    const arr = posts.map((post) => [post._id, post.embedArray]);
+       
+    console.log(arr);
+
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+//GET ALL
+//successfully tested
+router.get("/", async (req, res) => {
+  console.log("hii");
+  try {
+    const posts = await Post.find();
+    const arr = posts.map((post) => [post._id, post.embedArray]);
+       
+    console.log(arr);
+
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
