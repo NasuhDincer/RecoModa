@@ -334,8 +334,17 @@ router.get("/embed", async (req, res) => {
     const arr = posts.map((post) => [post._id, post.embedArray]);
        
     console.log(arr);
+    const options = {
+      mode: "text",
+      scriptPath: "../Model/",
+      args: [arr],
+    };
+    let pyshell = new PythonShell("numppArray.py", options);
+    pyshell.on("message", function (message) {
+      console.log(message);
+    });
 
-    res.status(200).json(posts);
+    res.status(200).json(arr);
   } catch (err) {
     res.status(500).json(err);
   }
