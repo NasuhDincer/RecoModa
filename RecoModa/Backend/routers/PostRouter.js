@@ -45,12 +45,12 @@ router.post("/upload", upload.single("images"), (req, res) => {
         scriptPath: "../Model/",
         args: [res._id],
       };
-      PythonShell.run("emdedModel.py", options).then((results) => {
+      PythonShell.run("put.py", options).then((results) => {
         console.log("here");
         console.log(results);
       });
 
-      let pyshell = new PythonShell("emdedModel.py", options);
+      let pyshell = new PythonShell("put.py", options);
       pyshell.on("message", function (message) {
         console.log(message);
       });
