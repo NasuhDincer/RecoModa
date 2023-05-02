@@ -8,7 +8,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 import cv2
-import tensorflow as tf
+import tensorflow 
 import keras
 from keras import Model
 from keras.applications import ResNet50
@@ -74,6 +74,11 @@ if response.status_code == 200:
     emb = get_embedding(model, img_bytesio)
     print( type(emb) )
     print( emb.shape )
+
+    url2 = f'http://localhost:5000/api/post/addEmbed/{post_id}'
+    data2 = {'embedArray': emb}
+
+    response2 = requests.put(url2, json=data2)
 
 
 else:

@@ -169,6 +169,27 @@ router.put("/addLike/:id", async (req, res) => {
   }
 });
 
+router.put("/addEmbed/:id", async (req, res) => {
+  //console.log(req.body);
+  // console.log(req.params.id)
+  try {
+    const updatedPost = await Post.findById(req.params.id);
+    console.log(req.body.embedArray);
+
+    const updatePost = await Post.findOneAndUpdate(
+      req.params.id,
+      {
+        $set: { embedArray : req.body.embedArray },
+      },
+      { new: true }
+    );
+    
+    res.status(200).json(updatePost);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //REMOVE LIKE FUNCTION
 //successfully tested
 router.put("/removeLike/:id", async (req, res) => {
@@ -256,7 +277,7 @@ router.delete("/post/:id", async (req, res) => {
 //successfully tested
 router.delete("/media/:mediaId", async (req, res) => {
   try {
-    await Post.deleteMany({ mediaId: req.params.mediaId })
+    await Post.deleteMany({ mediaId: req.params.mediaId });
     res.status(200).json("Posts has been deleted...");
   } catch (err) {
     res.status(500).json(err);
@@ -279,7 +300,7 @@ router.get("/post/:id", async (req, res) => {
 //successfully tested
 router.get("/allPosts/:mediaId", async (req, res) => {
   try {
-    console.log("medd")
+    console.log("medd");
     const post = await Post.find({ mediaId: req.params.mediaId });
     res.status(200).json(post);
   } catch (err) {
@@ -298,7 +319,6 @@ router.get("/allCategory/:category", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 router.get("/media/:id", async (req, res) => {
   console.log(req.body);
@@ -332,7 +352,7 @@ router.get("/embed", async (req, res) => {
   try {
     const posts = await Post.find();
     const arr = posts.map((post) => [post._id, post.embedArray]);
-       
+
     console.log(arr);
     const options = {
       mode: "text",
@@ -350,7 +370,6 @@ router.get("/embed", async (req, res) => {
   }
 });
 
-
 //GET ALL
 //successfully tested
 router.get("/", async (req, res) => {
@@ -358,7 +377,7 @@ router.get("/", async (req, res) => {
   try {
     const posts = await Post.find();
     const arr = posts.map((post) => [post._id, post.embedArray]);
-       
+
     console.log(arr);
 
     res.status(200).json(posts);
