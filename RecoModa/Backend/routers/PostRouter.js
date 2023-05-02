@@ -174,9 +174,9 @@ router.put("/addEmbed/:id", async (req, res) => {
   // console.log(req.params.id)
   try {
     const updatedPost = await Post.findById(req.params.id);
-    console.log(req.body.embedArray);
+    console.log(req.params.id);
 
-    const updatePost = await Post.findOneAndUpdate(
+    const updatePost = await Post.findByIdAndUpdate(
       req.params.id,
       {
         $set: { embedArray : req.body.embedArray },
