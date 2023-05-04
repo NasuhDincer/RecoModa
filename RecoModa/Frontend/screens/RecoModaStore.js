@@ -13,7 +13,7 @@ import {
   TextInput,
   Linking,
 } from "react-native";
-import Post from "./components/Post.js";
+import Post from "../components/Post.js";
 import { Button } from "react-native-elements";
 
 export default class Profile extends Component {
@@ -63,12 +63,12 @@ export default class Profile extends Component {
               <View style={styles.itemContent}>
                 <Image source={item.logo} style={styles.logo} />
                 <Text style={styles.itemName}>{item.name}</Text>
-              </View>
-              <View style={styles.buttonContainer}>
+                <View style={styles.buttonContainer}>
                 <Button
                   title="Go to Store"
                   onPress={() => Linking.openURL(item.link)}
                 />
+              </View>
               </View>
             </View>
           )}
@@ -85,11 +85,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "stretch", // add this line
+    // backgroundColor: "black"
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 20,
+    // backgroundColor: "black"
   },
   searchContainer: {
     flexDirection: "row",
@@ -107,14 +109,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   userImage: {
-    width: 300, // increase the width to make it bigger
-    height: 300, // set the height to be the same as the width to make it square
+    width: 200, // increase the width to make it bigger
+    height: 200, // set the height to be the same as the width to make it square
     marginTop: 35,
     marginBottom: 35,
   },
   table: {
     flexDirection: "row",
     justifyContent: "space-between",
+    
   },
   tableText: {
     flex: 1,
@@ -139,14 +142,16 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
+    paddingHorizontal: 5,
     paddingVertical: 8,
+    // backgroundColor: "black"
   },
   itemContent: {
     flexDirection: "row",
     alignItems: "center",
+    // backgroundColor: "black"
   },
   logo: {
     width: 100,

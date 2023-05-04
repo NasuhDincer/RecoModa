@@ -14,6 +14,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPassword from "./screens/ForgotPassword";
 import MyPost from "./screens/MyPost";
 import Measurements from "./screens/Measurements";
+import RecoModaStore from "./screens/RecoModaStore";
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -49,7 +50,7 @@ const UserScreens = () => {
     >
       <Tabs.Screen name="home" component={Home} />
       <Tabs.Screen name="search" component={Search} />
-      <Tabs.Screen name="shop" component={Shop} />
+      <Tabs.Screen name="shop" component={RecoModaStore} />
       <Tabs.Screen name="profile" component={Profile} />
     </Tabs.Navigator>
   );
@@ -72,6 +73,10 @@ export default function App() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="Shop"
+          component={RecoModaStore}
         ></Stack.Screen>
         <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
         <Stack.Screen
