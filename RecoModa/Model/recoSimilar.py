@@ -2,67 +2,60 @@ import sys
 import requests
 import numpy as np
 import json
+import pandas as pd
 #tf.version
 
 # EDIT BELOW
-import sys
-import json
 
 try:
     url = f'http://localhost:5000/api/post/' # replace with the URL of your Node.js server and the endpoint for updating posts
     response = requests.get(url) # make a GET request to the API endpoint
     posts = response.json() # parse the response as JSON
     arr = [[post['_id'], post['embedArray']] for post in posts]
-    print(type(arr))
-    print(arr)
-    #arr_str = json.dumps(arr)
-    #print(type(arr_str))
-    
 except json.JSONDecodeError as e:
     print(f"Error parsing JSON string: {e}")
 except Exception as e:
     print(f"Error: {e}")
-"""try:
-    # Get the arr argument as a string and parse it into a list
-    arr_str = sys.argv[1]
-    arr = json.loads(arr_str)
-    print("Beforeaa")
-    # Now you can use the arr list in your Python code
-    print(type(arr))
-    for post in arr:
-        print(post)  # <-- print each element of the arr list
-        post_id, embed_array = post
-        print(f"Post ID: {post_id}")
-        print(f"Embed Array: {embed_array}")
-        
-except json.JSONDecodeError as e:
-    print(f"Error parsing JSON string: {e}")
-except Exception as e:
-    print(f"Error: {e}")"""
+
+df = np.zeros((len(arr),2048))
+for i in range(len(arr)):
+    print(arr[i][0])
+    print(arr[i][1][0:5])
+    df[i] = arr[i][1]
+
+print("xxxxxx")
+
+from sklearn.metrics.pairwise import pairwise_distances
 
 
-my_array = np.array(arr)
-print(my_array[0])
+#from sklearn.metrics.pairwise import pairwise_distances
+print("xxxx23xx")
 
-print("here343")
-
-
+# Calcule DIstance Matriz
+cosine_sim = 1-pairwise_distances(df, metric='cosine')
+cosine_sim[:4, :4]
 """
-post_id = str(sys.argv[1]) # replace with the ID of the post you want to update
-url = f'http://localhost:5000/api/post/embed' # replace with the URL of your Node.js server and the endpoint for updating posts
+print("1======================")
+indices = pd.Series(range(len(df)), index=df.index)
+print(indices)
 
-response = requests.get(url) # make a GET request to the API endpoint
+# Function that get movie recommendations based on the cosine similarity score of movie genres
+def get_recommender(idx, df, top_n = 5):
+    sim_idx    = indices[idx]
+    sim_scores = list(enumerate(cosine_sim[sim_idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    sim_scores = sim_scores[1:top_n+1]
+    idx_rec    = [i[0] for i in sim_scores]
+    idx_sim    = [i[1] for i in sim_scores]
+    
+    return indices.iloc[idx_rec].index, idx_sim
 
-if response.status_code == 200:
+print("2======================")
 
-    data = json.loads(response.content)
-    my_array = np.array(data)
-    print(my_array[0])
+idx_rec, idx_sim = get_recommender(1, df, top_n = 2)
 
-    print("here21234")
+print("3======================")
 
-
-else:
-    print('Error retrieving post:', response.text)
-
+print(idx_rec)
+print(idx_sim)
 """
