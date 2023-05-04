@@ -45,12 +45,12 @@ router.post("/upload", upload.single("images"), (req, res) => {
         scriptPath: "../Model/",
         args: [res._id],
       };
-      PythonShell.run("put.py", options).then((results) => {
+      PythonShell.run("embedModel.py", options).then((results) => {
         console.log("here");
         console.log(results);
       });
 
-      let pyshell = new PythonShell("put.py", options);
+      let pyshell = new PythonShell("embedModel.py", options);
       pyshell.on("message", function (message) {
         console.log(message);
       });
@@ -353,13 +353,13 @@ router.get("/embed", async (req, res) => {
     const posts = await Post.find();
     const arr = posts.map((post) => [post._id, post.embedArray]);
 
-    console.log(arr);
+    //console.log(arr);
     const options = {
       mode: "text",
       scriptPath: "../Model/",
       args: [arr],
     };
-    let pyshell = new PythonShell("numppArray.py", options);
+    let pyshell = new PythonShell("recoSimilar.py", options);
     pyshell.on("message", function (message) {
       console.log(message);
     });

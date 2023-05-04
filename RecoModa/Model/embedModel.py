@@ -21,7 +21,7 @@ print(sys.argv[1])
 
 post_id = str(sys.argv[1]) # replace with the ID of the post you want to update
 
-url = f'http://localhost:5000/api/post/{post_id}' # replace with the URL of your Node.js server and the endpoint for updating posts
+url = f'http://localhost:5000/api/post/post/{post_id}' # replace with the URL of your Node.js server and the endpoint for updating posts
 
 response = requests.get(url) # make a GET request to the API endpoint
 
@@ -72,13 +72,20 @@ if response.status_code == 200:
         return model.predict(x).reshape(-1)
     
     emb = get_embedding(model, img_bytesio)
-    print( type(emb) )
-    print( emb.shape )
+    embdoublejson = list(emb.astype(np.float64))
 
-    url2 = f'http://localhost:5000/api/post/addEmbed/{post_id}'
-    data2 = {'embedArray': emb}
+    url = f'http://localhost:5000/api/post/addEmbed/{post_id}'
+    data = {'embedArray': embdoublejson}
 
-    response2 = requests.put(url2, json=data2)
+    # Make the HTTP request
+    response = requests.put(url, json=data)
+    print(response)
+
+    if response.status_code == 200:
+       updated_post = response.json()
+       print(f"Post updated: {updated_post}")
+    else:
+       print(f"Error updating post: {response.content}")
 
 
 else:
