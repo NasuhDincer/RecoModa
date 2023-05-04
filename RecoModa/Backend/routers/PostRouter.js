@@ -352,19 +352,24 @@ router.get("/embed", async (req, res) => {
   try {
     const posts = await Post.find();
     const arr = posts.map((post) => [post._id, post.embedArray]);
-
+    const arr_str = JSON.stringify(arr);
+    //console.log(arr_str);
     //console.log(arr);
+    if (!arr_str || arr_str === "[]") {
+      console.error("Error: arr is empty or undefined");
+      return;
+    }
     const options = {
       mode: "text",
       scriptPath: "../Model/",
-      args: [arr],
+      args: [arr_str],
     };
     let pyshell = new PythonShell("recoSimilar.py", options);
     pyshell.on("message", function (message) {
       console.log(message);
     });
-
-    res.status(200).json(arr);
+    
+    res.status(200).json(arr_str);
   } catch (err) {
     res.status(500).json(err);
   }

@@ -5,15 +5,29 @@ import json
 #tf.version
 
 # EDIT BELOW
+import sys
+import json
 
-#print(sys.argv[1])
-print("here23423524534")
-x = sys.argv[1]
+try:
+    # Get the arr argument as a string and parse it into a list
+    arr_str = sys.argv[1]
+    arr = json.loads(arr_str)
+    print("Beforeaa")
+    # Now you can use the arr list in your Python code
+    print(type(arr))
+    for post in arr:
+        print(post)  # <-- print each element of the arr list
+        post_id, embed_array = post
+        print(f"Post ID: {post_id}")
+        print(f"Embed Array: {embed_array}")
+        
+except json.JSONDecodeError as e:
+    print(f"Error parsing JSON string: {e}")
+except Exception as e:
+    print(f"Error: {e}")
 
-#print(x[0])
-data = json.loads(sys.argv[1].content)
-print(data)
-my_array = np.array(data)
+
+my_array = np.array(arr)
 print(my_array[0])
 
 print("here343")
