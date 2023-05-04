@@ -9,7 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image
+  Image,
+  useNavigation,
 } from "react-native";
 import Post from "../components/Post";
 
@@ -39,7 +40,7 @@ export default class Profile extends Component {
             flexDirection: "row",
             justifyContent: "flex-end",
             marginTop: "5%",
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}
         >
           <TouchableOpacity
@@ -49,37 +50,59 @@ export default class Profile extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.container}>
-      <View style={styles.header}>
-        <Image style={styles.profileImage} source={require("../Assets/user.png")} />
-        <View style={styles.stats}>
-        <Text style={styles.stat}>20 posts</Text>
-        <Text style={styles.stat}>100 followers</Text>
-        <Text style={styles.stat}>200 following</Text>
-      </View>
-
-      </View>
-      <View style={styles.minibar}>
-        <TouchableOpacity style={styles.minibarItem}>
-        <MaterialIcons name="apps" size={36} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.minibarItem}>
-        <MaterialIcons name="checkroom" size={36} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.minibarItem}>
-        <MaterialIcons name="bookmark" size={36} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.postsContainer}>
-        <View style={styles.postsRow}>
-          <Image style={styles.postImage} source={require('../Assets/user.png')} />
-          <Image style={styles.postImage} source={require('../Assets/user.png')} />
+          <View style={styles.header}>
+            <Image
+              style={styles.profileImage}
+              source={require("../Assets/user.png")}
+            />
+            <View style={styles.stats}>
+              <Text style={styles.stat}>20 posts</Text>
+              <Text style={styles.stat}>100 followers</Text>
+              <Text style={styles.stat}>200 following</Text>
+            </View>
+          </View>
+          <View style={styles.minibar}>
+            <TouchableOpacity style={styles.minibarItem}>
+              <MaterialIcons name="apps" size={36} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.minibarItem}>
+              <MaterialIcons name="checkroom" size={36} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.minibarItem}>
+              <MaterialIcons name="bookmark" size={36} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.postsContainer}>
+            <View style={styles.postsRow}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("MyPost")}
+              >
+                <Image
+                  style={styles.postImage}
+                  source={require("../Assets/user.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Settings")}
+              >
+                <Image
+                  style={styles.postImage}
+                  source={require("../Assets/user.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.postsRow}>
+              <Image
+                style={styles.postImage}
+                source={require("../Assets/user.png")}
+              />
+              <Image
+                style={styles.postImage}
+                source={require("../Assets/user.png")}
+              />
+            </View>
+          </View>
         </View>
-        <View style={styles.postsRow}>
-          <Image style={styles.postImage} source={require('../Assets/user.png')} />
-          <Image style={styles.postImage} source={require('../Assets/user.png')} />
-        </View>
-      </View>
-    </View>
       </SafeAreaView>
     );
   }
@@ -105,12 +128,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     margin: 20,
   },
   profileImage: {
@@ -122,8 +145,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   stats: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginVertical: 20,
   },
   stat: {
@@ -132,11 +155,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   minibar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     paddingVertical: 10,
   },
   minibarItem: {
@@ -144,19 +167,19 @@ const styles = StyleSheet.create({
   },
   minibarText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   postsContainer: {
     flex: 1,
     marginHorizontal: 10,
   },
   postsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginVertical: 10,
   },
   postImage: {
     width: 70,
     height: 70,
-  }
+  },
 });
