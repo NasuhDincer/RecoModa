@@ -367,7 +367,7 @@ router.get("/embed", async (req, res) => {
       scriptPath: "../Model/",
       args: "[arr_str]",
     };
-    let pyshell = new PythonShell("numppArray.py", options);
+    let pyshell = new PythonShell("recoSimilar.py", options);
     pyshell.on("message", function (message) {
       console.log(message);
     });

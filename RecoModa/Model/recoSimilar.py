@@ -9,6 +9,20 @@ import sys
 import json
 
 try:
+    url = f'http://localhost:5000/api/post/' # replace with the URL of your Node.js server and the endpoint for updating posts
+    response = requests.get(url) # make a GET request to the API endpoint
+    posts = response.json() # parse the response as JSON
+    arr = [[post['_id'], post['embedArray']] for post in posts]
+    print(type(arr))
+    print(arr)
+    #arr_str = json.dumps(arr)
+    #print(type(arr_str))
+    
+except json.JSONDecodeError as e:
+    print(f"Error parsing JSON string: {e}")
+except Exception as e:
+    print(f"Error: {e}")
+"""try:
     # Get the arr argument as a string and parse it into a list
     arr_str = sys.argv[1]
     arr = json.loads(arr_str)
@@ -24,7 +38,7 @@ try:
 except json.JSONDecodeError as e:
     print(f"Error parsing JSON string: {e}")
 except Exception as e:
-    print(f"Error: {e}")
+    print(f"Error: {e}")"""
 
 
 my_array = np.array(arr)
