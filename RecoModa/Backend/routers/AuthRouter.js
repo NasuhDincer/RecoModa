@@ -5,9 +5,10 @@ import User from "../models/User.js";
 const router = express.Router()
 
 router.post("/login", async (req,res)=>{
-    User.findOne({ username: req.body.username }).then(user => {
+    User.findOne({ email: req.body.email }).then(user => {
         //No user found
-        
+        console.log(req.body)
+        console.log(user)
         if (!user) {
             console.log("NO USER");
             return res.status(401).send({
@@ -25,7 +26,7 @@ router.post("/login", async (req,res)=>{
         }
 
         const payload = {
-            username: user.username,
+            email: user.username,
             role: user.role,
             id: user._id
         }

@@ -14,11 +14,11 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: ["1", "2", "3"],
+      data: ["1", "2", "3","4"],
     };
     this._isMounted = false;
   }
-
+  
   changeEmail = (text) => {
     this.setState({ email: text });
   };
