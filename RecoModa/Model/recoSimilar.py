@@ -3,6 +3,8 @@ import requests
 import numpy as np
 import json
 import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics.pairwise import pairwise_distances
 #tf.version
 
 # EDIT BELOW
@@ -32,22 +34,30 @@ for i in range(len(arr)):
     print(arr[i][1][0:5])
     df[i] = arr[i][1]"""
 
-print("xxxxxx")
+df_ids = df['_id']
+
+
+print("df:")
 print(df)
-from sklearn.metrics.pairwise import pairwise_distances
+print("df_embeds:")
+print(df_embeds)
 
+idforsim = df_ids[1]
+print("idforsim:")
+print(idforsim)
 
-#from sklearn.metrics.pairwise import pairwise_distances
-print("xxxx23xx")
+rowno = -1
+for i in range(len(df_ids)):
+    if idforsim == df_ids[i]:
+        rowno = i
 
 # Calcule DIstance Matriz
 cosine_sim = 1-pairwise_distances(df_embeds, metric='cosine')
 cosine_sim[:4, :4]
 
-print("JSDSA")
 
-print("1======================")
 indices = pd.Series(range(len(df)), index=df.index)
+print("indices:")
 print(indices)
 
 # Function that get movie recommendations based on the cosine similarity score of movie genres
@@ -61,12 +71,12 @@ def get_recommender(idx, df, top_n = 5):
     
     return indices.iloc[idx_rec].index, idx_sim
 
-print("2======================")
-
-idx_rec, idx_sim = get_recommender(1, df, top_n = 2)
-
-print("3======================")
+idx_rec, idx_sim = get_recommender(rowno, df, top_n = 1)
 
 print(idx_rec)
 print(idx_sim)
+
+answerobject = df_ids[idx_rec[0]]
+print("answerobject:")
+print(answerobject)
 

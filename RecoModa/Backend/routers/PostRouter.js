@@ -381,13 +381,9 @@ router.get("/embed", async (req, res) => {
 //GET ALL
 //successfully tested
 router.get("/", async (req, res) => {
-  console.log("hii");
   try {
     const posts = await Post.find();
     const arr = posts.map((post) => [post._id, post.embedArray]);
-
-    console.log(arr);
-
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
