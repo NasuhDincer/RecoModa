@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 import {
   Image,
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import RegisterScreen from "../screens/RegisterScreen";
+import RegisterScreen from "./RegisterScreen";
 
 class Login extends Component {
   constructor(props) {
@@ -19,14 +20,38 @@ class Login extends Component {
     this._isMounted = false;
   }
 
+  handleChange = (key, value) => {
+    this.setState({ [key]: value });
+  };
+  
+  // Usage
   changeEmail = (text) => {
-    this.setState({ email: text });
+    this.handleChange("email", text);
   };
-
+  
   changePassword = (text) => {
-    this.setState({ password: text });
+    this.handleChange("password", text);
   };
-
+  
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("hhh")
+    const { email, password } = this.state;
+    console.log(email)
+      try {
+        const res = await axios.post('http://192.168.1.8:5000/api/auth/login', { email, password })
+        console.log(res.data)
+        console.log("xxx")
+        this.props.navigation.navigate("UserScreens")
+      } 
+        catch(error) {
+          // handle error response
+          console.log("hhg")
+          console.log(error.response.data.message);
+        };
+    
+    //props.navigation.navigate("Home")
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -75,7 +100,7 @@ class Login extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("UserScreens")}
+           onPress={this.handleSubmit}
           style={[styles.buttonContainer, styles.loginButton]}
         >
           <Text style={styles.loginText}>{"Login"}</Text>
