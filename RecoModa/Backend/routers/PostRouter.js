@@ -339,7 +339,15 @@ router.get("/embed/:id", async (req, res) => {
   // console.log(req.params.id)
   try {
     const post = await Post.findOne({ postId: req.params.id });
-
+    const options = {
+      mode: "text",
+      scriptPath: "../Model/",
+      args: post.id,
+    };
+    let pyshell = new PythonShell("recoSimilar.py", options);
+    pyshell.on("message", function (message) {
+      console.log(message);
+    });
     console.log(post);
     res.status(200).json(post.embedArray);
   } catch (err) {
