@@ -335,21 +335,24 @@ router.get("/media/:id", async (req, res) => {
 
 //GET EMBED ARRAY OF POST
 router.get("/embed/:id", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   // console.log(req.params.id)
   try {
     const post = await Post.findOne({ postId: req.params.id });
+    var count = 2;
+    var output = null;
     const options = {
       mode: "text",
       scriptPath: "../Model/",
-      args: post.id,
+      args: [post.id, count],
     };
     let pyshell = new PythonShell("recoSimilar.py", options);
     pyshell.on("message", function (message) {
       console.log(message);
+      output = message;
+      console.log(output);
+      res.status(200).json(output);
     });
-    console.log(post);
-    res.status(200).json(post.embedArray);
   } catch (err) {
     res.status(500).json(err);
   }
