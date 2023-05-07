@@ -14,7 +14,7 @@ import {
   Image,
 } from "react-native";
 
-export default class Profile extends Component {
+export default class Measurements extends Component {
   constructor(props) {
     super(props);
     let data = [];
