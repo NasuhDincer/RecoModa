@@ -1,6 +1,7 @@
 //Tarık
 
 import User from "../models/User.js";
+import Media from "../models/Media.js";
 import bcrypt from "bcryptjs";
 import {
   verifyToken,
@@ -104,7 +105,15 @@ router.post("/signup", async (req, res) => {
       password: hashedPassword,
       phoneNumber,
     });
-
+    
+    const userId  = createdUser._id;
+    console.log(userId)
+    const userMedia = await Media.create(
+      {
+        userId,
+      }
+    )
+    console.log(userMedia)
     return res
       .status(201)
       .json({ user: createdUser, message: "you are successfully registered" });

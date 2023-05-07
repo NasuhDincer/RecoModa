@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
+import  {RNNetworkInfo} from "react-native-network-info";
 import {
   Image,
   StyleSheet,
@@ -23,42 +24,42 @@ class Login extends Component {
   handleChange = (key, value) => {
     this.setState({ [key]: value });
   };
-  
+
   // Usage
   changeEmail = (text) => {
     this.handleChange("email", text);
   };
-  
+
   changePassword = (text) => {
     this.handleChange("password", text);
   };
-  
+
   handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("hhh")
+    console.log("hhh");
     const { email, password } = this.state;
-    console.log(email)
-      try {
-        const res = await axios.post('http://192.168.1.8:5000/api/auth/login', { email, password })
-        console.log(res.data)
-        console.log("xxx")
-        this.props.navigation.navigate("UserScreens")
-      } 
-        catch(error) {
-          // handle error response
-          console.log("hhg")
-          console.log(error.response.data.message);
-        };
-    
+    console.log(email);
+    try {
+      
+      const ipv4Address =  '192.168.3.247'
+      const res = await axios.post(
+        "http://" + ipv4Address + ":5000/api/auth/login",
+        { email, password }
+      );
+      console.log(res.data);
+      console.log("xxx");
+      this.props.navigation.navigate("UserScreens");
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+
     //props.navigation.navigate("Home")
-  }
+  };
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.bgImage}
-          source={require("../Assets/back1.jpg")}
-        />
+        <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>RecoModa</Text>
         </View>
@@ -93,14 +94,15 @@ class Login extends Component {
           />
         </View>
 
-        <TouchableOpacity style={styles.btnForgotPassword}
-        onPress={() => this.props.navigation.navigate("ForgotPassword")}
+        <TouchableOpacity
+          style={styles.btnForgotPassword}
+          onPress={() => this.props.navigation.navigate("ForgotPassword")}
         >
           <Text style={styles.btnText}>Forgot your password?</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-           onPress={this.handleSubmit}
+          onPress={this.handleSubmit}
           style={[styles.buttonContainer, styles.loginButton]}
         >
           <Text style={styles.loginText}>{"Login"}</Text>

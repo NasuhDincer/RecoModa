@@ -18,6 +18,25 @@ export default class Home extends Component {
     };
     this._isMounted = false;
   }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      
+      const ipv4Address =  '192.168.3.247'
+      const res = await axios.get(
+        "http://" + ipv4Address + ":5000/api/post/"
+      );
+      console.log(res.data);
+      this.state = res;
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+
+    //props.navigation.navigate("Home")
+  };
   
   changeEmail = (text) => {
     this.setState({ email: text });
