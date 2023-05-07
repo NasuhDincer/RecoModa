@@ -36,9 +36,9 @@ class Login extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("hhh");
+
     const { email, password } = this.state;
-    console.log(email);
+
     try {
       
       const ipv4Address =  '192.168.3.247'
@@ -46,8 +46,7 @@ class Login extends Component {
         "http://" + ipv4Address + ":5000/api/auth/login",
         { email, password }
       );
-      console.log(res.data);
-      console.log("xxx");
+
       this.props.navigation.navigate("UserScreens");
     } catch (error) {
       // handle error response
