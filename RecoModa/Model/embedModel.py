@@ -79,11 +79,11 @@ if response.status_code == 200:
 
     # Make the HTTP request
     response = requests.put(url, json=data)
-    print(response)
+    #print(response)
 
     if response.status_code == 200:
        updated_post = response.json()
-       print(f"Post updated: {updated_post}")
+       #print(f"Post updated: {updated_post}")
     else:
        print(f"Error updating post: {response.content}")
 
