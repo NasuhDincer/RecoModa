@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import  {RNNetworkInfo} from "react-native-network-info";
+import { RNNetworkInfo } from "react-native-network-info";
 import {
   Image,
   StyleSheet,
@@ -40,8 +40,7 @@ class Login extends Component {
     const { email, password } = this.state;
 
     try {
-      
-      const ipv4Address =  '192.168.3.247'
+      const ipv4Address = "139.179.206.244";
       const res = await axios.post(
         "http://" + ipv4Address + ":5000/api/auth/login",
         { email, password }

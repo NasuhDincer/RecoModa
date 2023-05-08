@@ -47,7 +47,7 @@ router.post("/upload", upload.single("images"), (req, res) => {
       };
       PythonShell.run("embedModel.py", options).then((results) => {
         console.log("here");
-        console.log(results);
+        //console.log(results);
       });
 
       let pyshell = new PythonShell("embedModel.py", options);
