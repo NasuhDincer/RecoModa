@@ -1,5 +1,9 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import {login} from "../redux/apiCalls.js"
+import {logout} from "../redux/userRedux.js"
 import { RNNetworkInfo } from "react-native-network-info";
 import {
   Image,
@@ -11,42 +15,29 @@ import {
 } from "react-native";
 import RegisterScreen from "./RegisterScreen";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-    };
-    this._isMounted = false;
-  }
+const Login = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigation = useNavigation(); // Use the useNavigation hook
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
+  
 
-  handleChange = (key, value) => {
-    this.setState({ [key]: value });
-  };
-
-  // Usage
-  changeEmail = (text) => {
-    this.handleChange("email", text);
-  };
-
-  changePassword = (text) => {
-    this.handleChange("password", text);
-  };
-
-  handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { email, password } = this.state;
-
     try {
-      const ipv4Address = "192.168.0.12";
-      const res = await axios.post(
+      const ipv4Address = "192.168.1.8";
+      login(dispatch, { email, password } , navigation);
+      //dispatch(logout())
+      console.log("user : " , user)
+      /*const res = await axios.post(
         "http://" + ipv4Address + ":5000/api/auth/login",
         { email, password }
-      );
-
-      this.props.navigation.navigate("UserScreens");
+      );*/
+      if(user != null)
+          navigation.navigate("UserScreens");
     } catch (error) {
       // handle error response
       console.log(error);
@@ -54,68 +45,67 @@ class Login extends Component {
 
     //props.navigation.navigate("Home")
   };
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} />
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>RecoModa</Text>
-        </View>
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            value={this.state.email}
-            onChangeText={(text) => this.changeEmail(text)}
-          />
-          <Image
-            style={styles.inputIcon}
-            source={{ uri: "https://img.icons8.com/nolan/40/000000/email.png" }}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            secureTextEntry={true}
-            underlineColorAndroid="transparent"
-            value={this.state.password}
-            onChangeText={(text) => this.changePassword(text)}
-          />
-          <Image
-            style={styles.inputIcon}
-            source={{ uri: "https://img.icons8.com/nolan/40/000000/key.png" }}
-          />
-        </View>
-
-        <TouchableOpacity
-          style={styles.btnForgotPassword}
-          onPress={() => this.props.navigation.navigate("ForgotPassword")}
-        >
-          <Text style={styles.btnText}>Forgot your password?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={this.handleSubmit}
-          style={[styles.buttonContainer, styles.loginButton]}
-        >
-          <Text style={styles.loginText}>{"Login"}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("RegisterScreen")}
-          style={[styles.buttonContainer, styles.registerButton]}
-        >
-          <Text style={styles.btnText}>{"Register"}</Text>
-        </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} />
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>RecoModa</Text>
       </View>
-    );
-  }
-}
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.inputs}
+          placeholder="Email"
+          keyboardType="email-address"
+          underlineColorAndroid="transparent"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <Image
+          style={styles.inputIcon}
+          source={{ uri: "https://img.icons8.com/nolan/40/000000/email.png" }}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.inputs}
+          placeholder="Password"
+          secureTextEntry={true}
+          underlineColorAndroid="transparent"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <Image
+          style={styles.inputIcon}
+          source={{ uri: "https://img.icons8.com/nolan/40/000000/key.png" }}
+        />
+      </View>
+
+      <TouchableOpacity
+        style={styles.btnForgotPassword}
+        onPress={() => navigation.navigate("ForgotPassword")}
+      >
+        <Text style={styles.btnText}>Forgot your password?</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={handleSubmit}
+        style={[styles.buttonContainer, styles.loginButton]}
+      >
+        <Text style={styles.loginText}>{"Login"}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("RegisterScreen")}
+        style={[styles.buttonContainer, styles.registerButton]}
+      >
+        <Text style={styles.btnText}>{"Register"}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export const screenOptions = (navData) => {
   return {

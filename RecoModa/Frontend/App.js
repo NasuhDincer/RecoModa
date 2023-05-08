@@ -17,6 +17,10 @@ import Measurements from "./screens/Measurements";
 import Accounts from "./screens/Accounts";
 import Notifications from "./screens/Notifications";
 import Likedpost from "./screens/WhistList";
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from "./redux/store";
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Stack = createStackNavigator();
@@ -61,6 +65,8 @@ const UserScreens = () => {
 
 export default function App() {
   return (
+    <Provider store={store}>
+       <PersistGate loading={null} persistor={persistor}>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
@@ -87,6 +93,8 @@ export default function App() {
         <Stack.Screen name="Accounts" component={Accounts}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
+    </PersistGate>
+    </Provider>
   );
 }
 

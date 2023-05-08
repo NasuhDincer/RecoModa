@@ -124,6 +124,8 @@ const styles = StyleSheet.create({
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Dimensions,
   FlatList,
@@ -137,17 +139,17 @@ import Post from "../components/Post";
 
 const Home = (props) => {
   const [data, setData] = useState({});
-
+  const user = useSelector((state) => state.user.currentUser);
   useEffect(() => {
     // this function will be called after the component is mounted or updated
     handleSubmit();
-    //console.log("data : " , data)
+    console.log("user : " , user.user._id)
   }, []);
 
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = "192.168.1.8";
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/post/"
       );

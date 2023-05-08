@@ -12,7 +12,7 @@ const Post = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.43.76";
+      const ipv4Address = "192.168.1.8";
       //console.log(props.post.mediaId)
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/${props.post.mediaId}`
@@ -22,7 +22,7 @@ const Post = (props) => {
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
       );
-      console.log(res2.data.username)
+      //console.log(res2.data.username)
       setData(res2.data.username);
     } catch (error) {
       // handle error response
