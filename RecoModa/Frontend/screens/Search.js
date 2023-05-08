@@ -76,10 +76,10 @@ const Search = () => {
           <View style={styles.buttons}>
             {hasMediaLibraryPermission ? (
               <TouchableOpacity onPress={savePhoto} style={styles.button}>
-                <Text style={styles.buttonText}>Kaydet</Text>
+                <Text style={styles.buttonText}>Save</Text>
               </TouchableOpacity>
             ) : undefined}
-            <Button title="Sil" onPress={() => setPhoto(undefined)} />
+            <Button title="Delete" onPress={() => setPhoto(undefined)} />
           </View>
         </View>
       </View>
@@ -123,10 +123,10 @@ const Search = () => {
             }}
           >
             <TouchableOpacity onPress={takePic} style={styles.button}>
-              <Text style={styles.buttonText}>Fotoğraf Çek</Text>
+              <Text style={styles.buttonText}>Take Photo</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setShowCamera(false)}>
-              <Text style={{ color: "#fff" }}>İptal</Text>
+              <Text style={{ color: "#fff" }}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </Camera>
