@@ -1,7 +1,12 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { Component } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Notifications from "./Notifications";
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+// import Settings from './Settings';
+import Notifications from './Notifications';
+
+const Stack = createStackNavigator();
 
 export default class Settings extends Component {
   constructor(props) {
@@ -24,24 +29,26 @@ export default class Settings extends Component {
   handleOptionPress = (label) => {
     switch (label) {
       case "Notifications":
-        // Navigate to Notifications page
+        this.props.navigation.navigate('Notifications');
         break;
       case "Security":
-        // Navigate to Security page
+        this.props.navigation.navigate('Notifications');
         break;
       case "Account":
-        // Navigate to Account page
+        this.props.navigation.navigate('Accounts');
         break;
       case "Measurements":
-        // Navigate to Measurements page
+        this.props.navigation.navigate('Measurements');
         break;
       default:
         break;
     }
   }
 
+
   render() {
     return (
+
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.header}>
           <Text style={styles.title}>Settings</Text>
@@ -62,6 +69,8 @@ export default class Settings extends Component {
     );
   }
 }
+
+
 
 const styles = StyleSheet.create({
   header: {

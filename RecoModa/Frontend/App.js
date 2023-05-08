@@ -14,7 +14,8 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPassword from "./screens/ForgotPassword";
 import MyPost from "./screens/MyPost";
 import Measurements from "./screens/Measurements";
-import RecoModaStore from "./screens/RecoModaStore";
+import Accounts from "./screens/Accounts";
+import Notifications from "./screens/Notifications";
 import Likedpost from "./screens/WhistList";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -81,10 +82,9 @@ export default function App() {
           component={Likedpost}
         ></Stack.Screen>
         <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
-        <Stack.Screen
-          name="Measurements"
-          component={Measurements}
-        ></Stack.Screen>
+        <Stack.Screen name="Notifications" component={Notifications}></Stack.Screen>
+        <Stack.Screen name="Measurements" component={Measurements}></Stack.Screen>
+        <Stack.Screen name="Accounts" component={Accounts}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
