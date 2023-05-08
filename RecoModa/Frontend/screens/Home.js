@@ -141,17 +141,17 @@ const Home = (props) => {
   useEffect(() => {
     // this function will be called after the component is mounted or updated
     handleSubmit();
-    console.log("data : " , data)
+    //console.log("data : " , data)
   }, []);
 
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.3.247";
+      const ipv4Address = "192.168.43.76";
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/post/"
       );
-      console.log(res.data[0].mediaId);
+      //console.log(res.data[0].mediaId);
       setData(res.data);
     } catch (error) {
       // handle error response
@@ -189,7 +189,7 @@ const Home = (props) => {
           width: "100%",
         }}
         data={data}
-        renderItem={({ item, index }) => <Post  mediaId={item}></Post>}
+        renderItem={({ item, index }) => <Post  post={item}></Post>}
         keyExtractor={(item, key) => item._id}
       />
     </SafeAreaView>

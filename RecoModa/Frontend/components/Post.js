@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 const Post = (props) => {
   useEffect(() => {
 
-    console.log("img : " , JSON.stringify(props.mediaId.img))
+    //console.log("img : " , JSON.stringify(props.mediaId.img))
   }, []);
 return (<>
   <View
@@ -43,7 +43,7 @@ return (<>
           }}
         />
         <View style={{ width: "5%" }}></View>
-        <Text>{props.mediaId.mediaId}</Text>
+        <Text>{props.post.mediaId}</Text>
       </View>
       <View
         style={{
@@ -58,7 +58,7 @@ return (<>
     </View>
     <View style={{ width: "100%", height: "60%" }}>
       <Image
-        source={{ uri: `data:image/png;base64,${props.mediaId.img.data}` }}
+        source={{ uri: `data:image/png;base64,${props.post.img.data}` }}
         style={{
           width: "100%",
           height: undefined,
@@ -68,9 +68,9 @@ return (<>
       />
     </View>
     <View style={{ width: "100%", height: "30%" }}>
-      <Text style={{ fontSize: 24 }}>First Post</Text>
+      <Text style={{ fontSize: 24 }}>{props.post.description}</Text>
       <Text style={{ fontSize: 16, color: "gray" }}>
-        This is an explanation of the post!
+      {props.post.description}
       </Text>
       <TouchableOpacity
         style={{ width: "100%", height: "40%", paddingTop: "5%" }}
