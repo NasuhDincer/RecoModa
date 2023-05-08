@@ -1,7 +1,6 @@
 //Tarık
 import Media from "../models/Media.js";
-import Post from "../models/Post.js";
-import multer from 'multer';
+import { PythonShell } from "python-shell";
 import {
   verifyToken,
   verifyTokenAndAuthorization,
@@ -14,11 +13,11 @@ const router = express.Router();
 
 //GET MEDIA
 
-router.get("/:id", async (req,res) => {
-  try{
-     const media = await Media.findById(req.params.id)
-     res.status(200).json(media);
-  }catch(err) {
+router.get("/:id", async (req, res) => {
+  try {
+    const media = await Media.findById(req.params.id);
+    res.status(200).json(media);
+  } catch (err) {
     res.status(500).json(err);
   }
 });
@@ -57,6 +56,68 @@ router.get("/", async (req, res) => {
   try {
     const medias = await Media.find();
     res.status(200).json(medias);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.put("/addLike/:id", async (req, res) => {
+  //console.log(req.body);
+  // console.log(req.params.id)
+  try {
+    const media = await Media.findById(req.params.id);
+    console.log(media);
+    var isLike = true;
+    var likeArr = media.favoritePostList;
+    console.log(req.body.postId);
+    likeArr.forEach((element) => {
+      if (element == req.body.postId) isLike = false;
+    });
+
+    console.log(isLike);
+
+    if (isLike) {
+      likeArr.push(req.body.postId);
+      console.log(likeArr);
+
+      const updateMedia = await Media.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: { favoritePostList: likeArr },
+        },
+        { new: true }
+      );
+      console.log(updateMedia.favoritePostList);
+      res.status(200).json(updateMedia.favoritePostList);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get("/homePage/:id", async (req, res) => {
+  try {
+    const media = await Media.findById(req.params.id);
+
+    var favList = media.favoritePostList;
+    var output = []
+   // for (var i = 0; i < 1; i++) {
+      const options = {
+        mode: "text",
+        scriptPath: "../Model/",
+        args: [favList[0]],
+      };
+      console.log(favList[0])
+      let pyshell = new PythonShell("recoSimilar.py", options);
+      pyshell.on("message", function (message) {
+        console.log(message);
+        output[0] = message;
+       
+      });
+ //   }
+    console.log(output);
+    console.log(updateMedia.favoritePostList);
+    res.status(200).json(updateMedia.favoritePostList);
   } catch (err) {
     res.status(500).json(err);
   }

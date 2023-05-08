@@ -334,7 +334,7 @@ router.get("/media/:id", async (req, res) => {
 });
 
 //GET EMBED ARRAY OF POST
-router.get("/embed/:id", async (req, res) => {
+router.get("/findSimilar/:id", async (req, res) => {
   //console.log(req.body);
   // console.log(req.params.id)
   try {
