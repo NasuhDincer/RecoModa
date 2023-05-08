@@ -15,6 +15,8 @@ import ForgotPassword from "./screens/ForgotPassword";
 import MyPost from "./screens/MyPost";
 import Measurements from "./screens/Measurements";
 import RecoModaStore from "./screens/RecoModaStore";
+import Likedpost from "./screens/WhistList";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -31,7 +33,7 @@ const UserScreens = () => {
             iconName = "home";
           } else if (route.name === "search") {
             iconName = "search";
-          } else if (route.name === "shop") {
+          } else if (route.name === "likedpost") {
             iconName = "add-shopping-cart";
           } else if (route.name === "profile") {
             iconName = "person";
@@ -50,7 +52,7 @@ const UserScreens = () => {
     >
       <Tabs.Screen name="home" component={Home} />
       <Tabs.Screen name="search" component={Search} />
-      <Tabs.Screen name="shop" component={RecoModaStore} />
+      <Tabs.Screen name="likedpost" component={Likedpost} />
       <Tabs.Screen name="profile" component={Profile} />
     </Tabs.Navigator>
   );
@@ -75,8 +77,8 @@ export default function App() {
           component={ForgotPassword}
         ></Stack.Screen>
         <Stack.Screen
-          name="Shop"
-          component={RecoModaStore}
+          name="Likedpost"
+          component={Likedpost}
         ></Stack.Screen>
         <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
         <Stack.Screen
