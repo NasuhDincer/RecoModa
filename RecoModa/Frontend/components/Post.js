@@ -1,11 +1,36 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect,useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import axios from "axios";
 
 const Post = (props) => {
+  const [data, setData] = useState({});
   useEffect(() => {
-
-    //console.log("img : " , JSON.stringify(props.mediaId.img))
+   handleSubmit();
+    
   }, []);
+
+  const handleSubmit = async () => {
+    
+    try {
+      const ipv4Address = "192.168.43.76";
+      //console.log(props.post.mediaId)
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/${props.post.mediaId}`
+      );
+      //console.log(res.data[0].mediaId);
+      //setData(res.data.userId);
+      const res2 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
+      );
+      console.log(res2.data.username)
+      setData(res2.data.username);
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+
+    //props.navigation.navigate("Home")
+  };
 return (<>
   <View
     style={{
@@ -43,7 +68,7 @@ return (<>
           }}
         />
         <View style={{ width: "5%" }}></View>
-        <Text>{props.post.mediaId}</Text>
+        <Text>{JSON.stringify(data).replace(/\s/g, '')}</Text>
       </View>
       <View
         style={{
@@ -58,7 +83,7 @@ return (<>
     </View>
     <View style={{ width: "100%", height: "60%" }}>
       <Image
-        source={{ uri: `data:image/png;base64,${props.post.img.data}` }}
+        source={{ uri: `data:image/png;base64,${props.post.img[0].data}` }}
         style={{
           width: "100%",
           height: undefined,
