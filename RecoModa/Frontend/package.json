@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
+    "@react-native-seoul/masonry-list": "^1.4.1",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/material-bottom-tabs": "^6.2.10",
     "@react-navigation/native": "^6.1.6",

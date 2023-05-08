@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, Image, SafeAreaView } from "react-native";
 import InputSpinner from "react-native-input-spinner";
 import Styles from "./Styles";
 import {

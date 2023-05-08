@@ -41,7 +41,7 @@ class Login extends Component {
 
     try {
       
-      const ipv4Address =  '192.168.3.247'
+      const ipv4Address =  '192.168.0.12'
       const res = await axios.post(
         "http://" + ipv4Address + ":5000/api/auth/login",
         { email, password }
