@@ -10,6 +10,8 @@ import Profile from "./screens/Profile";
 import Settings from "./screens/Settings";
 import Shop from "./screens/Shop";
 import Search from "./screens/Search";
+import Upload from "./screens/Upload";
+import UploadImage from "./screens/UploadImage";
 import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPassword from "./screens/ForgotPassword";
 import MyPost from "./screens/MyPost";
@@ -38,11 +40,14 @@ const UserScreens = () => {
             iconName = "home";
           } else if (route.name === "search") {
             iconName = "search";
+          } else if (route.name === "upload") {
+            iconName = "upload";
           } else if (route.name === "likedpost") {
             iconName = "add-shopping-cart";
           } else if (route.name === "profile") {
             iconName = "person";
           }
+          
 
           return (
             <MaterialIcons
@@ -57,6 +62,7 @@ const UserScreens = () => {
     >
       <Tabs.Screen name="home" component={Home} />
       <Tabs.Screen name="search" component={Search} />
+      <Tabs.Screen name="upload" component={UploadImage} />
       <Tabs.Screen name="likedpost" component={Likedpost} />
       <Tabs.Screen name="profile" component={Profile} />
     </Tabs.Navigator>

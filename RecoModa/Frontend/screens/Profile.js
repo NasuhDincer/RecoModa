@@ -27,7 +27,7 @@ const Profile = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const ipv4Address = "139.179.206.244";
+      const ipv4Address = "192.168.0.12";
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/mediaprofile/"
       );
