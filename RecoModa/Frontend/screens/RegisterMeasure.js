@@ -7,7 +7,7 @@ const RegisterMeasure = () => {
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [gender, setGender] = useState('');
-  const [clothingSize, setClothingSize] = useState('');
+  const [clothingSize, setClothingSize] = useState([]);
   const [shoeSize, setShoeSize] = useState('');
   const navigation = useNavigation(); // Use the useNavigation hook
 
@@ -18,9 +18,19 @@ const RegisterMeasure = () => {
   const handleWeightChange = (value) => {
     setWeight(value);
   }
+
   const handleHeightChange = (value) => {
     setHeight(value);
   }
+
+  const handleClothingSizeChange = (itemValue, itemIndex) => {
+    if (clothingSize.includes(itemValue)) {
+      setClothingSize(clothingSize.filter(value => value !== itemValue));
+    } else {
+      setClothingSize([...clothingSize, itemValue]);
+    }
+  };
+  
   const handleShoeChange = (value) => {
     setShoeSize(value);
   }
@@ -62,18 +72,23 @@ const RegisterMeasure = () => {
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Clothing Size</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={clothingSize}
-          onValueChange={(itemValue) => setClothingSize(itemValue)}
-        >
-          <Picker.Item label="" value="" />
-          <Picker.Item label="XS" value="xs" />
-          <Picker.Item label="S" value="s" />
-          <Picker.Item label="M" value="m" />
-          <Picker.Item label="L" value="l" />
-          <Picker.Item label="XL" value="xl" />
-        </Picker>
+        <Text style={styles.value}>{clothingSize.join(', ')}</Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={clothingSize}
+            onValueChange={handleClothingSizeChange}
+            mode="dropdown"
+            multiple={true}
+          >
+            <Picker.Item label="" value="" />
+            <Picker.Item label="XS" value="xs" />
+            <Picker.Item label="S" value="s" />
+            <Picker.Item label="M" value="m" />
+            <Picker.Item label="L" value="l" />
+            <Picker.Item label="XL" value="xl" />
+            <Picker.Item label="XXL" value="xl" />
+            <Picker.Item label="XXXL" value="xl" />
+          </Picker>
       </View>
       <View style={styles.field}>
         <Text style={styles.label}> Shoe size </Text>
