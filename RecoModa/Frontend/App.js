@@ -21,10 +21,11 @@ import Notifications from "./screens/Notifications";
 import RegisterMeasure from "./screens/RegisterMeasure";
 import Likedpost from "./screens/WhistList";
 import { Provider } from "react-redux";
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
+import SideBar from "./screens/SideBar";
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -48,7 +49,6 @@ const UserScreens = () => {
           } else if (route.name === "profile") {
             iconName = "person";
           }
-          
 
           return (
             <MaterialIcons
@@ -73,35 +73,45 @@ const UserScreens = () => {
 export default function App() {
   return (
     <Provider store={store}>
-       <PersistGate loading={null} persistor={persistor}>
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName={"Login"}
-      >
-        <Stack.Screen name="UserScreens" component={UserScreens}></Stack.Screen>
-        <Stack.Screen
-          name="RegisterScreen"
-          component={RegisterScreen}
-        ></Stack.Screen>
-        <Stack.Screen name="Login" component={Login}></Stack.Screen>
-        <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="Likedpost"
-          component={Likedpost}
-        ></Stack.Screen>
-        <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
-        <Stack.Screen name="Notifications" component={Notifications}></Stack.Screen>
-        <Stack.Screen name="Measurements" component={Measurements}></Stack.Screen>
-        <Stack.Screen name="Accounts" component={Accounts}></Stack.Screen>
-        <Stack.Screen name="RegisterMeasure" component={RegisterMeasure}></Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
-    </PersistGate>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={"Login"}
+          >
+            <Stack.Screen
+              name="UserScreens"
+              component={UserScreens}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="RegisterScreen"
+              component={RegisterScreen}
+            ></Stack.Screen>
+            <Stack.Screen name="Login" component={Login}></Stack.Screen>
+            <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
+            <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPassword}
+            ></Stack.Screen>
+            <Stack.Screen name="Likedpost" component={Likedpost}></Stack.Screen>
+            <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
+            <Stack.Screen
+              name="Notifications"
+              component={Notifications}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="Measurements"
+              component={Measurements}
+            ></Stack.Screen>
+            <Stack.Screen name="Accounts" component={Accounts}></Stack.Screen>
+            <Stack.Screen
+              name="RegisterMeasure"
+              component={RegisterMeasure}
+            ></Stack.Screen>
+            <Stack.Screen name="SideBar" component={SideBar}></Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }
