@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 // import Settings from './Settings';
 import Notifications from './Notifications';
 

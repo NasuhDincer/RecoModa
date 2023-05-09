@@ -18,6 +18,7 @@ import MyPost from "./screens/MyPost";
 import Measurements from "./screens/Measurements";
 import Accounts from "./screens/Accounts";
 import Notifications from "./screens/Notifications";
+import RegisterMeasure from "./screens/RegisterMeasure";
 import Likedpost from "./screens/WhistList";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react'
@@ -97,6 +98,7 @@ export default function App() {
         <Stack.Screen name="Notifications" component={Notifications}></Stack.Screen>
         <Stack.Screen name="Measurements" component={Measurements}></Stack.Screen>
         <Stack.Screen name="Accounts" component={Accounts}></Stack.Screen>
+        <Stack.Screen name="RegisterMeasure" component={RegisterMeasure}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
     </PersistGate>

@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import {
   Dimensions,
@@ -12,12 +13,12 @@ import {
   TouchableOpacity,
   View,
   Image,
-  useNavigation,
 } from "react-native";
 import Post from "../components/Post";
 const userId = toString(AsyncStorage.getItem("userId"));
 const Profile = (props) => {
   const [data, setData] = useState({});
+  const navigation = useNavigation(); // Use the useNavigation hook
 
   useEffect(() => {
     // this function will be called after the component is mounted or updated
@@ -55,7 +56,7 @@ const Profile = (props) => {
         }}
       >
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("Settings")}
+          onPress={() => navigation.navigate("Settings")}
         >
           <MaterialIcons name="settings" size={36} color="black" />
         </TouchableOpacity>
@@ -86,7 +87,7 @@ const Profile = (props) => {
         <View style={styles.postsContainer}>
           <View style={styles.postsRow}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("MyPost")}
+              onPress={() => navigation.navigate("MyPost")}
             >
               <Image
                 style={styles.postImage}
@@ -94,7 +95,7 @@ const Profile = (props) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Settings")}
+              onPress={() => navigation.navigate("Settings")}
             >
               <Image
                 style={styles.postImage}
