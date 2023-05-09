@@ -1,7 +1,7 @@
 import { View, Text, Button } from "react-native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { TouchableOpacity, FlatList } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
 const colors = [
@@ -32,97 +32,97 @@ const SideBar = () => {
     );
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleColorPress(item)}>
-      <View style={[styles.colorCircle, { backgroundColor: item.hex }]} />
-    </TouchableOpacity>
-  );
-
   return (
     <View style={{ flex: 1 }}>
       <Text style={styles.container}>Filter</Text>
       <View style={{ height: 120 }}>
         <Text style={styles.tagContainer}>TAGS</Text>
-        <FlatList
-          data={selectedColors}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View key={item.id} style={styles.selectedColorContainer}>
-              <Text style={styles.selectedColorName}>{item.name}</Text>
+        <View style={styles.selectedColorsContainer}>
+          {selectedColors.map((color) => (
+            <View key={color.id} style={styles.selectedColorContainer}>
+              <Text style={styles.selectedColorName}>{color.name}</Text>
               <TouchableOpacity
                 style={styles.removeColorButton}
-                onPress={() => handleColorRemove(item)}
+                onPress={() => handleColorRemove(color)}
               >
                 <Ionicons name="close" size={18} color="black" />
               </TouchableOpacity>
             </View>
-          )}
-          horizontal={true}
-          contentContainerStyle={styles.selectedColorsContainer}
-          numColumns={selectedColors.length > 2 ? null : 2}
-        />
+          ))}
+        </View>
       </View>
       <Text style={styles.colorContainer}>Color</Text>
-      <FlatList
-        data={colors}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        horizontal={true}
-        contentContainerStyle={styles.colorRow}
-      />
+      <View style={[styles.colorRow, { flex: 1 }]}>
+        {colors.map((color) => (
+          <TouchableOpacity
+            key={color.id}
+            onPress={() => handleColorPress(color)}
+          >
+            <View
+              style={[styles.colorCircle, { backgroundColor: color.hex }]}
+            ></View>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
 export default SideBar;
 const styles = StyleSheet.create({
   container: {
+    color: "black",
     fontSize: 24,
+    paddingTop: 20,
+    margin: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     fontWeight: "bold",
-    marginTop: 20,
-    marginLeft: 20,
+    borderBottomWidth: 1,
   },
   tagContainer: {
-    fontSize: 18,
+    margin: 25,
     fontWeight: "bold",
-    marginLeft: 20,
-    marginTop: 20,
-  },
-  colorContainer: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginLeft: 20,
-    marginTop: 20,
-  },
-  colorCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    margin: 10,
   },
   selectedColorsContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  selectedColorContainer: {
-    backgroundColor: "#F2F2F2",
-    borderRadius: 20,
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
-    paddingHorizontal: 10,
-    margin: 5,
-  },
-  selectedColorName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginRight: 5,
-  },
-  removeColorButton: {
-    padding: 5,
+    marginHorizontal: 25,
+    marginBottom: 20,
   },
   colorRow: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "center",
-    paddingHorizontal: 20,
-    marginTop: 10,
+    flexWrap: "wrap",
+    marginHorizontal: 25,
+    marginBottom: 20,
+  },
+  selectedColorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 5,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "lightgray",
+    flexWrap: "wrap", // add this line
+  },
+  selectedColorName: {
+    marginLeft: 10,
+  },
+  removeColorButton: {
+    marginLeft: "auto",
+  },
+  colorContainer: {
+    marginHorizontal: 25,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  colorCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginHorizontal: 5,
   },
 });
