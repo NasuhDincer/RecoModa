@@ -137,7 +137,7 @@ const Search = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 5,
+    paddingTop: 45,
     backgroundColor: "white",
     position: "relative",
   },
