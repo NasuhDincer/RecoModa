@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,37 +15,37 @@ const RegisterMeasure = () => {
     // handle registration logic
   };
 
+  const handleWeightChange = (value) => {
+    setWeight(value);
+  }
+  const handleHeightChange = (value) => {
+    setHeight(value);
+  }
+  const handleShoeChange = (value) => {
+    setShoeSize(value);
+  }
+
   return (
     <View style={styles.container}>
     <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} />
       <Text style={styles.title}>Enter Your Measures</Text>
       <View style={styles.field}>
         <Text style={styles.label}>Weight (kg)</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={weight}
-          onValueChange={(itemValue) => setWeight(itemValue)}
-        >
-          <Picker.Item label="" value="" />
-          <Picker.Item label="50" value="50" />
-          <Picker.Item label="60" value="60" />
-          <Picker.Item label="70" value="70" />
-          <Picker.Item label="80" value="80" />
-        </Picker>
+        <TextInput
+            placeholder='0'
+            keyboardType="numeric"
+            value={weight}
+            onChangeText={handleWeightChange}
+          />
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Height (cm)</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={height}
-          onValueChange={(itemValue) => setHeight(itemValue)}
-        >
-          <Picker.Item label="" value="" />
-          <Picker.Item label="150" value="150" />
-          <Picker.Item label="160" value="160" />
-          <Picker.Item label="170" value="170" />
-          <Picker.Item label="180" value="180" />
-        </Picker>
+        <TextInput
+            placeholder='0'
+            keyboardType="numeric"
+            value={height}
+            onChangeText={handleHeightChange}
+          />
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Gender</Text>
@@ -76,20 +76,13 @@ const RegisterMeasure = () => {
         </Picker>
       </View>
       <View style={styles.field}>
-        <Text style={styles.label}>Shoe Size</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={shoeSize}
-          onValueChange={(itemValue) => setShoeSize(itemValue)}
-        >
-          <Picker.Item label="" value="" />
-          <Picker.Item label="35" value="35" />
-          <Picker.Item label="36" value="36" />
-          <Picker.Item label="37" value="37" />
-          <Picker.Item label="38" value="38" />
-          <Picker.Item label="39" value="39" />
-          <Picker.Item label="40" value="40" />
-          </Picker>
+        <Text style={styles.label}> Shoe size </Text>
+        <TextInput
+            placeholder='0'
+            keyboardType="numeric"
+            value={shoeSize}
+            onChangeText={handleShoeChange}
+          />
       </View>
       <TouchableOpacity
         onPress={() => navigation.navigate("RegisterScreen")}
@@ -126,6 +119,11 @@ const styles = StyleSheet.create({
       marginRight: 10,
     },
     picker: {
+      flex: 2,
+      height: 50,
+      width: '100%',
+    },
+    TextInput: {
       flex: 2,
       height: 50,
       width: '100%',
