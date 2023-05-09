@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
 
@@ -91,6 +91,12 @@ const RegisterMeasure = () => {
           <Picker.Item label="40" value="40" />
           </Picker>
       </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("RegisterScreen")}
+        style={[styles.buttonContainer, styles.registerButton]}
+      >
+        <Text style={styles.btnText}>{"Register"}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -130,6 +136,29 @@ const styles = StyleSheet.create({
         width: "120%",
         height: "100%",
         justifyContent: "center",
+      },
+      buttonContainer: {
+        height: 45,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+        width: 300,
+        borderRadius: 30,
+        backgroundColor: "transparent",
+      },
+      registerButton: {
+        backgroundColor: "#00b5ec",
+    
+        shadowColor: "#808080",
+        shadowOffset: {
+          width: 0,
+          height: 9,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 12.35,
+    
+        elevation: 19,
       },
   });
   
