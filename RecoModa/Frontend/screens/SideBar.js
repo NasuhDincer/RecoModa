@@ -11,6 +11,13 @@ const colors = [
   { id: 4, name: "Yellow", hex: "#FFFF00" },
   { id: 5, name: "Orange", hex: "#FFA500" },
 ];
+const brands = [
+  { id: 1, name: "Channel" },
+  { id: 2, name: "Zara" },
+  { id: 3, name: "Bershka" },
+  { id: 4, name: "Adidas" },
+  { id: 5, name: "Louis Vuitton" },
+];
 
 const SideBar = () => {
   const [selectedColors, setSelectedColors] = useState([]);
