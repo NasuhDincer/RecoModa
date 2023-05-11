@@ -18,6 +18,7 @@ import Post from "../components/Post";
 const Profile = (props) => {
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
+  const [posts, setPosts] = useState({});
   const [followers, setFollowers] = useState("");
   const [following, setFollowing] = useState("");
 
@@ -53,16 +54,23 @@ const Profile = (props) => {
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
       console.log(res.data);
-      setMedia(res.data[0])
+      //setMedia(res.data[0])
       //const obj = JSON.parse(res.data);
       var follower = 0;
      
       //console.log("follower :", media.followerList.length)
-      setFollowers( media.followerList.length)
+      setFollowers( res.data[0].followerList.length)
       var followed  = 0;
 
       //console.log("followerd :", media.followedList.length)
-      setFollowing( media.followedList.length)
+      setFollowing( res.data[0].followedList.length)
+
+      const res2 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/allPosts/${res.data[0]._id}`
+      );
+      console.log(res2.data[0].description)
+      setPosts(res2.data)
+
     }catch(error){
       console.log(error)
     }
@@ -117,38 +125,22 @@ const Profile = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.postsContainer}>
-          <View style={styles.postsRow}>
-            <TouchableOpacity
+          <View style={styles.postsRow}>     
+          {
+           
+              posts.map((item) => <TouchableOpacity
+              postDetail ={item}
+              key={item._id}
               onPress={() => navigation.navigate("MyPost")}
             >
               <Image
                 style={styles.postImage}
-                source={require("../Assets/user.png")}
+                source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
               />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Settings")}
-            >
-              <Image
-                style={styles.postImage}
-                source={require("../Assets/user.png")}
-              />
-            </TouchableOpacity>
+            </TouchableOpacity> )
+            }
           </View>
-          <View style={styles.postsRow}>
-          <TouchableOpacity
-              onPress={() => navigation.navigate("DetailedPost")}
-            >
-            <Image
-              style={styles.postImage}
-              source={require("../Assets/user.png")}
-            />
-            </TouchableOpacity>
-            <Image
-              style={styles.postImage}
-              source={require("../Assets/user.png")}
-            />
-          </View>
+       
         </View>
       </View>
     </SafeAreaView>
