@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import {
@@ -15,32 +15,58 @@ import {
   Image,
 } from "react-native";
 import Post from "../components/Post";
-const userId = toString(AsyncStorage.getItem("userId"));
 const Profile = (props) => {
-  const [data, setData] = useState({});
+  const [mediaProfile, setMediaProfile] = useState({});
+  const [media, setMedia] = useState({});
+  const [followers, setFollowers] = useState("");
+  const [following, setFollowing] = useState("");
+
   const navigation = useNavigation(); // Use the useNavigation hook
+  const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     // this function will be called after the component is mounted or updated
-    //handleSubmit();
-    console.log("userId : ", userId);
+    handleSubmit();
+    handleFollowers();
+    console.log("userId : ", user.user._id);
   }, []);
 
   const handleSubmit = async () => {
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = "192.168.3.110";
       const res = await axios.get(
-        "http://" + ipv4Address + ":5000/api/mediaprofile/"
+        "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
       );
       console.log(res.data);
-      setData(res.data);
+      setMediaProfile(res.data);
     } catch (error) {
       // handle error response
       console.log(error);
     }
-
     //props.navigation.navigate("Home")
   };
+
+  const handleFollowers = async () => {
+    try{
+      const ipv4Address = "192.168.3.110";
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+      );
+      console.log(res.data);
+      setMedia(res.data[0])
+      //const obj = JSON.parse(res.data);
+      var follower = 0;
+     
+      //console.log("follower :", media.followerList.length)
+      setFollowers( media.followerList.length)
+      var followed  = 0;
+
+      //console.log("followerd :", media.followedList.length)
+      setFollowing( media.followedList.length)
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <SafeAreaView style={{ width: "100%", height: "100%" }}>
@@ -68,9 +94,9 @@ const Profile = (props) => {
             source={require("../Assets/user.png")}
           />
           <View style={styles.stats}>
-            <Text style={styles.stat}>{userId}</Text>
-            <Text style={styles.stat}>100 followers</Text>
-            <Text style={styles.stat}>200 following</Text>
+            <Text style={styles.stat}>Username : {user.user.username}</Text>
+            <Text style={styles.stat}>Followers : {followers}</Text>
+            <Text style={styles.stat}>Following : {following}</Text>
           </View>
         </View>
         <View style={styles.minibar}>

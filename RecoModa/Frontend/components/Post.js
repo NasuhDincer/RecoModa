@@ -1,9 +1,12 @@
 import React, { Component, useEffect,useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Post = (props) => {
   const [data, setData] = useState({});
+  const user = useSelector((state) => state.user.currentUser);
+
   useEffect(() => {
    handleSubmit();
     
@@ -12,12 +15,12 @@ const Post = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.1.104";
-      //console.log(props.post.mediaId)
+      const ipv4Address = "192.168.3.110";
+      //console.log("post : ",props.post.mediaId)
       const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/${props.post.mediaId}`
+        "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`
       );
-      //console.log(res.data[0].mediaId);
+      //console.log(res.data);
       //setData(res.data.userId);
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`

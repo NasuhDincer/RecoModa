@@ -28,16 +28,13 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-      const ipv4Address = "192.168.1.104";
+      const ipv4Address = "192.168.3.110";
       login(dispatch, { email, password } , navigation);
       //dispatch(logout())
       console.log("user : " , user)
-      const res = await axios.post(
-        "http://" + ipv4Address + ":5000/api/auth/login",
-        { email, password }
-      );
+     
       if(user != null)
-          navigation.navigate("UserScreens");
+         navigation.navigate("UserScreens");
     } catch (error) {
       // handle error response
       console.log(error);

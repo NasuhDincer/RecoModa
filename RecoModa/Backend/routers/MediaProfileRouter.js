@@ -76,9 +76,9 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-//GET POST
+
 //successfully tested
-router.get("/:id", async (req, res) => {
+/*router.get("/:id", async (req, res) => {
   //console.log("geldi")
   try {
     const profile = await MediaProfile.findById(req.params.id);
@@ -86,13 +86,13 @@ router.get("/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-});
+});*/
 
 //GET ALL POSTS
 
-router.get("/:mediaId", async (req, res) => {
+router.get("/:userId", async (req, res) => {
   try {
-    const profile = await MediaProfile.find({ mediaId: req.params.mediaId });
+    const profile = await MediaProfile.find({ userId: req.params.userId });
     res.status(200).json(profile);
   } catch (err) {
     res.status(500).json(err);

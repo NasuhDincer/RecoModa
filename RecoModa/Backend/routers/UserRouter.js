@@ -2,6 +2,7 @@
 
 import User from "../models/User.js";
 import Media from "../models/Media.js";
+import MediaProfile  from "../models/MediaProfile.js";
 import bcrypt from "bcryptjs";
 import {
   verifyToken,
@@ -52,8 +53,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 router.get("/find/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    const { password, ...others } = user._doc;
-    res.status(200).json(others);
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -113,7 +113,12 @@ router.post("/signup", async (req, res) => {
         userId,
       }
     )
-    console.log(userMedia)
+    const userMediaProfile = await MediaProfile.create(
+      {
+        userId,
+      }
+    )
+    console.log(userMediaProfile)
     return res
       .status(201)
       .json({ user: createdUser, message: "you are successfully registered" });

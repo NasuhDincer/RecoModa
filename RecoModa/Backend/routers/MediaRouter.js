@@ -13,7 +13,15 @@ const router = express.Router();
 
 //GET MEDIA
 
-router.get("/:id", async (req, res) => {
+router.get("/mediaUser/:id", async (req, res) => {
+  try {
+    const media = await Media.find({userId : req.params.id});
+    res.status(200).json(media);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+router.get("/media/:id", async (req, res) => {
   try {
     const media = await Media.findById(req.params.id);
     res.status(200).json(media);
@@ -65,7 +73,7 @@ router.put("/addLike/:id", async (req, res) => {
   //console.log(req.body);
   // console.log(req.params.id)
   try {
-    const media = await Media.findById(req.params.id);
+    const media = await Media.find({userId : req.params.id});
     console.log(media);
     var isLike = true;
     var likeArr = media.favoritePostList;

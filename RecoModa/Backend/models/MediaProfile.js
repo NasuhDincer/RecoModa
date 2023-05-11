@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 const MediaProfileSchema = new mongoose.Schema(
   {
-    mediaId: { type: String, },
+    userId: { type: String, },
     description: { type: String },
     profilePicture: { data: Buffer, contentType: String }
   },
