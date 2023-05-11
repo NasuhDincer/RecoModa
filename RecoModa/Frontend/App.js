@@ -26,6 +26,7 @@ import { store, persistor } from "./redux/store";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import SideBar from "./screens/SideBar";
+import ShowPost from "./screens/ShowPost";
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -43,7 +44,7 @@ const UserScreens = () => {
           } else if (route.name === "search") {
             iconName = "search";
           } else if (route.name === "upload") {
-            iconName = "upload";
+            iconName = "file-upload";
           } else if (route.name === "likedpost") {
             iconName = "add-shopping-cart";
           } else if (route.name === "profile") {
@@ -109,6 +110,7 @@ export default function App() {
               component={RegisterMeasure}
             ></Stack.Screen>
             <Stack.Screen name="SideBar" component={SideBar}></Stack.Screen>
+            <Stack.Screen name="ShowPost" component={ShowPost}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

@@ -1,10 +1,11 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useMemo } from "react";
-
-import MasonryList from '@react-native-seoul/masonry-list';
-import ImageComp from './ImageComp'
+import { useNavigation } from "@react-navigation/native";
+import MasonryList from "@react-native-seoul/masonry-list";
+import ImageComp from "./ImageComp";
 
 const SearchContent = ({ setShowCamera }) => {
+  const navigation = useNavigation();
   const searchData = [
     {
       id: 0,
@@ -20,7 +21,6 @@ const SearchContent = ({ setShowCamera }) => {
         {
           key: "icon2",
           source: require("../Assets/profile.png"),
-
         },
         {
           key: "icon3",
@@ -65,9 +65,8 @@ const SearchContent = ({ setShowCamera }) => {
           source: require("../Assets/profile.png"),
         },
       ],
-    }
+    },
   ];
-
 
   return (
     <View>
@@ -76,14 +75,17 @@ const SearchContent = ({ setShowCamera }) => {
         keyExtractor={(item) => item.key}
         numColumns={2}
         contentContainerStyle={{
-          alignSelf: 'stretch',
+          alignSelf: "stretch",
         }}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <ImageComp item={item} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigation.navigate("ShowPost")}>
+            <ImageComp item={item} />
+          </TouchableOpacity>
+        )}
         onEndReachedThreshold={0.5}
         ListFooterComponent={<View style={{ height: 100 }} />}
       />
-
     </View>
   );
 };
