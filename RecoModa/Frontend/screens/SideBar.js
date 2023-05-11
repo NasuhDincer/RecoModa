@@ -135,6 +135,7 @@ const SideBar = () => {
             </View>
           ))}
         </View>
+        <View style={styles.selectedTagContainer}>
         <Picker
           selectedValue={selectedBrandId}
           onValueChange={(itemValue) => {
@@ -145,7 +146,9 @@ const SideBar = () => {
             setSelectedBrandId(itemValue);
           }}
           mode="dropdown"
-          style={{ marginHorizontal: 25 }}
+          style={{ marginHorizontal: 25, borderRadius: 10,
+            borderWidth: 2,
+            borderColor: 'black',}}
         >
           <Picker.Item label="Select brand..." value="" />
           {brands.map((brand) => (
@@ -169,6 +172,7 @@ const SideBar = () => {
             <Picker.Item key={size.id} label={size.name} value={size.id} />
           ))}
         </Picker>
+        </View>
       </View>
       <Text style={styles.colorContainer}>Color</Text>
       <View style={[styles.colorRow, { flex: 1 }]}>
@@ -189,7 +193,6 @@ const SideBar = () => {
 export default SideBar;
 const styles = StyleSheet.create({
   container: {
-    color: "black",
     fontSize: 24,
     paddingTop: 20,
     margin: 15,
@@ -198,10 +201,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     borderBottomWidth: 1,
+    
   },
   tagContainer: {
-    margin: 25,
+    marginVertical: 25,
     fontWeight: "bold",
+    marginLeft: 20,
+    
   },
   selectedColorsContainer: {
     flexDirection: "row",
@@ -209,14 +215,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 25,
     marginBottom: 20,
-  },
-  colorRow: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexWrap: "wrap",
-    marginHorizontal: 25,
-    marginBottom: 20,
+   // backgroundColor: "black"
+    
   },
   selectedColorContainer: {
     flexDirection: "row",
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     backgroundColor: "lightgray",
-    flexWrap: "wrap", // add this line
+    
   },
   selectedColorName: {
     marginLeft: 10,
@@ -236,13 +236,42 @@ const styles = StyleSheet.create({
   colorContainer: {
     marginHorizontal: 25,
     fontWeight: "bold",
-    marginBottom: 10,
-    marginTop: 60,
+    marginBottom: 20,
+    marginTop: 200,
+    marginLeft: 20,
+  },
+  colorRow: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginHorizontal: 25,
+    marginBottom: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    marginBottom: 120,
+    marginTop: 10,
+    marginRight: 20,
+    // backgroundColor: "black"
   },
   colorCircle: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     borderRadius: 20,
     marginHorizontal: 5,
+    margin: 10,
+
+  },
+  selectedTagContainer:{
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    margin: 10,
+    marginLeft: 25,
+    marginRight: 20,
+    // marginTop: 60,
   },
 });
+
+
