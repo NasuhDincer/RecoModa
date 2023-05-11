@@ -94,9 +94,15 @@ const Profile = (props) => {
             source={require("../Assets/user.png")}
           />
           <View style={styles.stats}>
-            <Text style={styles.stat}>Username : {user.user.username}</Text>
-            <Text style={styles.stat}>Followers : {followers}</Text>
-            <Text style={styles.stat}>Following : {following}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+              <Text style={styles.stat}>Username: {user.user.username}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("FollowersPage")}>
+              <Text style={styles.stat}>Followers: {followers}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("FollowingPage")}>
+              <Text style={styles.stat}>Following: {following}</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.minibar}>

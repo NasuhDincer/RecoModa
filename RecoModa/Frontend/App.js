@@ -21,6 +21,8 @@ import Accounts from "./screens/Accounts";
 import Notifications from "./screens/Notifications";
 import RegisterMeasure from "./screens/RegisterMeasure";
 import Likedpost from "./screens/WhistList";
+import FollowersPage from "./screens/FollowersPage";
+import FollowingPage from "./screens/FollowingPage";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
@@ -81,38 +83,22 @@ export default function App() {
             screenOptions={{ headerShown: false }}
             initialRouteName={"Login"}
           >
-            <Stack.Screen
-              name="UserScreens"
-              component={UserScreens}
-            ></Stack.Screen>
-            <Stack.Screen
-              name="RegisterScreen"
-              component={RegisterScreen}
-            ></Stack.Screen>
+            <Stack.Screen name="UserScreens"component={UserScreens}></Stack.Screen>
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen} ></Stack.Screen>
             <Stack.Screen name="Login" component={Login}></Stack.Screen>
             <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
-            <Stack.Screen
-              name="ForgotPassword"
-              component={ForgotPassword}
-            ></Stack.Screen>
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} ></Stack.Screen>
             <Stack.Screen name="Likedpost" component={Likedpost}></Stack.Screen>
             <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
             <Stack.Screen name="DetailedPost" component={DetailedPost}></Stack.Screen>
-            <Stack.Screen
-              name="Notifications"
-              component={Notifications}
-            ></Stack.Screen>
-            <Stack.Screen
-              name="Measurements"
-              component={Measurements}
-            ></Stack.Screen>
+            <Stack.Screen name="Notifications"component={Notifications}></Stack.Screen>
+            <Stack.Screen name="Measurements" component={Measurements}></Stack.Screen>
             <Stack.Screen name="Accounts" component={Accounts}></Stack.Screen>
-            <Stack.Screen
-              name="RegisterMeasure"
-              component={RegisterMeasure}
-            ></Stack.Screen>
+            <Stack.Screen name="RegisterMeasure" component={RegisterMeasure}></Stack.Screen>
             <Stack.Screen name="SideBar" component={SideBar}></Stack.Screen>
             <Stack.Screen name="ShowPost" component={ShowPost}></Stack.Screen>
+            <Stack.Screen name="FollowersPage" component={FollowersPage}></Stack.Screen>
+            <Stack.Screen name="FollowingPage" component={FollowingPage}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

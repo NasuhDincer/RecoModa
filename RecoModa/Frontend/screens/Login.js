@@ -28,13 +28,6 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-<<<<<<< Updated upstream
-      const ipv4Address = "192.168.3.110";
-      login(dispatch, { email, password } , navigation);
-      //dispatch(logout())
-      console.log("user : " , user)
-     
-=======
       const ipv4Address = "192.168.0.12";
       login(dispatch, { email, password } , navigation);
       //dispatch(logout())
@@ -43,7 +36,6 @@ const Login = (props) => {
         "http://" + ipv4Address + ":5000/api/auth/login",
         { email, password }
       );*/
->>>>>>> Stashed changes
       if(user != null)
          navigation.navigate("UserScreens");
     } catch (error) {
