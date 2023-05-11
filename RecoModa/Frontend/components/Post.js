@@ -15,7 +15,7 @@ const Post = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.3.110";
+      const ipv4Address = "192.168.1.2";
       //console.log("post : ",props.post.mediaId)
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`

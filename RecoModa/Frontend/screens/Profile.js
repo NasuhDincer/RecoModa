@@ -18,7 +18,7 @@ import Post from "../components/Post";
 const Profile = (props) => {
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
-  const [posts, setPosts] = useState({});
+  const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState("");
   const [following, setFollowing] = useState("");
 
@@ -34,7 +34,7 @@ const Profile = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const ipv4Address = "192.168.3.110";
+      const ipv4Address = "192.168.1.2";
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
       );
@@ -49,7 +49,7 @@ const Profile = (props) => {
 
   const handleFollowers = async () => {
     try{
-      const ipv4Address = "192.168.3.110";
+      const ipv4Address = "192.168.1.2";
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
@@ -68,7 +68,8 @@ const Profile = (props) => {
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/allPosts/${res.data[0]._id}`
       );
-      console.log(res2.data[0].description)
+      console.log("res2data", Object.keys(res2.data[0]))
+      console.log("Hehehe", res2.data[0].description)
       setPosts(res2.data)
 
     }catch(error){
@@ -128,7 +129,7 @@ const Profile = (props) => {
           <View style={styles.postsRow}>     
           {
            
-              posts.map((item) => <TouchableOpacity
+              posts.map((item) => (<TouchableOpacity
               postDetail ={item}
               key={item._id}
               onPress={() => navigation.navigate("MyPost")}
@@ -137,7 +138,7 @@ const Profile = (props) => {
                 style={styles.postImage}
                 source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
               />
-            </TouchableOpacity> )
+            </TouchableOpacity> ))
             }
           </View>
        
