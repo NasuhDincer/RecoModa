@@ -149,7 +149,11 @@ const Home = (props) => {
   const handleSubmit = async () => {
     
     try {
+<<<<<<< Updated upstream
       const ipv4Address = "192.168.3.110";
+=======
+      const ipv4Address = "192.168.0.12";
+>>>>>>> Stashed changes
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/post/"
       );

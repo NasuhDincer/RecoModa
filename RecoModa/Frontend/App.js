@@ -15,6 +15,7 @@ import UploadImage from "./screens/UploadImage";
 import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPassword from "./screens/ForgotPassword";
 import MyPost from "./screens/MyPost";
+import DetailedPost from "./screens/DetailedPost"
 import Measurements from "./screens/Measurements";
 import Accounts from "./screens/Accounts";
 import Notifications from "./screens/Notifications";
@@ -96,6 +97,7 @@ export default function App() {
             ></Stack.Screen>
             <Stack.Screen name="Likedpost" component={Likedpost}></Stack.Screen>
             <Stack.Screen name="MyPost" component={MyPost}></Stack.Screen>
+            <Stack.Screen name="DetailedPost" component={DetailedPost}></Stack.Screen>
             <Stack.Screen
               name="Notifications"
               component={Notifications}

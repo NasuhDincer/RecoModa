@@ -130,10 +130,14 @@ const Profile = (props) => {
             </TouchableOpacity>
           </View>
           <View style={styles.postsRow}>
+          <TouchableOpacity
+              onPress={() => navigation.navigate("DetailedPost")}
+            >
             <Image
               style={styles.postImage}
               source={require("../Assets/user.png")}
             />
+            </TouchableOpacity>
             <Image
               style={styles.postImage}
               source={require("../Assets/user.png")}
