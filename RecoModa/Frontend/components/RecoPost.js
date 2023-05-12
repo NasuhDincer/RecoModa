@@ -5,13 +5,15 @@ import axios from "axios";
 import rawipv4 from "../ipv4.json";
 
 
-const Post = (props) => {
+const RecoPost = (props) => {
   const [data, setData] = useState({});
+  const [post, setPost] = useState([]);
   const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
+    console.log(props.post) 
    handleSubmit();
-    
+   console.log(post.description) 
   }, []);
 
   const handleSubmit = async () => {
@@ -19,8 +21,13 @@ const Post = (props) => {
     try {
       const ipv4Address = rawipv4["ip"];
       //console.log("post : ",props.post.mediaId)
+      const p = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/post/${props.post}`
+      );
+      console.log(p.data.description)
+      setPost(p.data)
       const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`
+        "http://" + ipv4Address + `:5000/api/media/media/${p.data.mediaId}`
       );
       //console.log(res.data);
       //setData(res.data.userId);
@@ -46,7 +53,7 @@ const Post = (props) => {
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
       const res2 = await axios.put(
-        "http://" + ipv4Address + `:5000/api/media//addLike/${res.data[0]._id}`, {postId : props.post._id}
+        "http://" + ipv4Address + `:5000/api/media//addLike/${res.data[0]._id}`, {postId : post._id}
       );
       console.log(res2.data);
       //setData(res.data.userId);
@@ -120,7 +127,6 @@ return (<>
     </View>
     <View style={{ width: "100%", height: "60%" }}>
       <Image
-        source={{ uri: `data:image/png;base64,${props.post.img[0].data}` }}
         style={{
           width: "100%",
           height: undefined,
@@ -130,7 +136,7 @@ return (<>
       />
     </View>
     <View style={{ width: "100%", height: "30%" }}>
-      <Text style={{ fontSize: 24 }}>{props.post.description}</Text>
+      <Text style={{ fontSize: 24 }}>DESS</Text>
       <Text style={{ fontSize: 16, color: "gray" }}>
       {props.post.description}
       </Text>
@@ -152,4 +158,4 @@ return (<>
   </View>
   </>);
 }
-export default Post;
+export default RecoPost;

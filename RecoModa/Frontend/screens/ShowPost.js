@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Image,
+  FlatList,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -10,127 +11,44 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import rawipv4 from "../ipv4.json";
+import RecoPost from "../components/RecoPost";
+import { element } from "prop-types";
 
-const posts = [
-  {
-    id: 1,
-    imagePath: require("../Assets/profile.png"),
-    comments: [
-      {
-        id: 1,
-        comment: "hello",
-      },
-      {
-        id: 2,
-        comment: "naber",
-      },
-    ],
-  },
-  {
-    id: 2,
-    imagePath: require("../Assets/profile.png"),
-    comments: [
-      {
-        id: 1,
-        comment: "iyiyim",
-      },
-      {
-        id: 2,
-        comment: "sen nasılsın?",
-      },
-    ],
-  },
-  {
-    id: 3,
-    imagePath: require("../Assets/profile.png"),
-    comments: [
-      {
-        id: 1,
-        comment: "ben de iyi",
-      },
-      {
-        id: 2,
-        comment: "okul nasıl",
-      },
-    ],
-  },
-  {
-    id: 4,
-    imagePath: require("../Assets/profile.png"),
-    comments: [
-      {
-        id: 1,
-        comment: "akmaca",
-      },
-      {
-        id: 2,
-        comment: "naber",
-      },
-    ],
-  },
-  {
-    id: 5,
-    imagePath: require("../Assets/profile.png"),
-    comments: [
-      {
-        id: 1,
-        comment: "hello",
-      },
-      {
-        id: 2,
-        comment: "naber",
-      },
-    ],
-  },
-  {
-    id: 6,
-    imagePath: require("../Assets/profile.png"),
-    comments: [
-      {
-        id: 1,
-        comment: "hello",
-      },
-      {
-        id: 2,
-        comment: "naber",
-      },
-    ],
-  },
-];
-const ShowPost = ( {route}) => {
-  console.log("promppss ", route  )
+
+const ShowPost = ({ route }) => {
+  console.log("promppss ", route);
   const [showAll, setShowAll] = useState(false);
   const { postId } = route.params;
   const [userName, setUserName] = useState({});
   const [similar, setSimilar] = useState([]);
 
-  console.log("PostId: ", postId._id);
-  console.log("Keys are: ", Object.keys(postId))
+  //console.log("PostId: ", postId._id);
+  //console.log("Keys are: ", Object.keys(postId))
   useEffect(() => {
     handleSubmit();
     handleLike();
     handleSimilar();
-    console.log(similar)
-   }, []);
-  
-  const handleSubmit = async () => { 
+    //console.log("similae :", similar)
+  }, []);
+
+  const handleSubmit = async () => {
     const ipv4Address = rawipv4["ip"];
     const res = await axios.get(
       "http://" + ipv4Address + `:5000/api/media/media/${postId.mediaId}`
     );
     //console.log(res2.data.username)
-    console.log("Hhehe ", res.data);
+    //console.log("Hhehe ", res.data);
     const res2 = await axios.get(
       "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
     );
     setUserName(res2.data.username);
   };
-  
+
   const handleLike = (postId) => {
-    console.log(`Liked post ${postId}`);
+    //console.log(`Liked post ${postId}`);
     //similar.push(postId)
     //setSimilar(similar)
-    console.log("similar : ", similar)
+    //console.log("similar : ", similar)
   };
 
   const handleSimilar = async () => {
@@ -138,16 +56,16 @@ const ShowPost = ( {route}) => {
     const res = await axios.get(
       "http://" + ipv4Address + `:5000/api/post/findSimilar/${postId._id}`
     );
-    console.log("SİMİLAR ARRAY : ", res.data)
-    console.log(typeof(res.data))
-    //setSimilar(res.data)
+    console.log("SİMİLAR ARRAY : ", res.data);
+    console.log(typeof res.data);
+    
+   
     const res2 = await axios.get(
       "http://" + ipv4Address + `:5000/api/post/post/${res.data[0]}`
     );
-    console.log(Object.keys(res2))
+    console.log(Object.keys(res2));
     //console.log("SİMİLAR POST : ", res2.data)
-    similar.push(res2.data)
-    setSimilar(similar)
+    setSimilar(res.data);
   };
 
   return (
@@ -155,68 +73,15 @@ const ShowPost = ( {route}) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>DISCOVER</Text>
       </View>
-      <View  style={styles.postContainer}>
-                <View style={styles.postHeader}>
-                  <Image style={styles.profileImage} />
-                  <Text>{JSON.stringify(userName).replace(/\s/g, '')}</Text>
-                </View>
-                <Image source={{ uri: `data:image/png;base64,${postId.img[0].data}` }} style={styles.postImage} />
-                <View style={styles.actions}>
-                  <TouchableOpacity>
-                    <MaterialIcons
-                      name={"favorite"}
-                      size={24}
-                      color={"red" }
-                    />
-                  </TouchableOpacity>
-                </View>
-                <ScrollView style={styles.commentsContainer}>
-                  
-                </ScrollView>
-              </View>
-      <ScrollView style={styles.postList}>
-        {posts.map((post, index) => {
-          if (index < 1 || showAll) {
-            return (
-              <View key={post.id} style={styles.postContainer}>
-                <View style={styles.postHeader}>
-                  <Image source={post.imagePath} style={styles.profileImage} />
-                  <Text>{JSON.stringify(userName).replace(/\s/g, '')}</Text>
-                </View>
-                <Image source={{ uri: `data:image/png;base64,${postId.img[0].data}` }} style={styles.postImage} />
-                <View style={styles.actions}>
-                  <TouchableOpacity onPress={() => handleLike(post.id)}>
-                    <MaterialIcons
-                      name={post.isLiked ? "favorite" : "favorite-border"}
-                      size={24}
-                      color={post.isLiked ? "red" : "black"}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <ScrollView style={styles.commentsContainer}>
-                  {post.comments.map((comment) => (
-                    <Text key={comment.id} style={styles.comment}>
-                      {postId.commentList}
-                    </Text>
-                  ))}
-                </ScrollView>
-              </View>
-            );
-          } else {
-            return null;
-          }
-        })}
-      </ScrollView>
-      {posts.length > 3 && (
-        <TouchableOpacity
-          onPress={() => setShowAll(!showAll)}
-          style={styles.showMoreButton}
-        >
-          <Text style={styles.showMoreButtonText}>
-            {showAll ? "Show Less" : "Show More"}
-          </Text>
-        </TouchableOpacity>
-      )}
+      <RecoPost  post={postId._id}></RecoPost>
+      <FlatList
+        contentContainerStyle={{
+          width: "100%",
+        }}
+        data={similar}
+        renderItem={({ item, index }) => <RecoPost  post={item}></RecoPost>}
+        keyExtractor={(item, key) => item._id}
+      />
     </View>
   );
 };
@@ -251,7 +116,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 8,
-    
   },
   profileImage: {
     width: 32,
@@ -294,5 +158,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-
