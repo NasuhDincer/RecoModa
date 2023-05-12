@@ -5,6 +5,7 @@ import {
   Image,
   Text,
   StyleSheet,
+  ScrollView,
   Button,
   TextInput,
 } from "react-native";
@@ -83,26 +84,6 @@ const categories = [
 ];
 export default function UploadImage() {
   const [image, setImage] = useState(null);
-  const [selectedBrand, setSelectedBrand] = useState();
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [category, setCategory] = useState();
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [selectedColorId, setSelectedColorId] = useState();
-  const [selectedBrandId, setSelectedBrandId] = useState();
-  const [description, setDescription] = useState("");
-
-  const handleColorPress = (color) => {
-    const isColorSelected = selectedColors.some((c) => c.id === color.id);
-    if (!isColorSelected) {
-      setSelectedColors((prevSelectedColors) => [...prevSelectedColors, color]);
-    }
-  };
-
-  const handleColorRemove = (color) => {
-    setSelectedColors((prevSelectedColors) =>
-      prevSelectedColors.filter((c) => c.id !== color.id)
-    );
-  };
   const addImage = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -119,237 +100,79 @@ export default function UploadImage() {
     }
   };
 
-  const handleBrandPress = (brand) => {
-    setSelectedBrand(brand);
+  const removeImage = () => {
+    setImage(null);
   };
 
-  const handleBrandRemove = (brand) => {
-    setSelectedBrand(null);
-  };
-
-  const handleCategoryPress = (category) => {
-    setSelectedBrand(category);
-  };
-
-  const handleCategoryRemove = (category) => {
-    setSelectedBrand(null);
-  };
   return (
-    <View style={{ flex: 1 }}>
-      <TouchableOpacity style={{ position: "absolute", top: 50, right: 10 }}>
-        <Ionicons name="save-outline" size={24} color="black" />
-      </TouchableOpacity>
-      <View style={imageUploaderStyles.selectedColorsContainer}>
-        {selectedColors.map((color) => (
-          <View
-            key={color.id}
-            style={imageUploaderStyles.selectedColorContainer}
-          >
-            <Text style={imageUploaderStyles.selectedColorName}>
-              {color.name}
-            </Text>
-            <TouchableOpacity
-              style={imageUploaderStyles.removeColorButton}
-              onPress={() => handleColorRemove(color)}
-            >
-              <Ionicons name="close" size={18} color="black" />
-            </TouchableOpacity>
-          </View>
-        ))}
-        {selectedBrand && (
-          <View style={imageUploaderStyles.selectedColorsContainer}>
-            <View style={imageUploaderStyles.selectedColorContainer}>
-              <Text style={imageUploaderStyles.selectedColorName}>
-                {selectedBrand.name}
-              </Text>
-              <TouchableOpacity
-                style={imageUploaderStyles.removeColorButton}
-                onPress={() => handleBrandRemove(selectedBrand)}
-              >
-                <Ionicons name="close" size={18} color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-        {selectedCategory && (
-          <View style={imageUploaderStyles.selectedColorsContainer}>
-            <View style={imageUploaderStyles.selectedColorContainer}>
-              <Text style={imageUploaderStyles.selectedColorName}>
-                {selectedCategory.name}
-              </Text>
-              <TouchableOpacity
-                style={imageUploaderStyles.removeColorButton}
-                onPress={() => handleCategoryRemove(selectedCategory)}
-              >
-                <Ionicons name="close" size={18} color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-      </View>
-      <View style={imageUploaderStyles.formwrapper}>
-        <Picker
-          selectedValue={selectedBrand ? selectedBrand.id : null}
-          onValueChange={handleBrandPress}
-          mode="dropdown"
-          style={{
-            marginHorizontal: 25,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: "black",
-          }}
-        >
-          <Picker.Item label="Select Brand..." value="" />
-          {brands.map((brand) => (
-            <Picker.Item key={brand.id} label={brand.name} value={brand.id} />
-          ))}
-        </Picker>
-        <Picker
-          selectedValue={selectedCategory ? selectedCategory.id : null}
-          onValueChange={handleCategoryPress}
-          mode="dropdown"
-          style={{
-            marginHorizontal: 25,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: "black",
-          }}
-        >
-          <Picker.Item label="Select Category..." value="" />
-          {categories.map((category) => (
-            <Picker.Item
-              key={category.id}
-              label={category.name}
-              value={category.id}
-            />
-          ))}
-        </Picker>
-        <Picker
-          selectedValue={selectedColorId}
-          onValueChange={(itemValue) => {
-            const selectedColor = colors.find(
-              (color) => color.id === itemValue
-            );
-            handleColorPress(selectedColor);
-            setSelectedColorId(itemValue);
-          }}
-          mode="dropdown"
-          style={{
-            marginHorizontal: 25,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: "black",
-          }}
-        >
-          <Picker.Item label="Select color..." value="" />
-          {colors.map((color) => (
-            <Picker.Item key={color.id} label={color.name} value={color.id} />
-          ))}
-        </Picker>
-        <TextInput
-          style={imageUploaderStyles.input}
-          placeholder="Description"
-          value={description}
-          onChangeText={setDescription}
-          multiline
-        />
-      </View>
-      <View
-        style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
-      >
+    <ScrollView>
+      <View style={styles.imageContainer}>
         {image ? (
-          <Image
-            source={{ uri: image }}
-            style={{ width: "90%", height: 200 }}
-          />
+          <>
+            <Image
+              source={{ uri: image }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+            <TouchableOpacity style={styles.cancelIcon}>
+              <MaterialIcons
+                name="cancel"
+                onPress={removeImage}
+                size={24}
+                color="white"
+              />
+            </TouchableOpacity>
+          </>
         ) : (
-          <Ionic
-            name="person-circle-outline"
-            style={{ width: "100%", height: 200, left: 150 }}
-            size={100}
-            color="#aaa"
+          <Image
+            source={require("../Assets/uploadImage.png")}
+            style={styles.image}
+            resizeMode="cover"
           />
         )}
-        <View style={imageUploaderStyles.uploadBtnContainer}>
-          <TouchableOpacity
-            onPress={addImage}
-            style={imageUploaderStyles.uploadBtn}
-          >
-            <Text>{image ? "Edit" : "Upload"} Image</Text>
-            <AntDesign name="camera" size={20} color="black" />
-          </TouchableOpacity>
-        </View>
       </View>
-    </View>
+
+      <TouchableOpacity style={styles.uploadButton} onPress={addImage}>
+        <Text>{image ? "Edit" : "Upload"} Image</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
-const imageUploaderStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  selectedColorsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    marginHorizontal: 25,
-    marginBottom: 20,
-    paddingTop: 60,
-    // backgroundColor: "black"
-  },
-  selectedColorContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 5,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: "lightgray",
-  },
-  selectedColorName: {
-    marginLeft: 10,
-  },
-  removeColorButton: {
-    marginLeft: "auto",
+const styles = StyleSheet.create({
+  imageContainer: {
+    marginTop: 90,
+    width: "90%",
+    height: 300,
+    alignSelf: "center",
+    position: "relative",
   },
   image: {
     width: "100%",
-    height: 100,
+    height: "100%",
   },
-  uploadBtnContainer: {
+  cancelIcon: {
     position: "absolute",
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    width: "100%",
-    padding: 5,
-  },
-  uploadBtn: {
-    flexDirection: "row",
+    top: 10,
+    right: 10,
+    backgroundColor: "#9E38A9",
+    borderRadius: 20,
+    width: 24,
+    height: 24,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
   },
-  uploadBtnText: {
-    marginLeft: 10,
-    fontSize: 16,
+  uploadButton: {
+    backgroundColor: "#E576F2",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginTop: 20,
+    alignSelf: "center",
+    justifyContent: "center",
   },
-  formwrapper: {
-    flex: 1,
-    margin: 50,
-    justifyContent: "flex-end",
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 5,
+  uploadButtonText: {
+    color: "black",
+    fontWeight: "bold",
   },
 });
