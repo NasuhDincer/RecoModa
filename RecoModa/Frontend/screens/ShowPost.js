@@ -100,15 +100,19 @@ const ShowPost = ( {route}) => {
   const [showAll, setShowAll] = useState(false);
   const { postId } = route.params;
   const [userName, setUserName] = useState({});
+  const [similar, setSimilar] = useState([]);
+
   console.log("PostId: ", postId._id);
   console.log("Keys are: ", Object.keys(postId))
   useEffect(() => {
     handleSubmit();
-     
+    handleLike();
+    handleSimilar();
+    console.log(similar)
    }, []);
   
   const handleSubmit = async () => { 
-    const ipv4Address = "192.168.1.2";
+    const ipv4Address = "192.168.1.8";
     const res = await axios.get(
       "http://" + ipv4Address + `:5000/api/media/media/${postId.mediaId}`
     );
@@ -122,6 +126,26 @@ const ShowPost = ( {route}) => {
   
   const handleLike = (postId) => {
     console.log(`Liked post ${postId}`);
+    //similar.push(postId)
+    //setSimilar(similar)
+    console.log("similar : ", similar)
+  };
+
+  const handleSimilar = async () => {
+    const ipv4Address = "192.168.1.8";
+    const res = await axios.get(
+      "http://" + ipv4Address + `:5000/api/post/findSimilar/${postId._id}`
+    );
+    console.log("SİMİLAR ARRAY : ", res.data)
+    console.log(typeof(res.data))
+    //setSimilar(res.data)
+    const res2 = await axios.get(
+      "http://" + ipv4Address + `:5000/api/post/post/${res.data[0]}`
+    );
+    console.log(Object.keys(res2))
+    //console.log("SİMİLAR POST : ", res2.data)
+    similar.push(res2.data)
+    setSimilar(similar)
   };
 
   return (
@@ -129,6 +153,25 @@ const ShowPost = ( {route}) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>DISCOVER</Text>
       </View>
+      <View  style={styles.postContainer}>
+                <View style={styles.postHeader}>
+                  <Image style={styles.profileImage} />
+                  <Text>{JSON.stringify(userName).replace(/\s/g, '')}</Text>
+                </View>
+                <Image source={{ uri: `data:image/png;base64,${postId.img[0].data}` }} style={styles.postImage} />
+                <View style={styles.actions}>
+                  <TouchableOpacity>
+                    <MaterialIcons
+                      name={"favorite"}
+                      size={24}
+                      color={"red" }
+                    />
+                  </TouchableOpacity>
+                </View>
+                <ScrollView style={styles.commentsContainer}>
+                  
+                </ScrollView>
+              </View>
       <ScrollView style={styles.postList}>
         {posts.map((post, index) => {
           if (index < 1 || showAll) {

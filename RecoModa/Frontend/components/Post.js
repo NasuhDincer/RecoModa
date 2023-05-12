@@ -15,7 +15,7 @@ const Post = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = "192.168.1.8";
       //console.log("post : ",props.post.mediaId)
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`
@@ -27,6 +27,32 @@ const Post = (props) => {
       );
       //console.log(res2.data.username)
       setData(res2.data.username);
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+
+    //props.navigation.navigate("Home")
+  };
+
+  const handleLike = async () => {
+    
+    try {
+      const ipv4Address = "192.168.1.8";
+      console.log("like : ")
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+      );
+      const res2 = await axios.put(
+        "http://" + ipv4Address + `:5000/api/media//addLike/${res.data[0]._id}`, {postId : props.post._id}
+      );
+      console.log(res2.data);
+      //setData(res.data.userId);
+      /*const res2 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
+      );
+      //console.log(res2.data.username)
+      setData(res2.data.username);*/
     } catch (error) {
       // handle error response
       console.log(error);
@@ -108,9 +134,11 @@ return (<>
       </Text>
       <TouchableOpacity
         style={{ width: "100%", height: "40%", paddingTop: "5%" }}
+        onPress = {handleLike}
       >
         <Image
           source={require("../Assets/like.png")}
+          
           style={{
             height: "100%",
             aspectRatio: 1,

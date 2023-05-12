@@ -34,7 +34,7 @@ const Profile = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = "192.168.1.8";
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
       );
@@ -49,7 +49,7 @@ const Profile = (props) => {
 
   const handleFollowers = async () => {
     try{
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = "192.168.1.8";
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
@@ -128,7 +128,7 @@ const Profile = (props) => {
         <View style={styles.postsContainer}>
           <View style={styles.postsRow}>     
           {
-           
+
               posts.map((item) => (<TouchableOpacity
               postDetail ={item}
               key={item._id}
