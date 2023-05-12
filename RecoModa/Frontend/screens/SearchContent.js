@@ -42,7 +42,7 @@ const SearchContent = ({ setShowCamera }) => {
         }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate("ShowPost")}>
+          <TouchableOpacity onPress={() => navigation.navigate("ShowPost", {postId: item})}>
             <Imaa imaa = {item}></Imaa>
           </TouchableOpacity>
         )}

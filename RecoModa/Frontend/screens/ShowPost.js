@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import axios from "axios";
 const posts = [
   {
     id: 1,
@@ -94,9 +95,31 @@ const posts = [
     ],
   },
 ];
-const ShowPost = () => {
+const ShowPost = ( {route}) => {
+  console.log("promppss ", route  )
   const [showAll, setShowAll] = useState(false);
-
+  const { postId } = route.params;
+  const [userName, setUserName] = useState({});
+  console.log("PostId: ", postId._id);
+  console.log("Keys are: ", Object.keys(postId))
+  useEffect(() => {
+    handleSubmit();
+     
+   }, []);
+  
+  const handleSubmit = async () => { 
+    const ipv4Address = "192.168.1.2";
+    const res = await axios.get(
+      "http://" + ipv4Address + `:5000/api/media/media/${postId.mediaId}`
+    );
+    //console.log(res2.data.username)
+    console.log("Hhehe ", res.data);
+    const res2 = await axios.get(
+      "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
+    );
+    setUserName(res2.data.username);
+  };
+  
   const handleLike = (postId) => {
     console.log(`Liked post ${postId}`);
   };
@@ -108,14 +131,14 @@ const ShowPost = () => {
       </View>
       <ScrollView style={styles.postList}>
         {posts.map((post, index) => {
-          if (index < 3 || showAll) {
+          if (index < 1 || showAll) {
             return (
               <View key={post.id} style={styles.postContainer}>
                 <View style={styles.postHeader}>
                   <Image source={post.imagePath} style={styles.profileImage} />
-                  <Text style={styles.username}>Username</Text>
+                  <Text>{JSON.stringify(userName).replace(/\s/g, '')}</Text>
                 </View>
-                <Image source={post.imagePath} style={styles.postImage} />
+                <Image source={{ uri: `data:image/png;base64,${postId.img[0].data}` }} style={styles.postImage} />
                 <View style={styles.actions}>
                   <TouchableOpacity onPress={() => handleLike(post.id)}>
                     <MaterialIcons
@@ -128,7 +151,7 @@ const ShowPost = () => {
                 <ScrollView style={styles.commentsContainer}>
                   {post.comments.map((comment) => (
                     <Text key={comment.id} style={styles.comment}>
-                      {comment.comment}
+                      {postId.commentList}
                     </Text>
                   ))}
                 </ScrollView>
@@ -183,6 +206,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 8,
+    
   },
   profileImage: {
     width: 32,
@@ -225,3 +249,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+
