@@ -185,7 +185,7 @@ const Home = (props) => {
             textAlign: "center",
             justifyContent: "flex-end",
             marginLeft: 120,
-            color: "#2E9B3D",
+            color: "black",
             fontStyle: "Lucida Handwriting"
           }}
         >

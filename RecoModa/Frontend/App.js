@@ -48,7 +48,7 @@ const UserScreens = () => {
             iconName = "search";
           } else if (route.name === "upload") {
             iconName = "file-upload";
-          } else if (route.name === "likedpost") {
+          } else if (route.name === "wishlist") {
             iconName = "add-shopping-cart";
           } else if (route.name === "profile") {
             iconName = "person";
@@ -68,7 +68,7 @@ const UserScreens = () => {
       <Tabs.Screen name="home" component={Home} />
       <Tabs.Screen name="search" component={Search} />
       <Tabs.Screen name="upload" component={UploadImage} />
-      <Tabs.Screen name="likedpost" component={Likedpost} />
+      <Tabs.Screen name="wishlist" component={Likedpost} />
       <Tabs.Screen name="profile" component={Profile} />
     </Tabs.Navigator>
   );
