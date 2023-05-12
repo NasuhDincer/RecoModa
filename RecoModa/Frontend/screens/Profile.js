@@ -128,6 +128,7 @@ const Profile = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.postsContainer}>
+<<<<<<< HEAD
 
 
           <View style={styles.postsRow}>
@@ -147,6 +148,21 @@ const Profile = (props) => {
                 />
               </TouchableOpacity>))
 
+=======
+          <View style={styles.postsRow}>     
+          {
+
+              posts.map((item) => (<TouchableOpacity
+              postDetail ={item}
+              key={item._id}
+              onPress={() => navigation.navigate("MyPost")}
+            >
+              <Image
+                style={styles.postImage}
+                source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
+              />
+            </TouchableOpacity> ))
+>>>>>>> 0bfa830ac5a71ea58aa8aeabeb36f717b731a40b
             }
           </View>
 

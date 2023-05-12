@@ -349,9 +349,9 @@ router.get("/findSimilar/:id", async (req, res) => {
     let pyshell = new PythonShell("recoSimilar.py", options);
     pyshell.on("message", function (message) {
       console.log(message);
-      output = message;
+      output = message.replace(/'/g, '"');
       console.log(output);
-      res.status(200).json(output);
+      res.status(200).json(JSON.parse(output));
     });
   } catch (err) {
     res.status(500).json(err);
