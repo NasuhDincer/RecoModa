@@ -84,7 +84,7 @@ const Profile = (props) => {
       <View
         style={{
           width: "100%",
-          height: "7%",
+          height: "8%",
           paddingHorizontal: "5%",
           flexDirection: "row",
           justifyContent: "flex-end",
@@ -95,7 +95,7 @@ const Profile = (props) => {
         <TouchableOpacity
           onPress={() => navigation.navigate("Settings")}
         >
-          <MaterialIcons name="settings" size={36} color="black" />
+          <MaterialIcons name="settings" size={36} color="black" style={styles.settingsButton}/>
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
@@ -106,7 +106,7 @@ const Profile = (props) => {
           />
           <View style={styles.stats}>
             <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-              <Text style={styles.stat}>Username: {user.user.username}</Text>
+              <Text style={styles.stat}> {user.user.username}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("FollowersPage")}>
               <Text style={styles.stat}>Followers: {followers}</Text>
@@ -127,6 +127,7 @@ const Profile = (props) => {
             <MaterialIcons name="bookmark" size={36} color="black" />
           </TouchableOpacity>
         </View>
+        <ScrollView style={styles.Scrollcontainer}>
         <View style={styles.postsContainer}>
           {posts.map((item, index) => (
             <TouchableOpacity
@@ -140,9 +141,9 @@ const Profile = (props) => {
                 source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
               />
             </TouchableOpacity>
-  ))}
-</View>
-
+            ))}
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView >
   );
@@ -170,21 +171,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingTop: -20
     
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 20,
+    marginLeft: 10,
+    marginBottom: 10,
+ 
   },
   profileImage: {
     width: 80,
     height: 80,
     borderRadius: 40,
+    
   },
   settingsButton: {
-    padding: 10,
+   marginTop: 15,
   },
   stats: {
     flexDirection: "row",
@@ -225,7 +230,11 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 200,
     marginBottom: 10,
-    marginHorizontal: "35%"
+    marginHorizontal: "35%",
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+
   },
   postsContainer: {
     flexDirection: 'row',
@@ -234,15 +243,31 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   firstPostItem: {
-    flexBasis: '30%',
+    flexBasis: '42%',
     marginVertical: 10,
+    //backgroundColor: "black",
+    // margin: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    padding: 10,
+    //marginLeft: 10,
   },
   postItem: {
-    flexBasis: '30%',
+    flexBasis: '42%',
     marginVertical: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    // margin: 10,
+    padding: 10,
+   // marginRight: 10,
   },
   postImage: {
     width: '100%',
     aspectRatio: 1,
   },
+  Scrollcontainer:{
+    flex: 1,
+  }
 });
