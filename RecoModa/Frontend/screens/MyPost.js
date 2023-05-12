@@ -1,5 +1,6 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import React, { Component } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import {
   Dimensions,
   FlatList,
@@ -13,25 +14,30 @@ import {
 } from "react-native";
 
 const MyPost = (props) => {
-  getPersonalData = () => {};
+  const user = useSelector((state) => state.user.currentUser);
+  
+  const [posts, setPosts] = useState([]);
+ 
+  useEffect(() => {
+    // this function will be called after the component is mounted or updated
+    handleSubmit();
+    console.log("userId : ", user.user._id);
+  }, []);
 
-  const postData = [
-    {
-      title: "Beautiful Mountain View",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare libero sed dolor placerat, at mattis nisi egestas. Pellentesque pulvinar nunc sapien, in pretium est molestie ac. ",
-    },
-    {
-      title: "Road Through Trees",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare libero sed dolor placerat, at mattis nisi egestas. Pellentesque pulvinar nunc sapien, in pretium est molestie ac. ",
-    },
-    {
-      title: "Autumn Leaves",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare libero sed dolor placerat, at mattis nisi egestas. Pellentesque pulvinar nunc sapien, in pretium est molestie ac. ",
-    },
-  ];
+  const handleSubmit = async () => {
+    try {
+      const ipv4Address = "192.168.1.8";
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
+      );
+      console.log(res.data);
+      setMediaProfile(res.data);
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+    //props.navigation.navigate("Home")
+  };
   return (
     <View
       style={{
@@ -85,7 +91,7 @@ const MyPost = (props) => {
       </View>
       <View style={{ width: "100%", height: "60%" }}>
         <Image
-          source={require("../Assets/logoicon.png")}
+          source={{ uri: `data:image/png;base64,${props.postDetail.img[0].data}` }}
           style={{
             width: "100%",
             height: undefined,

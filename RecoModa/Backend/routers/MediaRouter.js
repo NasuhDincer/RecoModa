@@ -73,11 +73,12 @@ router.put("/addLike/:id", async (req, res) => {
   //console.log(req.body);
   // console.log(req.params.id)
   try {
-    const media = await Media.find({userId : req.params.id});
+    const media = await Media.findById(req.params.id);
     console.log(media);
     var isLike = true;
     var likeArr = media.favoritePostList;
-    console.log(req.body.postId);
+    console.log("post id : ",req.body.postId);
+    console.log("likeArr : ",media.favoritePostList);
     likeArr.forEach((element) => {
       if (element == req.body.postId) isLike = false;
     });

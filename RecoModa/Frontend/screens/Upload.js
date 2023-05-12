@@ -63,11 +63,11 @@ const NewPost = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         {image ? (
-          <Image source={{ uri: image }} style={{ width: '100%', height: 200 }} />
+          <Image source={{ uri: image }} style={{ width: '100%', height: 200}} />
         ) : (
-          <Button title="Pick an image from gallery" onPress={pickImage} />
+          <Button title="Pick an image from gallery" onPress={pickImage} style={{ backgroundColor: "black"}}/>
         )}
         {showCamera && (
           <Camera
@@ -115,27 +115,37 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+      paddingHorizontal: 20,
     },
-    input: {
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1,
-      margin: 10,
-      padding: 10,
+    imageContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    image: {
+      width: '100%',
+      height: 200,
+    },
+    camera: {
+      flex: 1,
     },
     button: {
-      backgroundColor: 'blue',
-      padding: 10,
-      borderRadius: 5,
-      marginTop: 20,
+      marginVertical: 10,
+      // backgroundColor: "black"
     },
-    buttonText: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
+    formContainer: {
+      flex: 1,
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10,
+      
     },
   });
+  
 
 export default NewPost;

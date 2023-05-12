@@ -20,7 +20,7 @@ const SearchContent = ({ setShowCamera }) => {
   const handleSubmit = async () => {
     try {
       console.log("There bb");
-      const ipv4Address = "192.168.1.2";
+      const ipv4Address = "192.168.1.8";
       const res = await axios.get(`http://${ipv4Address}:5000/api/post/`);
       console.log(Object.keys(res.data))
       console.log(Object.keys(res.data[0]))

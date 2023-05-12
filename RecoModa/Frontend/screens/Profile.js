@@ -128,7 +128,7 @@ const Profile = (props) => {
         <View style={styles.postsContainer}>
           <View style={styles.postsRow}>     
           {
-           
+
               posts.map((item) => (<TouchableOpacity
               postDetail ={item}
               key={item._id}
