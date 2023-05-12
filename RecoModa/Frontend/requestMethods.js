@@ -1,5 +1,7 @@
 import axios from "axios";
-const ipv4Address = "192.168.0.12";
+import rawipv4 from "./ipv4.json";
+
+const ipv4Address = rawipv4["ip"];
 const BASE_URL = "http://"+ipv4Address+":5000/api/";
 // const TOKEN =
 //   JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser

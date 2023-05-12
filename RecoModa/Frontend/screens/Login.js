@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 import RegisterScreen from "./RegisterScreen";
+import rawipv4 from "../ipv4.json";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -28,7 +29,7 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = rawipv4["ip"];
       login(dispatch, { email, password } , navigation);
       //dispatch(logout())
       console.log("user : " , user)

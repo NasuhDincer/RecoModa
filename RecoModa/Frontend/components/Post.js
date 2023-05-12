@@ -2,6 +2,8 @@ import React, { Component, useEffect,useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import rawipv4 from "../ipv4.json";
+
 
 const Post = (props) => {
   const [data, setData] = useState({});
@@ -15,7 +17,7 @@ const Post = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = rawipv4["ip"];
       //console.log("post : ",props.post.mediaId)
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`

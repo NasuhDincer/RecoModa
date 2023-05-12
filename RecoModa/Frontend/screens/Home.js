@@ -137,6 +137,7 @@ import {
   Image,
 } from "react-native";
 import Post from "../components/Post";
+import rawipv4 from "../ipv4.json";
 
 const Home = (props) => {
   const [data, setData] = useState({});
@@ -150,7 +151,7 @@ const Home = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/post/"
       );

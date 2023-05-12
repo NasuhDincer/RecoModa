@@ -6,6 +6,7 @@ import ImageComp from "./ImageComp";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Imaa from "../components/GetImages";
+import rawipv4 from "../ipv4.json";
 
 const SearchContent = ({ setShowCamera }) => {
   const navigation = useNavigation();
@@ -20,7 +21,8 @@ const SearchContent = ({ setShowCamera }) => {
   const handleSubmit = async () => {
     try {
       console.log("There bb");
-      const ipv4Address = "192.168.1.2";
+      const ipv4Address = rawipv4["ip"];
+      console.log(ipv4Address);
       const res = await axios.get(`http://${ipv4Address}:5000/api/post/`);
       console.log(Object.keys(res.data))
       console.log(Object.keys(res.data[0]))

@@ -15,6 +15,8 @@ import {
   Image,
 } from "react-native";
 import Post from "../components/Post";
+import rawipv4 from "../ipv4.json";
+
 const Profile = (props) => {
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
@@ -34,7 +36,7 @@ const Profile = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
       );
@@ -48,8 +50,8 @@ const Profile = (props) => {
   };
 
   const handleFollowers = async () => {
-    try{
-      const ipv4Address = "192.168.0.12";
+    try {
+      const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
@@ -57,13 +59,13 @@ const Profile = (props) => {
       //setMedia(res.data[0])
       //const obj = JSON.parse(res.data);
       var follower = 0;
-     
+
       //console.log("follower :", media.followerList.length)
-      setFollowers( res.data[0].followerList.length)
-      var followed  = 0;
+      setFollowers(res.data[0].followerList.length)
+      var followed = 0;
 
       //console.log("followerd :", media.followedList.length)
-      setFollowing( res.data[0].followedList.length)
+      setFollowing(res.data[0].followedList.length)
 
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/allPosts/${res.data[0]._id}`
@@ -72,7 +74,7 @@ const Profile = (props) => {
       console.log("Hehehe", res2.data[0].description)
       setPosts(res2.data)
 
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -126,25 +128,31 @@ const Profile = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.postsContainer}>
-          <View style={styles.postsRow}>     
-          {
-           
-              posts.map((item) => (<TouchableOpacity
-              postDetail ={item}
-              key={item._id}
-              onPress={() => navigation.navigate("MyPost")}
-            >
-              <Image
-                style={styles.postImage}
-                source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
-              />
-            </TouchableOpacity> ))
+
+
+          <View style={styles.postsRow}>
+            {
+
+                posts.map((item, index) =>
+                (<TouchableOpacity
+                postDetail={item}
+                key={item._id}
+                onPress={() => navigation.navigate("MyPost")}
+                style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
+
+              >
+                <Image
+                  style={styles.postImage}
+                  source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
+                />
+              </TouchableOpacity>))
+
             }
           </View>
-       
+
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 export default Profile;
@@ -214,12 +222,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   postsRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    marginVertical: "5%",
   },
   postImage: {
-    width: 70,
-    height: 70,
+    width: "30%",
+    height: 200,
+    marginBottom: 10,
+    marginHorizontal: "35%"
   },
+  firstPostItem: {
+    flexBasis: '30%',
+    marginVertical: 10,
+  },
+  postItem: {
+    flexBasis: '30%',
+    marginVertical: 10,
+  },
+
 });
