@@ -128,29 +128,21 @@ const Profile = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.postsContainer}>
+          {posts.map((item, index) => (
+            <TouchableOpacity
+              postDetail={item}
+              key={item._id}
+              onPress={() => navigation.navigate("Settings")}
+              style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
+            >
+              <Image
+                style={styles.postImage}
+                source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
+              />
+            </TouchableOpacity>
+  ))}
+</View>
 
-
-          <View style={styles.postsRow}>
-            {
-
-                posts.map((item, index) =>
-                (<TouchableOpacity
-                postDetail={item}
-                key={item._id}
-                onPress={() => navigation.navigate("MyPost")}
-                style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
-
-              >
-                <Image
-                  style={styles.postImage}
-                  source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
-                />
-              </TouchableOpacity>))
-
-            }
-          </View>
-
-        </View>
       </View>
     </SafeAreaView >
   );
@@ -167,6 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    
   },
   list: {
     width: "100%",
@@ -177,6 +170,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    
   },
   header: {
     flexDirection: "row",
@@ -222,15 +216,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   postsRow: {
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    marginVertical: "5%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 10,
+
   },
   postImage: {
     width: "30%",
     height: 200,
     marginBottom: 10,
     marginHorizontal: "35%"
+  },
+  postsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
   firstPostItem: {
     flexBasis: '30%',
@@ -240,5 +241,8 @@ const styles = StyleSheet.create({
     flexBasis: '30%',
     marginVertical: 10,
   },
-
+  postImage: {
+    width: '100%',
+    aspectRatio: 1,
+  },
 });
