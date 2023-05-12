@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
+import rawipv4 from "../ipv4.json";
+
 const posts = [
   {
     id: 1,
@@ -112,7 +114,7 @@ const ShowPost = ( {route}) => {
    }, []);
   
   const handleSubmit = async () => { 
-    const ipv4Address = "192.168.1.8";
+    const ipv4Address = rawipv4["ip"];
     const res = await axios.get(
       "http://" + ipv4Address + `:5000/api/media/media/${postId.mediaId}`
     );
@@ -132,7 +134,7 @@ const ShowPost = ( {route}) => {
   };
 
   const handleSimilar = async () => {
-    const ipv4Address = "192.168.1.8";
+    const ipv4Address = rawipv4["ip"];
     const res = await axios.get(
       "http://" + ipv4Address + `:5000/api/post/findSimilar/${postId._id}`
     );

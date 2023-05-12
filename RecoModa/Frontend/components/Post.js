@@ -40,7 +40,7 @@ const Post = (props) => {
   const handleLike = async () => {
     
     try {
-      const ipv4Address = "192.168.0.12";
+      const ipv4Address = rawipv4["ip"];
       console.log("like : ")
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
