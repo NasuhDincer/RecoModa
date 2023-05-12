@@ -28,7 +28,7 @@ const Login = (props) => {
     event.preventDefault();
 
     try {
-      const ipv4Address = "192.168.1.2";
+      const ipv4Address = "192.168.0.12";
       login(dispatch, { email, password } , navigation);
       //dispatch(logout())
       console.log("user : " , user)

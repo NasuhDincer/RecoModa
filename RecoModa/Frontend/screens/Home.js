@@ -134,6 +134,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from "react-native";
 import Post from "../components/Post";
 
@@ -149,7 +150,7 @@ const Home = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.1.2";
+      const ipv4Address = "192.168.0.12";
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/post/"
       );
@@ -164,7 +165,8 @@ const Home = (props) => {
   };
 
   return (
-    <SafeAreaView style={{ width: "100%", height: "100%" }}>
+    <SafeAreaView style={{ width: "100%", height: "100%", backgroundColor: "#FCDEFF"}}>
+     {/* <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} /> */}
       <View
         style={{
           width: "100%",
@@ -181,6 +183,10 @@ const Home = (props) => {
             fontWeight: "bold",
             marginTop: "5%",
             textAlign: "center",
+            justifyContent: "flex-end",
+            marginLeft: 120,
+            color: "#2E9B3D",
+            fontStyle: "Lucida Handwriting"
           }}
         >
           RecoModa
@@ -232,5 +238,12 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginTop: 10,
+  },
+  bgImage: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
   },
 });

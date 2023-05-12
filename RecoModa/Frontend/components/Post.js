@@ -15,7 +15,7 @@ const Post = (props) => {
   const handleSubmit = async () => {
     
     try {
-      const ipv4Address = "192.168.1.2";
+      const ipv4Address = "192.168.0.12";
       //console.log("post : ",props.post.mediaId)
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`
@@ -38,10 +38,15 @@ return (<>
   <View
     style={{
       padding: "2%",
-      width: `100%`,
+      width: `90%`,
       height: undefined,
       aspectRatio: 1,
       marginBottom: "5%",
+      backgroundColor: "white",
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: 'black',
+      margin: 20,
     }}
   >
     <View
@@ -51,6 +56,7 @@ return (<>
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        // backgroundColor: "black",
       }}
     >
       <View
