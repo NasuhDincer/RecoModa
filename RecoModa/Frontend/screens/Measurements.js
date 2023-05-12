@@ -1,143 +1,186 @@
-import React, { Component } from "react";
-import InputSpinner from "react-native-input-spinner";
-import Styles from "./Styles";
-import {
-  Dimensions,
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from "react-native";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from "@react-navigation/native";
 
-export default class Measurements extends Component {
-  constructor(props) {
-    super(props);
-    let data = [];
-    for (var i = 0; i < 10; i++) {
-      data.push({
-        key: String(i),
-        value: Math.floor(Math.random() * 100) + 1,
-      });
+
+const Measurements = () => {
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [gender, setGender] = useState('');
+  const [clothingSize, setClothingSize] = useState([]);
+  const [shoeSize, setShoeSize] = useState('');
+  const navigation = useNavigation(); // Use the useNavigation hook
+
+  const handleRegister = () => {
+    // handle registration logic
+  };
+
+  const handleWeightChange = (value) => {
+    setWeight(value);
+  }
+
+  const handleHeightChange = (value) => {
+    setHeight(value);
+  }
+
+  const handleClothingSizeChange = (itemValue, itemIndex) => {
+    if (clothingSize.includes(itemValue)) {
+      setClothingSize(clothingSize.filter(value => value !== itemValue));
+    } else {
+      setClothingSize([...clothingSize, itemValue]);
     }
-    this.state = {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-      search: "",
-      value: 1,
-      valueReal: 1.5,
-      colorLeft: this.getRandomColor(),
-      colorRight: this.getRandomColor(),
-      data: data,
-    };
-    this._isMounted = false;
+  };
+
+  const handleShoeChange = (value) => {
+    setShoeSize(value);
   }
 
-  getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
-  getPersonalData = () => {};
-
-  render() {
-    return (
-      <SafeAreaView style={Styles.mainContainer}>
-        <ScrollView style={Styles.container}>
-          <Text style={Styles.title}>Measurements</Text>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Height</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={120}
-              max={225}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Weight</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={35}
-              max={300}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Waist Circumference</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Neck Width</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Hip Circumference</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Shoulder Width</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Chest Circumference</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Leg Length</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-          <View style={Styles.col}>
-            <Text style={Styles.text}>Foot Size</Text>
-            <InputSpinner
-              value={this.state.value}
-              style={Styles.spinner}
-              min={0}
-              max={3}
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Update Your Measures</Text>
+      <View style={styles.field}>
+        <Text style={styles.label}>Weight (kg)</Text>
+        <TextInput style={styles.textinputlabel}
+          placeholder='0'
+          keyboardType="numeric"
+          value={weight}
+          onChangeText={handleWeightChange}
+        />
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Height (cm)</Text>
+        <TextInput style={styles.textinputlabel}
+          placeholder='0'
+          keyboardType="numeric"
+          value={height}
+          onChangeText={handleHeightChange}
+        />
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Gender</Text>
+        <Picker
+          style={styles.picker}
+          selectedValue={gender}
+          onValueChange={(itemValue) => setGender(itemValue)}
+        >
+          <Picker.Item label="" value="" />
+          <Picker.Item label="Male" value="male" />
+          <Picker.Item label="Female" value="female" />
+          <Picker.Item label="Other" value="other" />
+        </Picker>
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Clothing Size</Text>
+        <Text style={styles.value}>{clothingSize.join(', ')}</Text>
+        <Picker
+          style={styles.picker}
+          selectedValue={clothingSize}
+          onValueChange={handleClothingSizeChange}
+          mode="dropdown"
+          multiple={true}
+        >
+          <Picker.Item label="" value="" />
+          <Picker.Item label="XS" value="xs" />
+          <Picker.Item label="S" value="s" />
+          <Picker.Item label="M" value="m" />
+          <Picker.Item label="L" value="l" />
+          <Picker.Item label="XL" value="xl" />
+          <Picker.Item label="XXL" value="xl" />
+          <Picker.Item label="XXXL" value="xl" />
+        </Picker>
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Shoe size</Text>
+        <TextInput style={styles.textinputlabel}
+          placeholder='0'
+          keyboardType="numeric"
+          value={shoeSize}
+          onChangeText={handleShoeChange}
+        />
+      </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("")}
+        style={[styles.buttonContainer, styles.registerButton]}
+      >
+        <Text style={styles.btnText}>{"Update"}</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  field: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  label: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginRight: 10,
+  },
+  picker: {
+    flex: 2,
+    height: 50,
+    width: '100%',
+  },
+  TextInput: {
+    flex: 2,
+    height: 50,
+    width: '100%',
+  },
+  bgImage: {
+      flex: 1,
+      position: "absolute",
+      width: "120%",
+      height: "100%",
+      justifyContent: "center",
+    },
+    buttonContainer: {
+      height: 45,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 20,
+      width: 300,
+      borderRadius: 30,
+      backgroundColor: "transparent",
+    },
+    registerButton: {
+      backgroundColor: "#00b5ec",
+  
+      shadowColor: "#808080",
+      shadowOffset: {
+        width: 0,
+        height: 9,
+      },
+      shadowOpacity: 0.5,
+      shadowRadius: 12.35,
+  
+      elevation: 19,
+    },
+    textinputlabel: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+      marginRight: 10,
+    },
+    
+});
+
+
+export default Measurements;
