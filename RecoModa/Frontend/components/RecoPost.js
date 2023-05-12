@@ -127,6 +127,7 @@ return (<>
     </View>
     <View style={{ width: "100%", height: "60%" }}>
       <Image
+        source={{ uri: `data:image/png;base64,${post.img[0].data}` }}
         style={{
           width: "100%",
           height: undefined,
