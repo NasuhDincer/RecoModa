@@ -151,11 +151,7 @@ const Home = (props) => {
   const handleSubmit = async () => {
     
     try {
-<<<<<<< HEAD
       const ipv4Address = rawipv4["ip"];
-=======
-      const ipv4Address = "192.168.1.8";
->>>>>>> 0bfa830ac5a71ea58aa8aeabeb36f717b731a40b
       const res = await axios.get(
         "http://" + ipv4Address + ":5000/api/post/"
       );
