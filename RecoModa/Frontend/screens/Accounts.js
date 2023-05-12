@@ -33,7 +33,11 @@ const Accounts = () => {
       <Text style={styles.title}>ACCOUNTS</Text>
       <View style={styles.contentContainer}>
         <View style={styles.iconContainer}>
-          {image && <Image source={{ uri: image }} style={styles.icon} />}
+          {image ? (
+            <Image source={{ uri: image }} style={styles.icon} />
+          ) : (
+            <Ionic name="person-circle-outline" size={100} color="#aaa" />
+          )}
           <TouchableOpacity onPress={addImage}>
             <Text style={styles.iconText}>Change Your Profile Picture</Text>
           </TouchableOpacity>
