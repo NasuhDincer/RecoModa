@@ -8,6 +8,7 @@ import {
   ScrollView,
   Button,
   TextInput,
+  CheckBox,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -59,31 +60,52 @@ const bodySizes = [
 const categories = [
   {
     id: 1,
-    name: "bottom clothing",
+    name: "Top Wear",
   },
   {
     id: 2,
-    name: "top clothing",
+    name: "Bottom Wear",
   },
   {
     id: 3,
-    name: "outerwear",
+    name: "Shoes",
   },
   {
     id: 4,
-    name: "footwear",
-  },
-  {
-    id: 5,
-    name: "casual",
-  },
-  {
-    id: 6,
-    name: "sport",
+    name: "Accessories",
   },
 ];
+const MAX_DESCRIPTION_WORDS = 50;
 export default function UploadImage() {
   const [image, setImage] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [category, setCategory] = useState();
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [selectedColorId, setSelectedColorId] = useState();
+  const [selectedSizeId, setSelectedSizeId] = useState();
+  const [selectedBrandId, setSelectedBrandId] = useState();
+  const [selectedCategoryId, setSelectedCategoryId] = useState();
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [selectedSize, setSelectedSize] = useState();
+  const [inStock, setInStock] = useState(false);
+
+  const removeImage = () => {
+    setImage(null);
+  };
+  const handleColorPress = (color) => {
+    const isColorSelected = selectedColors.some((c) => c.id === color.id);
+    if (!isColorSelected) {
+      setSelectedColors((prevSelectedColors) => [...prevSelectedColors, color]);
+    }
+  };
+
+  const handleColorRemove = (color) => {
+    setSelectedColors((prevSelectedColors) =>
+      prevSelectedColors.filter((c) => c.id !== color.id)
+    );
+  };
   const addImage = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -100,42 +122,297 @@ export default function UploadImage() {
     }
   };
 
-  const removeImage = () => {
-    setImage(null);
+  const handleBrandPress = (index) => {
+    const selectedBrand = brands.find((brand) => brand.id === index);
+    setSelectedBrand(selectedBrand);
   };
 
+  const handleBrandRemove = (brand) => {
+    setSelectedBrand(null);
+  };
+
+  const handleCategoryPress = (index) => {
+    const selectedCategory = categories.find(
+      (category) => category.id === index
+    );
+    setSelectedCategory(selectedCategory);
+  };
+
+  const handleCategoryRemove = (category) => {
+    setSelectedCategory(null);
+  };
+
+  const handlePrice = (value) => {
+    setPrice(value);
+    console.log(price);
+  };
+
+  const handleSizePress = (sizeId) => {
+    const selectedSize = bodySizes.find((size) => size.id === sizeId);
+    setSelectedSize(selectedSize);
+  };
+
+  const handleSizeRemove = (size) => {
+    setSelectedSize(null);
+  };
+
+  const onDescriptionChange = (value) => {
+    setDescription(value);
+  };
+
+  const getDescriptionWordCount = () => {
+    return description.trim().split(/\s+/).length;
+  };
+
+  const getRemainingWordsCount = () => {
+    return MAX_DESCRIPTION_WORDS - getDescriptionWordCount();
+  };
+
+  const handleStockChange = (value) => {
+    setInStock(value);
+  };
   return (
-    <ScrollView>
-      <View style={styles.imageContainer}>
-        {image ? (
-          <>
+    <View style={styles.container}>
+      <ScrollView>
+        <View style={styles.imageContainer}>
+          {image ? (
+            <>
+              <Image
+                source={{ uri: image }}
+                style={styles.image}
+                resizeMode="cover"
+              />
+              <TouchableOpacity style={styles.cancelIcon}>
+                <MaterialIcons
+                  name="cancel"
+                  onPress={removeImage}
+                  size={24}
+                  color="white"
+                />
+              </TouchableOpacity>
+            </>
+          ) : (
             <Image
-              source={{ uri: image }}
-              style={styles.image}
+              source={require("../Assets/uploadImage.png")}
+              style={styles.pngImage}
               resizeMode="cover"
             />
-            <TouchableOpacity style={styles.cancelIcon}>
-              <MaterialIcons
-                name="cancel"
-                onPress={removeImage}
-                size={24}
-                color="white"
-              />
-            </TouchableOpacity>
-          </>
-        ) : (
-          <Image
-            source={require("../Assets/uploadImage.png")}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        )}
-      </View>
-
-      <TouchableOpacity style={styles.uploadButton} onPress={addImage}>
-        <Text>{image ? "Edit" : "Upload"} Image</Text>
-      </TouchableOpacity>
-    </ScrollView>
+          )}
+        </View>
+        <TouchableOpacity style={styles.uploadButton} onPress={addImage}>
+          <Text>{image ? "Edit" : "Upload"} Image</Text>
+        </TouchableOpacity>
+        <View style={styles.colorContainer}>
+          <ScrollView horizontal>
+            {selectedColors.map((color) => (
+              <View key={color.id} style={styles.selectedColorsContainer}>
+                <Text style={styles.selectedColorName}>{color.name}</Text>
+                <TouchableOpacity
+                  style={styles.removeColorButton}
+                  onPress={() => handleColorRemove(color)}
+                >
+                  <Ionicons name="close" size={18} color="black" />
+                </TouchableOpacity>
+              </View>
+            ))}
+            {selectedBrand && (
+              <View style={styles.selectedColorsContainer}>
+                <Text style={styles.selectedColorName}>
+                  {selectedBrand.name}
+                </Text>
+                <TouchableOpacity
+                  style={styles.removeColorButton}
+                  onPress={() => handleBrandRemove(selectedBrand)}
+                >
+                  <Ionicons name="close" size={18} color="black" />
+                </TouchableOpacity>
+              </View>
+            )}
+            {selectedCategory && (
+              <View style={styles.selectedColorsContainer}>
+                <Text style={styles.selectedColorName}>
+                  {selectedCategory.name}
+                </Text>
+                <TouchableOpacity
+                  style={styles.removeColorButton}
+                  onPress={() => handleCategoryRemove(selectedCategory)}
+                >
+                  <Ionicons name="close" size={18} color="black" />
+                </TouchableOpacity>
+              </View>
+            )}
+            {selectedSize && (
+              <View style={styles.selectedColorsContainer}>
+                <Text style={styles.selectedColorName}>
+                  {selectedSize.name}
+                </Text>
+                <TouchableOpacity
+                  style={styles.removeColorButton}
+                  onPress={() => handleSizeRemove(selectedSize)}
+                >
+                  <Ionicons name="close" size={18} color="black" />
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+        <View style={styles.formwrapper}>
+          <View
+            style={{
+              borderRadius: 20,
+              backgroundColor: "#B0CFFF",
+              marginBottom: 10,
+            }}
+          >
+            <Picker
+              selectedValue={selectedBrandId}
+              onValueChange={handleBrandPress}
+              mode="dropdown"
+              style={{
+                marginHorizontal: 25,
+                borderRadius: 20,
+                borderWidth: 1,
+                borderColor: "black",
+              }}
+            >
+              <Picker.Item label="Select Brand..." value="" />
+              {brands.map((brand) => (
+                <Picker.Item
+                  key={brand.id}
+                  label={brand.name}
+                  value={brand.id}
+                />
+              ))}
+            </Picker>
+          </View>
+          <View
+            style={{
+              borderRadius: 20,
+              backgroundColor: "#B0CFFF",
+              marginBottom: 10,
+            }}
+          >
+            <Picker
+              selectedValue={selectedCategoryId}
+              onValueChange={handleCategoryPress}
+              mode="dropdown"
+              style={{
+                marginHorizontal: 25,
+                borderRadius: 10,
+                borderWidth: 2,
+                borderColor: "black",
+              }}
+            >
+              <Picker.Item label="Select Category..." value="" />
+              {categories.map((category) => (
+                <Picker.Item
+                  key={category.id}
+                  label={category.name}
+                  value={category.id}
+                />
+              ))}
+            </Picker>
+          </View>
+          <View
+            style={{
+              borderRadius: 20,
+              backgroundColor: "#B0CFFF",
+            }}
+          >
+            <Picker
+              selectedValue={selectedColorId}
+              onValueChange={(itemValue) => {
+                const selectedColor = colors.find(
+                  (color) => color.id === itemValue
+                );
+                handleColorPress(selectedColor);
+                setSelectedColorId(itemValue);
+              }}
+              mode="dropdown"
+              style={{
+                marginHorizontal: 25,
+                borderRadius: 10,
+                borderWidth: 2,
+                borderColor: "black",
+              }}
+            >
+              <Picker.Item label="Select Color..." value="" />
+              {colors.map((color) => (
+                <Picker.Item
+                  key={color.id}
+                  label={color.name}
+                  value={color.id}
+                />
+              ))}
+            </Picker>
+          </View>
+          <View
+            style={{
+              borderRadius: 20,
+              backgroundColor: "#B0CFFF",
+              marginTop: 10,
+            }}
+          >
+            <Picker
+              selectedValue={selectedSizeId}
+              onValueChange={(itemValue) => handleSizePress(itemValue)}
+              mode="dropdown"
+              style={{
+                marginHorizontal: 25,
+                borderRadius: 10,
+                borderWidth: 2,
+                borderColor: "black",
+              }}
+            >
+              <Picker.Item label="Select Size..." value="" />
+              {bodySizes.map((size) => (
+                <Picker.Item key={size.id} label={size.name} value={size.id} />
+              ))}
+            </Picker>
+          </View>
+          <View style={{ flexDirection: "row", margin: 20 }}>
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 18,
+                flex: 1,
+                fontWeight: "bold",
+                marginRight: 50,
+              }}
+            >
+              Price (TL):
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="0"
+              keyboardType="numeric"
+              value={price.toString()}
+              onChangeText={handlePrice}
+            />
+          </View>
+          <View style={styles.container}>
+            <TextInput
+              style={styles.input2}
+              placeholder="Description"
+              value={description}
+              onChangeText={onDescriptionChange}
+              multiline
+            />
+            <View style={styles.wordCountContainer}>
+              <Text
+                style={styles.wordCountText}
+              >{`${getRemainingWordsCount()} / ${MAX_DESCRIPTION_WORDS}`}</Text>
+            </View>
+          </View>
+          <Button title="Save" style={{ bottom: 45 }}></Button>
+          {/* <View style={styles.inStockContainer}>
+            <Text style={styles.inStockLabel}>In Stock:</Text>
+            <CheckBox value={inStock} onValueChange={handleStockChange} />
+          </View>
+            */}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -146,6 +423,20 @@ const styles = StyleSheet.create({
     height: 300,
     alignSelf: "center",
     position: "relative",
+  },
+
+  pngImage: {
+    margin: "15%",
+    width: "70%",
+    height: "78%",
+  },
+  colorContainer: {
+    height: "5%",
+    marginTop: 30,
+    width: "90%",
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
   },
   image: {
     width: "100%",
@@ -174,5 +465,75 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "black",
     fontWeight: "bold",
+  },
+  selectedColorsContainer: {
+    height: 45,
+    //width: 90,
+    paddingLeft: 5,
+    paddingRight: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    marginHorizontal: 5,
+    marginBottom: 10,
+    paddingTop: 10,
+    borderRadius: 10,
+    backgroundColor: "lightgray",
+    //backgroundColor: "black",
+  },
+  selectedColorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 5,
+    padding: 10,
+    borderRadius: 10,
+    //backgroundColor: "white",
+  },
+  selectedColorName: {
+    marginLeft: 10,
+    marginRight: 5,
+  },
+  removeColorButton: {
+    marginLeft: "auto",
+  },
+  formwrapper: {
+    flex: 1,
+    margin: 25,
+    justifyContent: "flex-end",
+  },
+  input: {
+    fontSize: 24,
+    keyboardType: "numeric",
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginTop: 15,
+    marginBottom: 20,
+    marginRight: 10,
+    marginLeft: 20,
+  },
+  input2: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    padding: 10,
+    height: 100,
+  },
+  wordCountContainer: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+  },
+  wordCountText: {
+    color: "#aaa",
+    fontSize: 12,
+  },
+  inStockContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  inStockLabel: {
+    marginRight: 10,
+    fontSize: 16,
   },
 });
