@@ -41,7 +41,7 @@ const RegisterMeasure = () => {
       <Text style={styles.title}>Enter Your Measures</Text>
       <View style={styles.field}>
         <Text style={styles.label}>Weight (kg)</Text>
-        <TextInput
+        <TextInput style={styles.textinputlabel}
             placeholder='0'
             keyboardType="numeric"
             value={weight}
@@ -50,7 +50,7 @@ const RegisterMeasure = () => {
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Height (cm)</Text>
-        <TextInput
+        <TextInput style={styles.textinputlabel}
             placeholder='0'
             keyboardType="numeric"
             value={height}
@@ -91,8 +91,8 @@ const RegisterMeasure = () => {
           </Picker>
       </View>
       <View style={styles.field}>
-        <Text style={styles.label}> Shoe size </Text>
-        <TextInput
+        <Text style={styles.label}>Shoe size </Text>
+        <TextInput style={styles.textinputlabel}
             placeholder='0'
             keyboardType="numeric"
             value={shoeSize}
@@ -173,6 +173,13 @@ const styles = StyleSheet.create({
     
         elevation: 19,
       },
+      textinputlabel: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        marginRight: 10,
+      },
+  
   });
   
 export default RegisterMeasure;
