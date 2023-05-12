@@ -15,27 +15,19 @@ import { useNavigation } from "@react-navigation/native";
 const category = [
   {
     id: 1,
-    name: "bottom clothing",
+    name: "Top Wear",
   },
   {
     id: 2,
-    name: "top clothing",
+    name: "Bottom Wear",
   },
   {
     id: 3,
-    name: "outerwear",
+    name: "Shoes",
   },
   {
     id: 4,
-    name: "footwear",
-  },
-  {
-    id: 5,
-    name: "casual",
-  },
-  {
-    id: 6,
-    name: "sport",
+    name: "Accessories",
   },
 ];
 
