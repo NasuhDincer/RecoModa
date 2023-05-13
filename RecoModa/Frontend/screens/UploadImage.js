@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -8,55 +8,13 @@ import {
   ScrollView,
   Button,
   TextInput,
-  CheckBox,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import Ionic from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-const colors = [
-  { id: 1, name: "Red", hex: "#FF0000" },
-  { id: 2, name: "Green", hex: "#00FF00" },
-  { id: 3, name: "Blue", hex: "#0000FF" },
-  { id: 4, name: "Yellow", hex: "#FFFF00" },
-  { id: 5, name: "Orange", hex: "#FFA500" },
-  { id: 6, name: "Pink", hex: "#FFC0CB" },
-  { id: 7, name: "Purple", hex: "#800080" },
-  { id: 8, name: "Brown", hex: "#A52A2A" },
-  { id: 9, name: "Gray", hex: "#808080" },
-  { id: 10, name: "White", hex: "#FFFFFF" },
-  { id: 11, name: "Black", hex: "#000000" },
-  { id: 12, name: "Turquoise", hex: "#40E0D0" },
-  { id: 13, name: "Lime", hex: "#00FF00" },
-  { id: 14, name: "Gold", hex: "#FFD700" },
-];
-
-const brands = [
-  { id: 1, name: "Channel" },
-  { id: 2, name: "Zara" },
-  { id: 3, name: "Bershka" },
-  { id: 4, name: "Adidas" },
-  { id: 5, name: "Louis Vuitton" },
-  { id: 6, name: "Mango" },
-  { id: 7, name: "Kayra" },
-  { id: 8, name: "Koton" },
-  { id: 9, name: "AdL" },
-  { id: 10, name: "Victoria's Secret" },
-];
-const bodySizes = [
-  { id: 1, name: "XXS" },
-  { id: 2, name: "XS" },
-  { id: 3, name: "S" },
-  { id: 4, name: "M" },
-  { id: 5, name: "L" },
-  { id: 6, name: "XL" },
-  { id: 7, name: "XXL" },
-  { id: 8, name: "XXXL" },
-  { id: 9, name: "4XL" },
-  { id: 10, name: "5XL" },
-];
+import Checkbox from "expo-checkbox";
+import { useNavigation } from "@react-navigation/native";
 const categories = [
   {
     id: 1,
@@ -75,37 +33,19 @@ const categories = [
     name: "Accessories",
   },
 ];
-const MAX_DESCRIPTION_WORDS = 50;
+const MAX_DESCRIPTION_WORDS = 51;
 export default function UploadImage() {
   const [image, setImage] = useState(null);
-  const [selectedBrand, setSelectedBrand] = useState();
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [category, setCategory] = useState();
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [selectedColorId, setSelectedColorId] = useState();
-  const [selectedSizeId, setSelectedSizeId] = useState();
-  const [selectedBrandId, setSelectedBrandId] = useState();
-  const [selectedCategoryId, setSelectedCategoryId] = useState();
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [selectedSize, setSelectedSize] = useState();
-  const [inStock, setInStock] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState();
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const navigation = useNavigation();
 
   const removeImage = () => {
     setImage(null);
-  };
-  const handleColorPress = (color) => {
-    const isColorSelected = selectedColors.some((c) => c.id === color.id);
-    if (!isColorSelected) {
-      setSelectedColors((prevSelectedColors) => [...prevSelectedColors, color]);
-    }
+    console.log("image:", image);
   };
 
-  const handleColorRemove = (color) => {
-    setSelectedColors((prevSelectedColors) =>
-      prevSelectedColors.filter((c) => c.id !== color.id)
-    );
-  };
   const addImage = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -120,44 +60,32 @@ export default function UploadImage() {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
+    console.log("image:", image);
   };
 
-  const handleBrandPress = (index) => {
-    const selectedBrand = brands.find((brand) => brand.id === index);
-    setSelectedBrand(selectedBrand);
-  };
-
-  const handleBrandRemove = (brand) => {
-    setSelectedBrand(null);
-  };
-
-  const handleCategoryPress = (index) => {
-    const selectedCategory = categories.find(
-      (category) => category.id === index
+  const handleCategoryPress = (category) => {
+    const isCategorySelected = selectedCategory.some(
+      (c) => c.id === category.id
     );
-    setSelectedCategory(selectedCategory);
+    if (!isCategorySelected) {
+      setSelectedCategory((prevSelectedCategory) => [
+        ...prevSelectedCategory,
+        category,
+      ]);
+    }
   };
 
   const handleCategoryRemove = (category) => {
-    setSelectedCategory(null);
+    setSelectedCategory((prevSelectedCategory) =>
+      prevSelectedCategory.filter((c) => c.id !== category.id)
+    );
   };
-
-  const handlePrice = (value) => {
-    setPrice(value);
-    console.log(price);
-  };
-
-  const handleSizePress = (sizeId) => {
-    const selectedSize = bodySizes.find((size) => size.id === sizeId);
-    setSelectedSize(selectedSize);
-  };
-
-  const handleSizeRemove = (size) => {
-    setSelectedSize(null);
-  };
-
+  useEffect(() => {
+    console.log("Selected categories:", selectedCategory);
+  }, [selectedCategory]);
   const onDescriptionChange = (value) => {
     setDescription(value);
+    console.log("description:", description);
   };
 
   const getDescriptionWordCount = () => {
@@ -168,11 +96,8 @@ export default function UploadImage() {
     return MAX_DESCRIPTION_WORDS - getDescriptionWordCount();
   };
 
-  const handleStockChange = (value) => {
-    setInStock(value);
-  };
   return (
-    <View style={styles.container}>
+    <View style={styles.containerTop}>
       <ScrollView>
         <View style={styles.imageContainer}>
           {image ? (
@@ -200,133 +125,40 @@ export default function UploadImage() {
           )}
         </View>
         <TouchableOpacity style={styles.uploadButton} onPress={addImage}>
-          <Text>{image ? "Edit" : "Upload"} Image</Text>
+          <Text style={styles.uploadButtonText}>
+            {image ? "Edit" : "Upload"} Image
+          </Text>
         </TouchableOpacity>
         <View style={styles.colorContainer}>
           <ScrollView horizontal>
-            {selectedColors.map((color) => (
-              <View key={color.id} style={styles.selectedColorsContainer}>
-                <Text style={styles.selectedColorName}>{color.name}</Text>
+            {selectedCategory.map((category) => (
+              <View key={category.id} style={styles.selectedColorsContainer}>
+                <Text style={styles.selectedColorName}>{category.name}</Text>
                 <TouchableOpacity
                   style={styles.removeColorButton}
-                  onPress={() => handleColorRemove(color)}
+                  onPress={() => handleCategoryRemove(category)}
                 >
                   <Ionicons name="close" size={18} color="black" />
                 </TouchableOpacity>
               </View>
             ))}
-            {selectedBrand && (
-              <View style={styles.selectedColorsContainer}>
-                <Text style={styles.selectedColorName}>
-                  {selectedBrand.name}
-                </Text>
-                <TouchableOpacity
-                  style={styles.removeColorButton}
-                  onPress={() => handleBrandRemove(selectedBrand)}
-                >
-                  <Ionicons name="close" size={18} color="black" />
-                </TouchableOpacity>
-              </View>
-            )}
-            {selectedCategory && (
-              <View style={styles.selectedColorsContainer}>
-                <Text style={styles.selectedColorName}>
-                  {selectedCategory.name}
-                </Text>
-                <TouchableOpacity
-                  style={styles.removeColorButton}
-                  onPress={() => handleCategoryRemove(selectedCategory)}
-                >
-                  <Ionicons name="close" size={18} color="black" />
-                </TouchableOpacity>
-              </View>
-            )}
-            {selectedSize && (
-              <View style={styles.selectedColorsContainer}>
-                <Text style={styles.selectedColorName}>
-                  {selectedSize.name}
-                </Text>
-                <TouchableOpacity
-                  style={styles.removeColorButton}
-                  onPress={() => handleSizeRemove(selectedSize)}
-                >
-                  <Ionicons name="close" size={18} color="black" />
-                </TouchableOpacity>
-              </View>
-            )}
           </ScrollView>
         </View>
         <View style={styles.formwrapper}>
           <View
             style={{
               borderRadius: 20,
-              backgroundColor: "#B0CFFF",
-              marginBottom: 10,
-            }}
-          >
-            <Picker
-              selectedValue={selectedBrandId}
-              onValueChange={handleBrandPress}
-              mode="dropdown"
-              style={{
-                marginHorizontal: 25,
-                borderRadius: 20,
-                borderWidth: 1,
-                borderColor: "black",
-              }}
-            >
-              <Picker.Item label="Select Brand..." value="" />
-              {brands.map((brand) => (
-                <Picker.Item
-                  key={brand.id}
-                  label={brand.name}
-                  value={brand.id}
-                />
-              ))}
-            </Picker>
-          </View>
-          <View
-            style={{
-              borderRadius: 20,
-              backgroundColor: "#B0CFFF",
-              marginBottom: 10,
+              backgroundColor: "#50C789",
             }}
           >
             <Picker
               selectedValue={selectedCategoryId}
-              onValueChange={handleCategoryPress}
-              mode="dropdown"
-              style={{
-                marginHorizontal: 25,
-                borderRadius: 10,
-                borderWidth: 2,
-                borderColor: "black",
-              }}
-            >
-              <Picker.Item label="Select Category..." value="" />
-              {categories.map((category) => (
-                <Picker.Item
-                  key={category.id}
-                  label={category.name}
-                  value={category.id}
-                />
-              ))}
-            </Picker>
-          </View>
-          <View
-            style={{
-              borderRadius: 20,
-              backgroundColor: "#B0CFFF",
-            }}
-          >
-            <Picker
-              selectedValue={selectedColorId}
               onValueChange={(itemValue) => {
-                const selectedColor = colors.find(
-                  (color) => color.id === itemValue
+                const selectedCategory = categories.find(
+                  (category) => category.id === itemValue
                 );
-                handleColorPress(selectedColor);
-                setSelectedColorId(itemValue);
+                handleCategoryPress(selectedCategory);
+                setSelectedCategoryId(itemValue);
               }}
               mode="dropdown"
               style={{
@@ -336,8 +168,8 @@ export default function UploadImage() {
                 borderColor: "black",
               }}
             >
-              <Picker.Item label="Select Color..." value="" />
-              {colors.map((color) => (
+              <Picker.Item label="Select Categories..." value="" />
+              {categories.map((color) => (
                 <Picker.Item
                   key={color.id}
                   label={color.name}
@@ -346,50 +178,9 @@ export default function UploadImage() {
               ))}
             </Picker>
           </View>
-          <View
-            style={{
-              borderRadius: 20,
-              backgroundColor: "#B0CFFF",
-              marginTop: 10,
-            }}
-          >
-            <Picker
-              selectedValue={selectedSizeId}
-              onValueChange={(itemValue) => handleSizePress(itemValue)}
-              mode="dropdown"
-              style={{
-                marginHorizontal: 25,
-                borderRadius: 10,
-                borderWidth: 2,
-                borderColor: "black",
-              }}
-            >
-              <Picker.Item label="Select Size..." value="" />
-              {bodySizes.map((size) => (
-                <Picker.Item key={size.id} label={size.name} value={size.id} />
-              ))}
-            </Picker>
-          </View>
-          <View style={{ flexDirection: "row", margin: 20 }}>
-            <Text
-              style={{
-                alignSelf: "center",
-                fontSize: 18,
-                flex: 1,
-                fontWeight: "bold",
-                marginRight: 50,
-              }}
-            >
-              Price (TL):
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="0"
-              keyboardType="numeric"
-              value={price.toString()}
-              onChangeText={handlePrice}
-            />
-          </View>
+          <Text style={{ marginBottom: 25, marginLeft: 15, color: "gray" }}>
+            *You can choose multiple categories
+          </Text>
           <View style={styles.container}>
             <TextInput
               style={styles.input2}
@@ -399,36 +190,73 @@ export default function UploadImage() {
               multiline
             />
             <View style={styles.wordCountContainer}>
-              <Text
-                style={styles.wordCountText}
-              >{`${getRemainingWordsCount()} / ${MAX_DESCRIPTION_WORDS}`}</Text>
+              <Text style={styles.wordCountText}>
+                {" "}
+                word count{" "}
+                {`${getRemainingWordsCount() - 1} / ${
+                  MAX_DESCRIPTION_WORDS - 1
+                }`}
+              </Text>
             </View>
           </View>
-          <Button title="Save" style={{ bottom: 45 }}></Button>
-          {/* <View style={styles.inStockContainer}>
-            <Text style={styles.inStockLabel}>In Stock:</Text>
-            <CheckBox value={inStock} onValueChange={handleStockChange} />
-          </View>
-            */}
+          <TouchableOpacity
+            style={{
+              marginHorizontal: 140,
+              height: 40,
+              backgroundColor: "#498FBA",
+              borderWidth: 1,
+              borderRadius: 20,
+              paddingTop: 8,
+              alignItems: "center",
+            }}
+            onPress={() => {
+              if (image == null) {
+                alert("Please select an image");
+                return;
+              }
+              if (selectedCategory.length === 0) {
+                alert("Please select a category");
+                return;
+              }
+              if (description === "") {
+                alert("Please write a description");
+                return;
+              } else {
+                navigation.navigate("ImageDetails");
+              }
+            }}
+          >
+            <Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>
+              NEXT
+            </Text>
+          </TouchableOpacity>
         </View>
+        <View style={{ height: 50 }}></View>
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  containerTop: {
+    flex: 1,
+    backgroundColor: "#ffebee",
+  },
+  container: {
+    marginBottom: 20,
+  },
   imageContainer: {
     marginTop: 90,
     width: "90%",
-    height: 300,
+    height: 320,
     alignSelf: "center",
     position: "relative",
   },
 
   pngImage: {
-    margin: "15%",
-    width: "70%",
-    height: "78%",
+    margin: "10%",
+    width: "88%",
+    height: "92%",
   },
   colorContainer: {
     height: "5%",
@@ -437,10 +265,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 15,
   },
   image: {
     width: "100%",
     height: "100%",
+    borderRadius: 15,
   },
   cancelIcon: {
     position: "absolute",
@@ -454,7 +284,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   uploadButton: {
-    backgroundColor: "#E576F2",
+    backgroundColor: "#498FBA",
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -464,10 +294,11 @@ const styles = StyleSheet.create({
   },
   uploadButtonText: {
     color: "black",
+    fontSize: 17,
     fontWeight: "bold",
   },
   selectedColorsContainer: {
-    height: 45,
+    height: 40,
     //width: 90,
     paddingLeft: 5,
     paddingRight: 10,
@@ -475,10 +306,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     marginHorizontal: 5,
-    marginBottom: 10,
     paddingTop: 10,
     borderRadius: 10,
-    backgroundColor: "lightgray",
+    backgroundColor: "#b2dfdb",
     //backgroundColor: "black",
   },
   selectedColorContainer: {
@@ -487,7 +317,8 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 10,
     borderRadius: 10,
-    //backgroundColor: "white",
+
+    backgroundColor: "",
   },
   selectedColorName: {
     marginLeft: 10,
@@ -498,7 +329,7 @@ const styles = StyleSheet.create({
   },
   formwrapper: {
     flex: 1,
-    margin: 25,
+    margin: 20,
     justifyContent: "flex-end",
   },
   input: {
@@ -513,15 +344,17 @@ const styles = StyleSheet.create({
   },
   input2: {
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
-    padding: 10,
-    height: 100,
+    borderColor: "black",
+    marginHorizontal: 15,
+    borderRadius: 20,
+    backgroundColor: "#E9EAEC",
+    padding: 15,
+    height: 200,
   },
   wordCountContainer: {
     position: "absolute",
     bottom: 10,
-    right: 10,
+    right: 25,
   },
   wordCountText: {
     color: "#aaa",
