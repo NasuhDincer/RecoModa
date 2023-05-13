@@ -9,6 +9,8 @@ const PostSchema = new mongoose.Schema(
         commentList : {type : Array},
         img:{type : Array},
         embedArray :{ type: Array},
+        productInfo :{ type: Array},
+
     },
     { timestamps: true }
 );

@@ -91,7 +91,7 @@ router.get("/all", async (req, res) => {
 router.post("/signup", async (req, res) => {
   try {
     console.log(req.body);
-    const { username, password, phoneNumber, email } = req.body;
+    const { username, password, phoneNumber, email , weight, height, gender, clothingSize, shoeSize} = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists)
@@ -104,6 +104,11 @@ router.post("/signup", async (req, res) => {
       email,
       password: hashedPassword,
       phoneNumber,
+      weight, 
+      height, 
+      gender, 
+      clothingSize, 
+      shoeSize
     });
     
     const userId  = createdUser._id;

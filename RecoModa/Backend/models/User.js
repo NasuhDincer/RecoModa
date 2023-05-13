@@ -9,6 +9,11 @@ const UserSchema = new mongoose.Schema(
         phoneNumber : { type: String, required: true },
         role: {type: String},
         favoriteProductList :{ type: Array },
+        weight: {type: String},
+        height: {type: String},
+        gender: {type: String},
+        clothingSize: {type: Array},
+        shoeSize: {type: String},
     },
     { timestamps: true }
 );

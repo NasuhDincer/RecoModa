@@ -81,7 +81,7 @@ const RegisterScreen = () => {
       />
       <TouchableOpacity
         style={[styles.buttonContainer,styles.button]}
-        onPress={() => navigation.navigate("RegisterMeasure")}
+        onPress={() => navigation.navigate("RegisterMeasure", {userInfo: {"name": name,"email": email, "phoneNumber" : phonenumber, "password" : password}})}
       > 
         <Text style={styles.buttonText}>Contiune with Measure</Text>
       </TouchableOpacity>

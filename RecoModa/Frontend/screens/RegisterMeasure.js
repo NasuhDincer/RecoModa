@@ -1,18 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
-
-const RegisterMeasure = () => {
+import rawipv4 from "../ipv4.json";
+import axios from "axios";
+const RegisterMeasure = ({ route }) => {
+  const { userInfo } = route.params;
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [gender, setGender] = useState('');
   const [clothingSize, setClothingSize] = useState([]);
   const [shoeSize, setShoeSize] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation(); // Use the useNavigation hook
-
-  const handleRegister = () => {
-    // handle registration logic
+ 
+ 
+  useEffect(() => {
+   console.log(userInfo.name) 
+   
+  }, []);
+  
+  const handleRegister = async () => {
+    const ipv4Address = rawipv4["ip"];
+    setName(userInfo.name)
+    setEmail(userInfo.email)
+    setPassword(userInfo.password)
+    setPhone(userInfo.phoneNumber)
+    
+    const res = await axios.post(
+      "http://" + ipv4Address + ":5000/api/users/signup",{"username": name,"email": email,"password" : password, "phoneNumber" :phone, "weight": weight,
+      "height": height,
+      "gender": gender,
+      "clothingSize": clothingSize,
+      "shoeSize": shoeSize}
+    );
+    console.log(res.status)
+    //if(res.status == '201')
+     //navigation.navigate("LoginScreen")
   };
 
   const handleWeightChange = (value) => {
@@ -100,7 +127,7 @@ const RegisterMeasure = () => {
           />
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("RegisterScreen")}
+        onPress={handleRegister}
         style={[styles.buttonContainer, styles.registerButton]}
       >
         <Text style={styles.btnText}>{"Register"}</Text>
