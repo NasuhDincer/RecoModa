@@ -31,6 +31,7 @@ import { store, persistor } from "./redux/store";
 import Icon from "react-native-vector-icons/FontAwesome";
 import SideBar from "./screens/SideBar";
 import ShowPost from "./screens/ShowPost";
+import ImageDetails from "./screens/ImageDetails";
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -127,7 +128,10 @@ export default function App() {
               name="FollowingPage"
               component={FollowingPage}
             ></Stack.Screen>
-         
+            <Stack.Screen
+              name="ImageDetails"
+              component={ImageDetails}
+            ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
