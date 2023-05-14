@@ -6,8 +6,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
 // import Settings from './Settings';
 import Notifications from './Notifications';
+import { useDispatch, useSelector } from "react-redux";
+import {logout} from "../redux/userRedux.js"
+
 
 const Stack = createStackNavigator();
+const dispatch = useDispatch();
 
 export default class Settings extends Component {
   constructor(props) {
@@ -43,7 +47,8 @@ export default class Settings extends Component {
         this.props.navigation.navigate('Measurements');
         break;
       case "Logout":
-        this.props.navigation.navigate('');
+        dispatch(logout())
+        //this.props.navigation.navigate('');
         break;  
       default:
         break;

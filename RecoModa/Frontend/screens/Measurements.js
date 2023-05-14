@@ -5,11 +5,20 @@ import { useNavigation } from "@react-navigation/native";
 
 
 const Measurements = () => {
+  //aşağısı update edilecek olan variable'lar
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [gender, setGender] = useState('');
   const [clothingSize, setClothingSize] = useState([]);
   const [shoeSize, setShoeSize] = useState('');
+
+  //aşağısı current değerleri göstermek için
+  const [showWeight, setshowWeight] = useState('');
+  const [showHeight, setshowHeight] = useState('');
+  const [showGender, setshowGender] = useState('');
+  const [showClothingSize, setshowClothingSize] = useState([]);
+  const [showShoeSize, setshowShoeSize] = useState('');
+
   const navigation = useNavigation(); // Use the useNavigation hook
 
   const handleRegister = () => {
@@ -36,6 +45,8 @@ const Measurements = () => {
     setShoeSize(value);
   }
 
+
+
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -46,23 +57,23 @@ const Measurements = () => {
       <Text style={styles.title}>Your Current Measures</Text>
       <View style={styles.field}>
         <Text style={styles.label}>Weight (kg)</Text>
-        <Text style={styles.labelcurrent}>current weight</Text>
+        <Text style={styles.labelcurrent}>{showWeight}</Text>
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Height (cm)</Text>
-        <Text style={styles.labelcurrent}>current height</Text>
+        <Text style={styles.labelcurrent}>{showHeight}</Text>
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Gender</Text>
-        <Text style={styles.labelcurrent}>current gender</Text>
+        <Text style={styles.labelcurrent}>{showGender}</Text>
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Clothing Size</Text>
-        <Text style={styles.labelcurrent}> curr clothing size</Text>
+        <Text style={styles.labelcurrent}>{showClothingSize}</Text>
       </View>
       <View style={styles.field}>
         <Text style={styles.label}>Shoe size</Text>
-        <Text style={styles.labelcurrent}> curr shoe size</Text>
+        <Text style={styles.labelcurrent}>{showShoeSize}</Text>
       </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
