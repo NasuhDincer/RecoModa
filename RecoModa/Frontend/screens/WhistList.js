@@ -7,9 +7,20 @@ import {
   Text,
   View,
 } from "react-native";
+import React, { useState,useEffect } from 'react';
+import { useSelector } from "react-redux";
 import MasonryList from "@react-native-seoul/masonry-list";
+import RecoPost from "../components/RecoPost";
+
 
 const WhistList = () => {
+  const user = useSelector((state) => state.user.currentUser);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+   setPosts(user.user.favoriteProductList)
+   console.log(user.user.favoriteProductList)
+  }, []);
   const searchData = [
     {
       id: 0,
@@ -71,17 +82,19 @@ const WhistList = () => {
       ],
     },
   ];
+
+
   return (
     <SafeAreaView style={styles.container} forceInset={{ bottom: "never" }}>
       <Text style={styles.title}>Your WishList</Text>
       <FlatList
         numColumns={2}
-        data={searchData[0].images}
+        data={user.user.favoriteProductList}
         columnWrapperStyle={{ justifyContent: "space-between", padding: 5 }}
         keyExtractor={(item) => item.key}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <Image source={item.source} style={styles.image} resizeMode="cover" />
+          <RecoPost post={item}  ></RecoPost>
         )}
         ListFooterComponent={<View />}
         ListFooterComponentStyle={{ height: 150 }}
