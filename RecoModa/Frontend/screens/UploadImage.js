@@ -222,7 +222,9 @@ export default function UploadImage() {
                 alert("Please write a description");
                 return;
               } else {
-                navigation.navigate("ImageDetails");
+                console.log(image)
+                navigation.navigate("ImageDetails", {postInfo: {"image": image,"description": description, "category" : selectedCategory}})
+                
               }
             }}
           >
