@@ -18,6 +18,7 @@ export default class Settings extends Component {
         { label: "Security", iconName: "security" },
         { label: "Account", iconName: "account-circle" },
         { label: "Measurements", iconName: "aspect-ratio" },
+        { label: "Logout", iconName: "logout" },
       ],
       name: "",
       surname: "",
@@ -41,6 +42,9 @@ export default class Settings extends Component {
       case "Measurements":
         this.props.navigation.navigate('Measurements');
         break;
+      case "Logout":
+        this.props.navigation.navigate('');
+        break;  
       default:
         break;
     }
@@ -66,7 +70,8 @@ export default class Settings extends Component {
             </TouchableOpacity>
           )}
         />
-      </SafeAreaView>
+      </SafeAreaView>   
+
     );
   }
 }
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#DDDDDD",
+    marginTop: 30
   },
   title: {
     fontSize: 24,
@@ -105,4 +111,5 @@ const styles = StyleSheet.create({
     color: "#333333",
     flex: 1,
   },
+
 });
