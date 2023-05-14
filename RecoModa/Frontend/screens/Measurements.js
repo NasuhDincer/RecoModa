@@ -38,6 +38,38 @@ const Measurements = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+      </View>
+
+      <Text style={styles.title}>Your Current Measures</Text>
+      <View style={styles.field}>
+        <Text style={styles.label}>Weight (kg)</Text>
+        <Text style={styles.labelcurrent}>current weight</Text>
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Height (cm)</Text>
+        <Text style={styles.labelcurrent}>current height</Text>
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Gender</Text>
+        <Text style={styles.labelcurrent}>current gender</Text>
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Clothing Size</Text>
+        <Text style={styles.labelcurrent}> curr clothing size</Text>
+      </View>
+      <View style={styles.field}>
+        <Text style={styles.label}>Shoe size</Text>
+        <Text style={styles.labelcurrent}> curr shoe size</Text>
+      </View>
+
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+      </View>
+
       <Text style={styles.title}>Update Your Measures</Text>
       <View style={styles.field}>
         <Text style={styles.label}>Weight (kg)</Text>
@@ -99,12 +131,25 @@ const Measurements = () => {
           onChangeText={handleShoeChange}
         />
       </View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("")}
-        style={[styles.buttonContainer, styles.registerButton]}
-      >
-        <Text style={styles.btnText}>{"Update"}</Text>
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+      </View>
+
+      <View style={{flexDirection: "row", }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Settings")}
+          style={[styles.buttonContainer, styles.cancelButton]}
+        >
+          <Text style={styles.btnText}>{"Cancel"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("")}
+          style={[styles.buttonContainer, styles.updateButton]}
+        >
+          <Text style={styles.btnText}>{"Update"}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -114,13 +159,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffebee',
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginTop: 8,
+    marginBottom: 8,
   },
   field: {
     flexDirection: 'row',
@@ -133,9 +179,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 10,
   },
+  labelcurrent: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginRight: 10,
+  },
   picker: {
     flex: 2,
-    height: 50,
     width: '100%',
   },
   TextInput: {
@@ -155,30 +205,28 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
+      marginTop: 20,
       marginBottom: 20,
-      width: 300,
+      width: 150,
       borderRadius: 30,
       backgroundColor: "transparent",
+      marginHorizontal: 20
     },
-    registerButton: {
+    updateButton: {
       backgroundColor: "#00b5ec",
-  
-      shadowColor: "#808080",
-      shadowOffset: {
-        width: 0,
-        height: 9,
-      },
-      shadowOpacity: 0.5,
-      shadowRadius: 12.35,
-  
-      elevation: 19,
+    },
+    cancelButton: {
+      backgroundColor: "lightgrey",
     },
     textinputlabel: {
       fontSize: 24,
       fontWeight: 'bold',
-      marginBottom: 20,
       marginRight: 10,
     },
+    btnText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    }
     
 });
 
