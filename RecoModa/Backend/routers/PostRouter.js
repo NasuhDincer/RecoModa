@@ -338,13 +338,15 @@ router.get("/findSimilar/:id", async (req, res) => {
   //console.log(req.body);
   // console.log(req.params.id)
   try {
-    const post = await Post.findOne({ postId: req.params.id });
+    //const post = await Post.findOne({ postId: req.params.id });
+    //console.log(post)
+    console.log(req.params.id)
     var count = 2;
     var output = null;
     const options = {
       mode: "text",
       scriptPath: "../Model/",
-      args: [post.id, count],
+      args: [req.params.id, count],
     };
     let pyshell = new PythonShell("recoSimilar.py", options);
     pyshell.on("message", function (message) {
