@@ -7,97 +7,33 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import MasonryList from "@react-native-seoul/masonry-list";
 import RecoPost from "../components/RecoPost";
-
 
 const WhistList = () => {
   const user = useSelector((state) => state.user.currentUser);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-   setPosts(user.user.favoriteProductList)
-   console.log(user.user.favoriteProductList)
+    setPosts(user.user.favoriteProductList);
+    console.log(user.user.favoriteProductList);
+    console.log(user.user.favoriteProductList.length)
   }, []);
-  const searchData = [
-    {
-      id: 0,
-      images: [
-        {
-          key: "icon0",
-          source: require("../Assets/logoicon.png"),
-        },
-        {
-          key: "icon1",
-          source: require("../Assets/profile.png"),
-        },
-        {
-          key: "icon2",
-          source: require("../Assets/profile.png"),
-        },
-        {
-          key: "icon3",
-          source: require("../Assets/logoicon.png"),
-        },
-        {
-          key: "icon4",
-          source: require("../Assets/logoicon.png"),
-        },
-        {
-          key: "icon5",
-          source: require("../Assets/profile.png"),
-        },
-        {
-          key: "icon6",
-          source: require("../Assets/profile.png"),
-        },
-        {
-          key: "icon7",
-
-          source: require("../Assets/logoicon.png"),
-        },
-        {
-          key: "icon8",
-          source: require("../Assets/logoicon.png"),
-        },
-        {
-          key: "icon9",
-          source: require("../Assets/profile.png"),
-        },
-        {
-          key: "icon10",
-
-          source: require("../Assets/profile.png"),
-        },
-        {
-          key: "icon11",
-          source: require("../Assets/logoicon.png"),
-        },
-        {
-          key: "icon12",
-          source: require("../Assets/profile.png"),
-        },
-      ],
-    },
-  ];
-
-
+  
   return (
     <SafeAreaView style={styles.container} forceInset={{ bottom: "never" }}>
       <Text style={styles.title}>Your WishList</Text>
       <FlatList
-        numColumns={2}
+        contentContainerStyle={{
+          width: "100%",
+        }}
         data={user.user.favoriteProductList}
-        columnWrapperStyle={{ justifyContent: "space-between", padding: 5 }}
-        keyExtractor={(item) => item.key}
-        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <RecoPost post={item}  ></RecoPost>
+          <RecoPost post={item}></RecoPost>
         )}
-        ListFooterComponent={<View />}
-        ListFooterComponentStyle={{ height: 150 }}
+        keyExtractor={(item, key) => item} 
       />
     </SafeAreaView>
   );
