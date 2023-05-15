@@ -166,15 +166,18 @@ const Home = (props) => {
   };
 
   return (
-    <SafeAreaView style={{ width: "100%", height: "100%", backgroundColor: "#FCDEFF"}}>
+    <SafeAreaView style={{ width: "100%", height: "100%", backgroundColor: "#FDEDFF"}}>
      {/* <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} /> */}
       <View
         style={{
           width: "100%",
-          height: "13%",
+          height: "12%",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          borderBottomWidth: 1,
+          borderColor: 'grey',
+          backgroundColor: "#F1EDFF"
         }}
       >
         <Text

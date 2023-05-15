@@ -2,13 +2,17 @@ import React, { Component, useEffect,useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { MaterialIcons } from "@expo/vector-icons";
 import rawipv4 from "../ipv4.json";
 
+import { createIconSet } from 'react-native-vector-icons';
 
 const Post = (props) => {
   const [data, setData] = useState({});
   const user = useSelector((state) => state.user.currentUser);
-
+  //const glyphMap = { 'icon-name': 1234, test: '∆' };
+  //const Icon = createIconSet(glyphMap, 'FontName', 'font-name.ttf');
+  
   useEffect(() => {
    handleSubmit();
     
@@ -73,7 +77,7 @@ return (<>
       backgroundColor: "white",
       borderRadius: 10,
       borderWidth: 2,
-      borderColor: 'black',
+      borderColor: 'lightgrey',
       margin: 20,
     }}
   >
@@ -84,15 +88,17 @@ return (<>
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        marginBottom: 5,
         // backgroundColor: "black",
       }}
     >
       <View
         style={{
           height: "100%",
-          width: "80%",
+          width: "80%",  
           flexDirection: "row",
           alignItems: "center",
+          
         }}
       >
         <Image
@@ -105,7 +111,7 @@ return (<>
           }}
         />
         <View style={{ width: "5%" }}></View>
-        <Text>{JSON.stringify(data).replace(/"/g, '')}</Text>
+        <Text>{JSON.stringify(data).replace(/"/g, '')}</Text> 
       </View>
       <View
         style={{
@@ -118,7 +124,7 @@ return (<>
         <Text>2 days ago</Text>
       </View>
     </View>
-    <View style={{ width: "100%", height: "60%" }}>
+    <View style={{ width: "100%", height: "60%", borderBottomWidth: 2, borderColor: 'lightgrey', borderTopWidth: 2, borderColor: 'lightgrey', marginBottom: "1%", }}>
       <Image
         source={{ uri: `data:image/png;base64,${props.post.img[0].data}` }}
         style={{
@@ -135,7 +141,7 @@ return (<>
       {props.post.description}
       </Text>
       <TouchableOpacity
-        style={{ width: "100%", height: "40%", paddingTop: "5%" }}
+        style={{ width: "50%", height: "40%", paddingTop: "5%" }}
         onPress = {handleLike}
       >
         <Image
@@ -147,7 +153,17 @@ return (<>
             resizeMode: "contain",
           }}
         />
+        <MaterialIcons name={ "comment" } size={24} color="black" />
       </TouchableOpacity>
+
+      <TouchableOpacity
+          style={{ width: "50%", height: "40%", paddingTop: "5%" }}
+          onPress = {handleLike}
+        >
+        <MaterialIcons name={ "comment" } size={24} color="black" />
+      </TouchableOpacity>
+
+
     </View>
   </View>
   </>);

@@ -12,6 +12,8 @@ import {
   View,
   Image,
 } from "react-native";
+import rawipv4 from "../ipv4.json";
+
 
 const MyPost = (props) => {
   const user = useSelector((state) => state.user.currentUser);
@@ -26,7 +28,7 @@ const MyPost = (props) => {
 
   const handleSubmit = async () => {
     try {
-      const ipv4Address = "192.168.1.8";
+      const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
       );

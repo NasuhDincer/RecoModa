@@ -71,7 +71,7 @@ const ShowPost = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>DISCOVER</Text>
+        <Text style={styles.headerText}>DETAILED POST</Text>
       </View>
       <RecoPost  post={postId._id}></RecoPost>
       <FlatList
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    alignSelf: "center",
     fontWeight: "bold",
   },
   postList: {

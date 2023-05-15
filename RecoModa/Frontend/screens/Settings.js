@@ -11,7 +11,7 @@ import {logout} from "../redux/userRedux.js"
 
 
 const Stack = createStackNavigator();
-const dispatch = useDispatch();
+//const dispatch = useDispatch();
 
 export default class Settings extends Component {
   constructor(props) {
@@ -47,7 +47,7 @@ export default class Settings extends Component {
         this.props.navigation.navigate('Measurements');
         break;
       case "Logout":
-        dispatch(logout())
+        //dispatch(logout())
         //this.props.navigation.navigate('');
         break;  
       default:

@@ -133,7 +133,7 @@ const Profile = (props) => {
             <TouchableOpacity
               postDetail={item}
               key={item._id}
-              onPress={() => navigation.navigate("Settings")}
+              onPress={() => navigation.navigate("ShowPost", {postId: item})}
               style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
             >
               <Image
