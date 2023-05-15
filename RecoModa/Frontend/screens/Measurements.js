@@ -75,6 +75,12 @@ const Measurements = () => {
     setshowClothingSize(clothes)
     setshowShoeSize(res2.data.shoeSize);
 
+    setWeight("");
+    setHeight("");
+    setGender("");
+    setClothingSize([]);
+    setShoeSize("");
+
   }
   
   const handleRegister = () => {
