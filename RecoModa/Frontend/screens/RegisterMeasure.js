@@ -11,27 +11,19 @@ const RegisterMeasure = ({ route }) => {
   const [gender, setGender] = useState('');
   const [clothingSize, setClothingSize] = useState([]);
   const [shoeSize, setShoeSize] = useState('');
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
   const navigation = useNavigation(); // Use the useNavigation hook
  
  
   useEffect(() => {
    console.log(userInfo.name) 
-   
+   console.log("Phone numb ", userInfo.phoneNumber) 
+
   }, []);
   
   const handleRegister = async () => {
     const ipv4Address = rawipv4["ip"];
-    setName(userInfo.name)
-    setEmail(userInfo.email)
-    setPassword(userInfo.password)
-    setPhone(userInfo.phoneNumber)
-    
     const res = await axios.post(
-      "http://" + ipv4Address + ":5000/api/users/signup",{"username": name,"email": email,"password" : password, "phoneNumber" :phone, "weight": weight,
+      "http://" + ipv4Address + ":5000/api/users/signup",{"username": userInfo.name,"email": userInfo.email,"password" : userInfo.password, "phoneNumber" :userInfo.phoneNumber, "weight": weight,
       "height": height,
       "gender": gender,
       "clothingSize": clothingSize,
