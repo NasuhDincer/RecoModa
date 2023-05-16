@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
-
+import rawipv4 from "../ipv4.json";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 const Measurements = () => {
   //aşağısı update edilecek olan variable'lar
+  const user = useSelector((state) => state.user.currentUser);
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [gender, setGender] = useState('');
   const [clothingSize, setClothingSize] = useState([]);
   const [shoeSize, setShoeSize] = useState('');
 
+  useEffect(() => {
+    // this function will be called after the component is mounted or updated
+    handleSubmit();
+    console.log("user : " , user.user._id)
+  }, []);
+  
   //aşağısı current değerleri göstermek için
   const [showWeight, setshowWeight] = useState('');
   const [showHeight, setshowHeight] = useState('');
@@ -21,6 +30,59 @@ const Measurements = () => {
 
   const navigation = useNavigation(); // Use the useNavigation hook
 
+  const handleSubmit = async () => {
+    
+    try {
+      console.log(user.user)
+      console.log("Resss ", user.user)
+      setshowWeight(user.user.weight);
+      setshowHeight(user.user.height);
+      setshowGender(user.user.gender);
+      const clothes = Object.values(user.user.clothingSize); // Convert the object values to an array
+      const joinedSizes = clothes.join(', ');
+      setshowClothingSize(clothes)
+      setshowShoeSize(user.user.shoeSize);
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+  };
+  
+  const updateUserInfo = async () => {
+    const ipv4Address = rawipv4["ip"];
+    const res = await axios.put(
+      "http://" + ipv4Address + `:5000/api/users/${user.user._id}`,
+      {"username": user.user.username, 
+      "email": user.user.email,
+      "phoneNumber": user.user.phoneNumber,
+      "role": user.user.role,
+      "favoriteProductList": user.user.favoriteProductList,
+      "weight": weight,
+      "height": height,
+      "gender" : gender, 
+      "clothingSize" :clothingSize, 
+      "shoeSize": shoeSize}
+    );
+    console.log(res.data)
+    handleSubmit();
+    const res2 = await axios.get(
+      "http://" + ipv4Address + `:5000/api/users/find/${user.user._id}`,)
+    setshowWeight(res2.data.weight);
+    setshowHeight(res2.data.height);
+    setshowGender(res2.data.gender);
+    const clothes = Object.values(res2.data.clothingSize); // Convert the object values to an array
+    const joinedSizes = clothes.join(', ');
+    setshowClothingSize(clothes)
+    setshowShoeSize(res2.data.shoeSize);
+
+    setWeight("");
+    setHeight("");
+    setGender("");
+    setClothingSize([]);
+    setShoeSize("");
+
+  }
+  
   const handleRegister = () => {
     // handle registration logic
   };
@@ -44,8 +106,6 @@ const Measurements = () => {
   const handleShoeChange = (value) => {
     setShoeSize(value);
   }
-
-
 
   return (
     <View style={styles.container}>
@@ -155,7 +215,7 @@ const Measurements = () => {
           <Text style={styles.btnText}>{"Cancel"}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("")}
+          onPress={updateUserInfo}
           style={[styles.buttonContainer, styles.updateButton]}
         >
           <Text style={styles.btnText}>{"Update"}</Text>
@@ -164,6 +224,7 @@ const Measurements = () => {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -241,5 +302,5 @@ const styles = StyleSheet.create({
     
 });
 
-
 export default Measurements;
+

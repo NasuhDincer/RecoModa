@@ -15,7 +15,7 @@ import express from "express";
 const router = express.Router();
 
 //UPDATE
-router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.put("/:id", async (req, res) => {
   if (req.body.password) {
     req.body.password = bcrypt.hashSync(
       req.body.password,

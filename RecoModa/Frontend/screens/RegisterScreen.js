@@ -61,7 +61,6 @@ const RegisterScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Phone Number"
-        secureTextEntry={true}
         onChangeText={handlePhoneChange}
         value={phonenumber}
       />
@@ -83,7 +82,7 @@ const RegisterScreen = () => {
         style={[styles.buttonContainer,styles.button]}
         onPress={() => navigation.navigate("RegisterMeasure", {userInfo: {"name": name,"email": email, "phoneNumber" : phonenumber, "password" : password}})}
       > 
-        <Text style={styles.buttonText}>Contiune with Measure</Text>
+        <Text style={styles.buttonText}>Continue with Measure</Text>
       </TouchableOpacity>
     </View>
   );

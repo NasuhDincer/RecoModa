@@ -11,75 +11,66 @@ import {logout} from "../redux/userRedux.js"
 
 
 const Stack = createStackNavigator();
-//const dispatch = useDispatch();
 
-export default class Settings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      settingOptions: [
-        { label: "Notifications", iconName: "notifications" },
-        { label: "Security", iconName: "security" },
-        { label: "Account", iconName: "account-circle" },
-        { label: "Measurements", iconName: "aspect-ratio" },
-        { label: "Logout", iconName: "logout" },
-      ],
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-    };
-  }
 
-  handleOptionPress = (label) => {
+const Settings = (props) => {
+  const settingOptions = [
+    { label: "Notifications", iconName: "notifications" },
+    { label: "Security", iconName: "security" },
+    { label: "Account", iconName: "account-circle" },
+    { label: "Measurements", iconName: "aspect-ratio" },
+    { label: "Logout", iconName: "logout" },
+  ];
+  const dispatch = useDispatch();
+  const handleOptionPress = (label) => {
     switch (label) {
       case "Notifications":
-        this.props.navigation.navigate('Notifications');
+        props.navigation.navigate('Notifications');
         break;
       case "Security":
-        this.props.navigation.navigate('Notifications');
+        props.navigation.navigate('Notifications');
         break;
       case "Account":
-        this.props.navigation.navigate('Accounts');
+        props.navigation.navigate('Accounts');
         break;
       case "Measurements":
-        this.props.navigation.navigate('Measurements');
+        props.navigation.navigate('Measurements');
         break;
       case "Logout":
-        //dispatch(logout())
-        //this.props.navigation.navigate('');
-        break;  
+        dispatch(logout());
+        props.navigation.navigate('Login');
+        break;
       default:
         break;
     }
-  }
+  };
 
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Settings</Text>
+      </View>
+      <FlatList
+        style={styles.optionsList}
+        data={settingOptions}
+        keyExtractor={(item, index) => item.label}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.optionItem}
+            onPress={() => handleOptionPress(item.label)}
+          >
+            <MaterialIcons name={item.iconName} size={24} color="black" />
+            <Text style={styles.optionLabel}>{item.label}</Text>
+            <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
+          </TouchableOpacity>
+        )}
+      />
+    </SafeAreaView>
+  );
+};
 
-  render() {
-    return (
+export default Settings;
 
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Settings</Text>
-        </View>
-        <FlatList
-          style={styles.optionsList}
-          data={this.state.settingOptions}
-          keyExtractor={(item, index) => item.label}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.optionItem} onPress={() => this.handleOptionPress(item.label)}>
-              <MaterialIcons name={item.iconName} size={24} color="black" />
-              <Text style={styles.optionLabel}>{item.label}</Text>
-              <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
-            </TouchableOpacity>
-          )}
-        />
-      </SafeAreaView>   
-
-    );
-  }
-}
 
 
 
