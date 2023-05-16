@@ -11,6 +11,7 @@ from sklearn.metrics.pairwise import pairwise_distances
 #tic = time.perf_counter()
 post_id = str(sys.argv[1])
 count = int(str(sys.argv[2]))
+#print("hey",post_id)
 
 try:
     url = f'http://localhost:5000/api/post/' # replace with the URL of your Node.js server and the endpoint for updating posts
@@ -30,15 +31,19 @@ except json.JSONDecodeError as e:
 except Exception as e:
     print(f"Error: {e}")
 
+
 df_ids = df['_id'] # 0.00001
 idforsim = post_id
 rowno = df_ids[df_ids == post_id].index[0] # 0.0003
+
 
 # Calcule DIstance Matriz
 cosine_sim = 1-pairwise_distances(df_embeds, metric='cosine') #0.0017
 cosine_sim[:4, :4]
 
 indices = pd.Series(range(len(df)), index=df.index) # 0.0001
+
+
 
 # Function that get movie recommendations based on the cosine similarity score of movie genres
 def get_recommender(idx, df, top_n = 5):
@@ -50,6 +55,7 @@ def get_recommender(idx, df, top_n = 5):
     idx_sim    = [i[1] for i in sim_scores]
     
     return indices.iloc[idx_rec].index, idx_sim
+
 
 idx_rec, idx_sim = get_recommender(rowno, df, top_n = count) #  0.00014
 

@@ -13,7 +13,7 @@ import keras
 from keras import Model
 from keras.applications import ResNet50
 import keras.utils as image
-from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
+from keras_applications.resnet50 import preprocess_input, decode_predictions
 from keras.layers import GlobalMaxPooling2D
 #tf.version
 

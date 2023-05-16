@@ -14,7 +14,6 @@ import rawipv4 from "../ipv4.json";
 import RecoPost from "../components/RecoPost";
 import { element } from "prop-types";
 
-
 const ShowPost = ({ route }) => {
   console.log("promppss ", route);
   const [showAll, setShowAll] = useState(false);
@@ -58,8 +57,7 @@ const ShowPost = ({ route }) => {
     );
     console.log("SİMİLAR ARRAY : ", res.data);
     console.log(typeof res.data);
-    
-   
+
     const res2 = await axios.get(
       "http://" + ipv4Address + `:5000/api/post/post/${res.data[0]}`
     );
@@ -73,15 +71,30 @@ const ShowPost = ({ route }) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>DETAILED POST</Text>
       </View>
-      <RecoPost  post={postId._id}></RecoPost>
-      <FlatList
-        contentContainerStyle={{
-          width: "100%",
-        }}
-        data={similar}
-        renderItem={({ item, index }) => <RecoPost  post={item}></RecoPost>}
-        keyExtractor={(item, key) => item._id}
-      />
+      <ScrollView nestedScrollEnabled style={styles.Scrollcontainer}>
+        <View>
+          <RecoPost post={postId._id}></RecoPost>
+          <Text style={styles.headerText}>SIMILAR POSTS</Text>
+          {similar.length!=0 ? 
+          <FlatList nestedScrollEnabled
+            contentContainerStyle={{
+              width: "100%",
+            }}
+            data={similar}
+            renderItem={({ item, index }) => <RecoPost post={item}></RecoPost>}
+            keyExtractor={(item, key) => item._id}
+          />
+          :
+          <View>
+            <Image
+              source={require('../Assets/loadinghourglass.png')}
+              style={{width:100, height:100,  alignSelf:"center", marginTop:50}}
+            />
+            <Text style={styles.headerText}>Loading</Text>
+          </View>
+          }
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -157,5 +170,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+  Scrollcontainer:{
+    flex: 1,
   },
 });
