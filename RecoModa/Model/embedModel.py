@@ -13,8 +13,10 @@ import keras
 from keras import Model
 from keras.applications import ResNet50
 import keras.utils as image
-from keras_applications.resnet50 import preprocess_input, decode_predictions
+#from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 from keras.layers import GlobalMaxPooling2D
+
+
 #tf.version
 
 print(sys.argv[1])
@@ -68,7 +70,7 @@ if response.status_code == 200:
         # Expand Dim (1, w, h)
         x   = np.expand_dims(x, axis=0)
         # Pre process Input
-        x   = preprocess_input(x)
+        x   = tensorflow.keras.applications.resnet50.preprocess_input(x)
         return model.predict(x).reshape(-1)
     
     emb = get_embedding(model, img_bytesio)

@@ -16,7 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 import rawipv4 from "../ipv4.json";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { decode } from "base-64";
 import pic from "../Assets/user.png";
 
 
