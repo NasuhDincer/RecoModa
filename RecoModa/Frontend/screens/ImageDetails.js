@@ -13,6 +13,13 @@ import { Picker } from "@react-native-picker/picker";
 import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
+import rawipv4 from "../ipv4.json";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { decode } from "base-64";
+import pic from "../Assets/user.png";
+
+
 const colors = [
   { id: 1, hex: "#FF0000" },
   { id: 2, hex: "#00FF00" },
@@ -71,9 +78,18 @@ const bodySizes = [
   { id: 9, name: "4XL" },
   { id: 10, name: "5XL" },
 ];
-const ImageDetails = () => {
+const ImageDetails = ({ route }) => {
+  const { postInfo } = route.params;
+  const user = useSelector((state) => state.user.currentUser);
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    // this function will be called after the component is mounted or updated
+    //handleSubmit();
+    console.log("postInfo : ", postInfo);
+  }, []);
+
   const handleAddProduct = () => {
     const newProduct = {
       category: "",
@@ -138,9 +154,47 @@ const ImageDetails = () => {
       // Show alert message if required fields are empty
       alert(`Please fill all required fields.`);
     } else {
-      alert(`Image Successfully Uploaded`);
-      navigation.navigate("home");
+      handleSubmit();
+      //navigation.navigate("home");
     }
+  };
+  const getFilenameFromUri = (uri) => {
+    const path = uri.split('/');
+    return path[path.length - 1];
+  };
+  const handleSubmit = async () => {
+    const filename = getFilenameFromUri(postInfo.image.uri);
+    console.log("filename : ", filename)
+    const ipv4Address = rawipv4["ip"];
+    const res2 = await axios.get(
+      "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+    );
+    
+    var mediaId = res2.data._id;
+  
+    const formData = new FormData();
+   formData.append(
+      'images',
+     {
+      uri:postInfo.image.uri,
+      type: 'image/png',
+      name: filename
+     }
+    );
+    formData.append('mediaId', '1');
+    console.log("fname :" ,formData)
+    //const formData = new FormData();    
+    let res = await fetch('http://' + ipv4Address + ':5000/api/post/upload', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    })
+
+    
+    //console.log(res);
+   
   };
   return (
     <View style={styles.containerTop}>

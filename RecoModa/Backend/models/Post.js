@@ -4,7 +4,7 @@ const PostSchema = new mongoose.Schema(
     {
         mediaId: { type: String},
         description : {type : String},
-        category: {type: String},
+        category: {type: Array},
         likeList: {type : Array},
         commentList : {type : Array},
         img:{type : Array},

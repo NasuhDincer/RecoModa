@@ -43,7 +43,7 @@ export default function UploadImage() {
 
   const removeImage = () => {
     setImage(null);
-    console.log("image:", image);
+    //console.log("image:", image);
   };
 
   const addImage = async () => {
@@ -58,9 +58,10 @@ export default function UploadImage() {
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
+    //  Console.log("image : ", result)
     }
-    console.log("image:", image);
+      console.log(result);
   };
 
   const handleCategoryPress = (category) => {
@@ -81,11 +82,11 @@ export default function UploadImage() {
     );
   };
   useEffect(() => {
-    console.log("Selected categories:", selectedCategory);
+    //console.log("Selected categories:", selectedCategory);
   }, [selectedCategory]);
   const onDescriptionChange = (value) => {
     setDescription(value);
-    console.log("description:", description);
+    //console.log("description:", description);
   };
 
   const getDescriptionWordCount = () => {
@@ -103,7 +104,7 @@ export default function UploadImage() {
           {image ? (
             <>
               <Image
-                source={{ uri: image }}
+                source={{ uri: image.uri }}
                 style={styles.image}
                 resizeMode="cover"
               />
@@ -222,7 +223,7 @@ export default function UploadImage() {
                 alert("Please write a description");
                 return;
               } else {
-                console.log(image)
+                //console.log(image)
                 navigation.navigate("ImageDetails", {postInfo: {"image": image,"description": description, "category" : selectedCategory}})
                 
               }
