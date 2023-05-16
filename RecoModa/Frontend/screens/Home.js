@@ -138,59 +138,66 @@ import {
 } from "react-native";
 import Post from "../components/Post";
 import rawipv4 from "../ipv4.json";
+//fonts
+import AppLoading from "expo-app-loading";
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import {
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from "@expo-google-fonts/roboto";
 
 const Home = (props) => {
   const [data, setData] = useState({});
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
   const user = useSelector((state) => state.user.currentUser);
-  useEffect(() => {
-    // this function will be called after the component is mounted or updated
-    handleSubmit();
-    console.log("user : " , user.user._id)
-  }, []);
-
   const handleSubmit = async () => {
-    
     try {
       const ipv4Address = rawipv4["ip"];
-      const res = await axios.get(
-        "http://" + ipv4Address + ":5000/api/post/"
-      );
+      const res = await axios.get("http://" + ipv4Address + ":5000/api/post/");
       //console.log(res.data[0].mediaId);
       setData(res.data);
     } catch (error) {
       // handle error response
       console.log(error);
     }
-
-    //props.navigation.navigate("Home")
   };
+  useEffect(() => {
+    // this function will be called after the component is mounted or updated
+    handleSubmit();
+    console.log("user : ", user.user._id);
+  }, []);
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
-    <SafeAreaView style={{ width: "100%", height: "100%", backgroundColor: "#FDEDFF"}}>
-     {/* <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} /> */}
+    <SafeAreaView
+      style={{ width: "100%", height: "100%", backgroundColor: "#E5E6E3" }}
+    >
+      {/* <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} /> */}
       <View
         style={{
           width: "100%",
           height: "12%",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
-          borderBottomWidth: 1,
-          borderColor: 'grey',
-          backgroundColor: "#F1EDFF"
+          justifyContent: "center",
+          backgroundColor: "#E5E6E3",
         }}
       >
         <Text
           adjustsFontSizeToFit
           style={{
             fontSize: Dimensions.get("window").width / 12,
-            fontWeight: "bold",
             marginTop: "5%",
+            top: 8,
             textAlign: "center",
-            justifyContent: "flex-end",
-            marginLeft: 120,
-            color: "black",
-            fontStyle: "Lucida Handwriting"
+            fontSize: 37,
+            fontFamily: "Pacifico_400Regular",
+            color: "#8D3667",
           }}
         >
           RecoModa
@@ -201,7 +208,7 @@ const Home = (props) => {
           width: "100%",
         }}
         data={data}
-        renderItem={({ item, index }) => <Post  post={item}></Post>}
+        renderItem={({ item, index }) => <Post post={item}></Post>}
         keyExtractor={(item, key) => item._id}
       />
     </SafeAreaView>

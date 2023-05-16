@@ -64,6 +64,7 @@ const UserScreens = () => {
             />
           );
         },
+        tabBarLabel: "",
       })}
       barStyle={{ backgroundColor: "white" }}
     >
