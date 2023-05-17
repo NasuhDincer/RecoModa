@@ -84,8 +84,6 @@ const categories = [
     id: 16,
     name: "Athleisure",
   },
-
-
 ];
 const MAX_DESCRIPTION_WORDS = 51;
 export default function UploadImage() {
@@ -113,9 +111,9 @@ export default function UploadImage() {
 
     if (!result.canceled) {
       setImage(result.assets[0]);
-    //  Console.log("image : ", result)
+      //  Console.log("image : ", result)
     }
-      console.log(result);
+    console.log(result);
   };
 
   const handleCategoryPress = (category) => {
@@ -223,7 +221,10 @@ export default function UploadImage() {
                 borderColor: "black",
               }}
             >
-              <Picker.Item label="Select Types of the Fashion Style..." value="" />
+              <Picker.Item
+                label="Select Types of the Fashion Style..."
+                value=""
+              />
               {categories.map((color) => (
                 <Picker.Item
                   key={color.id}
@@ -278,8 +279,7 @@ export default function UploadImage() {
                 return;
               } else {
                 //console.log(image)
-                navigation.navigate("ImageDetails", {postInfo: {"image": image,"description": description, "category" : selectedCategory}})
-                
+                navigation.navigate("ImageDetails");
               }
             }}
           >

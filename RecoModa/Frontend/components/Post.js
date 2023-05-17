@@ -205,7 +205,7 @@ const Post = (props) => {
           <Text
             style={{
               fontFamily: "Nunito_600SemiBold",
-              fontSize: 26,
+              fontSize: 20,
               marginHorizontal: 10,
               left: 5,
               marginBottom: 30,
@@ -217,14 +217,14 @@ const Post = (props) => {
             <FontAwesome5
               name="heart"
               style={{
-                fontSize: 30,
+                fontSize: 25,
               }}
             />
           </TouchableOpacity>
           <Text
             style={{
               fontFamily: "Nunito_600SemiBold",
-              fontSize: 26,
+              fontSize: 20,
               marginHorizontal: 8,
               left: 9,
               marginBottom: 30,
@@ -239,25 +239,33 @@ const Post = (props) => {
             <FontAwesome5
               name="comment"
               style={{
-                fontSize: 30,
+                fontSize: 25,
               }}
             />
           </TouchableOpacity>
-          <Text
+
+          <View
             style={{
-              fontFamily: "Nunito_600SemiBold",
-              fontSize: 26,
-              marginLeft: "35%",
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              right: 20,
             }}
           >
-            2
-          </Text>
-          <View style={{ flex: 1, alignItems: "flex-end" }}>
-            <TouchableOpacity style={{ marginRight: 15 }}>
+            <Text
+              style={{
+                fontFamily: "Nunito_600SemiBold",
+                fontSize: 20,
+                marginRight: 10,
+              }}
+            >
+              2
+            </Text>
+            <TouchableOpacity>
               <FontAwesome5
                 name="bookmark"
                 style={{
-                  fontSize: 30,
+                  fontSize: 25,
                 }}
               />
             </TouchableOpacity>

@@ -27,6 +27,7 @@ import FollowingPage from "./screens/FollowingPage";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
+import { useState, useEffect } from "react";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import SideBar from "./screens/SideBar";
@@ -37,12 +38,15 @@ const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
 
 const UserScreens = () => {
+  const [selectedTab, setSelectedTab] = useState("home");
   return (
     <Tabs.Navigator
       initialRouteName="home"
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
+        tabBarIcon: ({ color, focused }) => {
           let iconName;
+          let iconBackgroundColor = focused ? "#8D3667" : "transparent";
+          let iconColor = focused ? "white" : "black";
 
           if (route.name === "home") {
             iconName = "home";
@@ -57,16 +61,39 @@ const UserScreens = () => {
           }
 
           return (
-            <MaterialIcons
-              name={iconName}
-              size={Dimensions.get("window").width / 16}
-              color="black"
-            />
+            <View
+              style={{
+                backgroundColor: iconBackgroundColor,
+                borderRadius: 50,
+                width: Dimensions.get("window").width / 14,
+                height: Dimensions.get("window").width / 14,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <MaterialIcons
+                name={iconName}
+                size={Dimensions.get("window").width / 16}
+                color={iconColor}
+              />
+            </View>
           );
         },
-        tabBarLabel: "",
+        tabBarLabel: null,
       })}
-      barStyle={{ backgroundColor: "white" }}
+      barStyle={{ backgroundColor: "#E5E6E3" }}
+      tabBarOptions={{
+        activeTintColor: "purple",
+        inactiveTintColor: "black",
+        showIcon: true,
+        showLabel: false,
+      }}
+      tabBarOnPress={({ navigation, route }) => {
+        if (selectedTab !== route.name) {
+          navigation.navigate(route.name); // Navigate to the pressed tab if it is different from the currently selected tab
+          setSelectedTab(route.name); // Update the selected tab
+        }
+      }}
     >
       <Tabs.Screen name="home" component={Home} />
       <Tabs.Screen name="search" component={Search} />

@@ -14,7 +14,13 @@ import {
   View,
   Image,
 } from "react-native";
-import Post from "../components/Post";
+import {
+  useFonts,
+  Nunito_400Regular,
+  Nunito_500Medium,
+  Nunito_600SemiBold,
+} from "@expo-google-fonts/nunito";
+import AppLoading from "expo-app-loading";
 import rawipv4 from "../ipv4.json";
 
 const Profile = (props) => {
@@ -26,6 +32,11 @@ const Profile = (props) => {
 
   const navigation = useNavigation(); // Use the useNavigation hook
   const user = useSelector((state) => state.user.currentUser);
+  let [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_500Medium,
+    Nunito_600SemiBold,
+  });
 
   useEffect(() => {
     // this function will be called after the component is mounted or updated
@@ -61,26 +72,29 @@ const Profile = (props) => {
       var follower = 0;
 
       //console.log("follower :", media.followerList.length)
-      setFollowers(res.data[0].followerList.length)
+      setFollowers(res.data[0].followerList.length);
       var followed = 0;
 
       //console.log("followerd :", media.followedList.length)
-      setFollowing(res.data[0].followedList.length)
+      setFollowing(res.data[0].followedList.length);
 
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/allPosts/${res.data[0]._id}`
       );
-      console.log("res2data", Object.keys(res2.data[0]))
-      console.log("Hehehe", res2.data[0].description)
-      setPosts(res2.data)
-
+      console.log("res2data", Object.keys(res2.data[0]));
+      console.log("Hehehe", res2.data[0].description);
+      setPosts(res2.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  };
+  if (!fontsLoaded) {
+    return <AppLoading />;
   }
-
   return (
-    <SafeAreaView style={{ width: "100%", height: "100%" }}>
+    <SafeAreaView
+      style={{ width: "100%", height: "100%", backgroundColor: "#e3e2e0" }}
+    >
       <View
         style={{
           width: "100%",
@@ -89,29 +103,43 @@ const Profile = (props) => {
           flexDirection: "row",
           justifyContent: "flex-end",
           marginTop: "5%",
-          backgroundColor: "white",
         }}
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Settings")}
-        >
-          <MaterialIcons name="settings" size={36} color="black" style={styles.settingsButton}/>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+          <MaterialIcons
+            name="settings"
+            size={36}
+            color="black"
+            style={styles.settingsButton}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image
-            style={styles.profileImage}
-            source={require("../Assets/user.png")}
-          />
+          <View style={{ left: 10 }}>
+            <Image
+              style={[styles.profileImage]}
+              source={require("../Assets/user.png")}
+            />
+            <Text
+              style={[
+                styles.stat,
+                { fontFamily: "Nunito_500Medium", marginTop: 5, fontSize: 15 },
+              ]}
+            >
+              {" "}
+              {user.user.username}
+            </Text>
+          </View>
           <View style={styles.stats}>
-            <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-              <Text style={styles.stat}> {user.user.username}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("FollowersPage")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FollowersPage")}
+            >
               <Text style={styles.stat}>Followers: {followers}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("FollowingPage")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FollowingPage")}
+            >
               <Text style={styles.stat}>Following: {following}</Text>
             </TouchableOpacity>
           </View>
@@ -121,31 +149,30 @@ const Profile = (props) => {
             <MaterialIcons name="apps" size={36} color="black" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.minibarItem}>
-            <MaterialIcons name="checkroom" size={36} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.minibarItem}>
             <MaterialIcons name="bookmark" size={36} color="black" />
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.Scrollcontainer}>
-        <View style={styles.postsContainer}>
-          {posts.map((item, index) => (
-            <TouchableOpacity
-              postDetail={item}
-              key={item._id}
-              onPress={() => navigation.navigate("ShowPost", {postId: item})}
-              style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
-            >
-              <Image
-                style={styles.postImage}
-                source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
-              />
-            </TouchableOpacity>
+          <View style={styles.postsContainer}>
+            {posts.map((item, index) => (
+              <TouchableOpacity
+                postDetail={item}
+                key={item._id}
+                onPress={() =>
+                  navigation.navigate("ShowPost", { postId: item })
+                }
+                style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
+              >
+                <Image
+                  style={styles.postImage}
+                  source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
+                />
+              </TouchableOpacity>
             ))}
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 export default Profile;
@@ -154,13 +181,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#E5E6E3",
   },
   centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    
   },
   list: {
     width: "100%",
@@ -170,9 +196,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: -20
-    
+    backgroundColor: "#E5E6E3",
+    paddingTop: -20,
   },
   header: {
     flexDirection: "row",
@@ -180,16 +205,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginLeft: 10,
     marginBottom: 10,
- 
   },
   profileImage: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    
   },
   settingsButton: {
-   marginTop: 15,
+    marginTop: 15,
   },
   stats: {
     flexDirection: "row",
@@ -224,50 +247,45 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginVertical: 10,
-
   },
   postImage: {
     width: "30%",
     height: 200,
     marginBottom: 10,
     marginHorizontal: "35%",
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'black',
-
+    borderRadius: 100,
   },
   postsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
     marginTop: 10,
   },
   firstPostItem: {
-    flexBasis: '42%',
-    marginVertical: 10,
+    flexBasis: "49%",
+    marginVertical: 1,
     //backgroundColor: "black",
     // margin: 10,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'black',
-    padding: 10,
+    borderColor: "#9A9494",
+    padding: 1,
     //marginLeft: 10,
   },
   postItem: {
-    flexBasis: '42%',
-    marginVertical: 10,
+    flexBasis: "49%",
+    marginVertical: 1,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'black',
     // margin: 10,
-    padding: 10,
-   // marginRight: 10,
+    padding: 1,
+    // marginRight: 10,
+    borderRadius: 10,
+    borderColor: "#9A9494",
   },
   postImage: {
-    width: '100%',
+    width: "100%",
     aspectRatio: 1,
   },
-  Scrollcontainer:{
+  Scrollcontainer: {
     flex: 1,
-  }
+  },
 });
