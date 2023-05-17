@@ -3,6 +3,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import rawipv4 from "../ipv4.json";
 import {
   useFonts,
@@ -21,6 +22,7 @@ const Post = (props) => {
   });
   const [data, setData] = useState({});
   const user = useSelector((state) => state.user.currentUser);
+  const navigation = useNavigation();
   //const glyphMap = { 'icon-name': 1234, test: '∆' };
   //const Icon = createIconSet(glyphMap, 'FontName', 'font-name.ttf');
 
@@ -53,7 +55,7 @@ const Post = (props) => {
   const handleLike = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      console.log("like : ");
+      console.log("like::: ");
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
@@ -177,7 +179,7 @@ const Post = (props) => {
           <Text
             style={{
               fontFamily: "Nunito_600SemiBold",
-              fontSize: 16,
+              fontSize: 18,
               paddingRight: 5,
             }}
           >
@@ -186,7 +188,7 @@ const Post = (props) => {
           <Text
             style={{
               fontFamily: "Nunito_600SemiBold",
-              fontSize: 16,
+              fontSize: 18,
               color: "gray",
             }}
           >
@@ -200,10 +202,18 @@ const Post = (props) => {
             alignItems: "stretch",
           }}
         >
-          <TouchableOpacity
-            onPress={handleLike}
-            style={{ marginHorizontal: 10, left: 5 }}
+          <Text
+            style={{
+              fontFamily: "Nunito_600SemiBold",
+              fontSize: 26,
+              marginHorizontal: 10,
+              left: 5,
+              marginBottom: 30,
+            }}
           >
+            12
+          </Text>
+          <TouchableOpacity onPress={handleLike} style={{}}>
             <FontAwesome5
               name="heart"
               style={{
@@ -211,7 +221,21 @@ const Post = (props) => {
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={{ marginHorizontal: 8 }}>
+          <Text
+            style={{
+              fontFamily: "Nunito_600SemiBold",
+              fontSize: 26,
+              marginHorizontal: 8,
+              left: 9,
+              marginBottom: 30,
+            }}
+          >
+            3
+          </Text>
+          <TouchableOpacity
+            style={{ marginHorizontal: 8 }}
+            onPress={() => navigation.navigate("ShowPost", { postId: item })}
+          >
             <FontAwesome5
               name="comment"
               style={{
@@ -219,7 +243,15 @@ const Post = (props) => {
               }}
             />
           </TouchableOpacity>
-
+          <Text
+            style={{
+              fontFamily: "Nunito_600SemiBold",
+              fontSize: 26,
+              marginLeft: "35%",
+            }}
+          >
+            2
+          </Text>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity style={{ marginRight: 15 }}>
               <FontAwesome5

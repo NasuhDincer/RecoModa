@@ -2,9 +2,20 @@ import React, { Component, useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import {
+  useFonts,
+  Nunito_400Regular,
+  Nunito_500Medium,
+  Nunito_600SemiBold,
+} from "@expo-google-fonts/nunito";
 import rawipv4 from "../ipv4.json";
 
 const RecoPost = (props) => {
+  let [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_500Medium,
+    Nunito_600SemiBold,
+  });
   const [data, setData] = useState({});
   const [post, setPost] = useState([]);
   const user = useSelector((state) => state.user.currentUser);
@@ -167,6 +178,18 @@ const RecoPost = (props) => {
               }}
             />
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{ marginHorizontal: 8 }}
+            onPress={() => navigation.navigate("ShowPost", { postId: item })}
+          >
+            <FontAwesome5
+              name="comment"
+              style={{
+                fontSize: 30,
+              }}
+            />
+          </TouchableOpacity>
+
         </View>
       </View>
     </>
