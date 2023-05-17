@@ -11,7 +11,6 @@ import {
   Nunito_500Medium,
   Nunito_600SemiBold,
 } from "@expo-google-fonts/nunito";
-import AppLoading from "expo-app-loading";
 import { createIconSet } from "react-native-vector-icons";
 
 const Post = (props) => {
@@ -78,7 +77,7 @@ const Post = (props) => {
     //props.navigation.navigate("Home")
   };
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
   return (
     <>

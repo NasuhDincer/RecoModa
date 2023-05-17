@@ -141,6 +141,11 @@ import rawipv4 from "../ipv4.json";
 //fonts
 import AppLoading from "expo-app-loading";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import {
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from "@expo-google-fonts/roboto";
 
 const Home = (props) => {
   const [data, setData] = useState({});
@@ -166,7 +171,7 @@ const Home = (props) => {
   }, []);
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
   return (
     <SafeAreaView
@@ -180,7 +185,7 @@ const Home = (props) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#e3e2e0",
+          backgroundColor: "#E5E6E3",
         }}
       >
         <Text
