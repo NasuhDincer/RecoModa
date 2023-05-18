@@ -89,7 +89,7 @@ const Profile = (props) => {
     }
   };
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
   return (
     <SafeAreaView
@@ -124,24 +124,59 @@ const Profile = (props) => {
             <Text
               style={[
                 styles.stat,
-                { fontFamily: "Nunito_500Medium", marginTop: 5, fontSize: 15 },
+                { fontFamily: "Nunito_500Medium", marginTop: 5, fontSize: 18 },
               ]}
             >
               {" "}
               {user.user.username}
             </Text>
           </View>
-          <View style={styles.stats}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FollowersPage")}
-            >
-              <Text style={styles.stat}>Followers: {followers}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FollowingPage")}
-            >
-              <Text style={styles.stat}>Following: {following}</Text>
-            </TouchableOpacity>
+          <View style={[styles.stats, { flexDirection: "row" }]}>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={[styles.stat, { fontSize: 18 }]}>3</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("FollowersPage")}
+              >
+                <Text
+                  style={[
+                    styles.stat,
+                    { fontFamily: "Nunito_600SemiBold", fontSize: 18 },
+                  ]}
+                >
+                  Posts
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={[styles.stat, { fontSize: 18 }]}>{followers}</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("FollowersPage")}
+              >
+                <Text
+                  style={[
+                    styles.stat,
+                    { fontFamily: "Nunito_600SemiBold", fontSize: 18 },
+                  ]}
+                >
+                  Followers
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={[styles.stat, { fontSize: 18 }]}>{following}</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("FollowingPage")}
+              >
+                <Text
+                  style={[
+                    styles.stat,
+                    { fontFamily: "Nunito_600SemiBold", fontSize: 18 },
+                  ]}
+                >
+                  Following
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={styles.minibar}>
