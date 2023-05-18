@@ -187,6 +187,19 @@ const SideBar = () => {
           </TouchableOpacity>
         ))}
       </View>
+      <View style={{flexDirection: "row", }}>
+        <TouchableOpacity
+          style={[styles.buttonContainer, styles.cancelButton]}
+        >
+          <Text style={styles.btnText}>{"Cancel"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonContainer, styles.updateButton]}
+        >
+          <Text style={styles.btnText}>{"Apply Filter"}</Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 };
@@ -194,7 +207,7 @@ export default SideBar;
 const styles = StyleSheet.create({
   container: {
     fontSize: 24,
-    paddingTop: 20,
+    paddingTop: 30,
     margin: 15,
     alignItems: "center",
     justifyContent: "center",
@@ -250,7 +263,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: 'black',
-    marginBottom: 120,
+    marginBottom: 20,
     marginTop: 10,
     marginRight: 20,
     // backgroundColor: "black"
@@ -272,6 +285,25 @@ const styles = StyleSheet.create({
     marginRight: 20,
     // marginTop: 60,
   },
+  buttonContainer: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+    marginBottom: 120,
+    width: 150,
+    borderRadius: 30,
+    backgroundColor: "transparent",
+    marginHorizontal: 20
+  },
+  updateButton: {
+    backgroundColor: "#00b5ec",
+  },
+  cancelButton: {
+    backgroundColor: "lightgrey",
+  },
+
 });
 
 
