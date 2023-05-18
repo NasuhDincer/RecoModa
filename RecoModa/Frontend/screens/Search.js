@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     height: "100%",
+    // backgroundColor: "black",
   },
   controls: {
     flex: 0.5,
@@ -174,6 +175,7 @@ const styles = StyleSheet.create({
   preview: {
     width: "100%",
     flex: 1,
+    margin: 1000
   },
   buttons: {
     position: "absolute",

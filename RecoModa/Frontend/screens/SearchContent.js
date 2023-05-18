@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Imaa from "../components/GetImages";
 import rawipv4 from "../ipv4.json";
+import { StyleSheet } from 'react-native';
 
 const SearchContent = ({ setShowCamera }) => {
   const navigation = useNavigation();
@@ -41,15 +42,18 @@ const SearchContent = ({ setShowCamera }) => {
         numColumns={2}
         contentContainerStyle={{
           alignSelf: "stretch",
+          // backgroundColor: "black"
         }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
+          <View style={styles.searchImageContainer}>
           <TouchableOpacity
             onPress={() => navigation.navigate("ShowPost", { postId: item })}
-            style={{ flexBasis: "49%" }}
+            // style={{ flexBasis: "49%", }}
           >
             <Imaa imaa={item} />
           </TouchableOpacity>
+          </View>
         )}
         keyExtractor={(item, key) => item._id}
         onEndReachedThreshold={0.5}
@@ -60,3 +64,13 @@ const SearchContent = ({ setShowCamera }) => {
 };
 
 export default SearchContent;
+
+const styles = StyleSheet.create({
+  searchImageContainer: {
+    width: "220%",
+   // backgroundColor: "black",
+    marginLeft: "-60%",
+    marginBottom: "-75%",
+    marginTop: "-25%",
+  },
+});
