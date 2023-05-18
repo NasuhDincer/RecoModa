@@ -15,19 +15,71 @@ import { useNavigation } from "@react-navigation/native";
 const category = [
   {
     id: 1,
-    name: "Top Wear",
+    name: "Formal",
   },
   {
     id: 2,
-    name: "Bottom Wear",
+    name: "Classic",
   },
   {
     id: 3,
-    name: "Shoes",
+    name: "Vintage",
   },
   {
     id: 4,
-    name: "Accessories",
+    name: "Ethnic",
+  },
+  {
+    id: 5,
+    name: "Casual",
+  },
+  {
+    id: 6,
+    name: "Sporty",
+  },
+  {
+    id: 7,
+    name: "Bohemian",
+  },
+  {
+    id: 8,
+    name: "Streetwear",
+  },
+  {
+    id: 9,
+    name: "Grunge",
+  },
+  {
+    id: 10,
+    name: "Trendy",
+  },
+  {
+    id: 11,
+    name: "Minimalist",
+  },
+  {
+    id: 12,
+    name: "Punk",
+  },
+  {
+    id: 13,
+    name: "Parisian",
+  },
+  {
+    id: 14,
+    name: "Economy",
+  },
+  {
+    id: 15,
+    name: "Preppy",
+  },
+  {
+    id: 15,
+    name: "Business",
+  },
+  {
+    id: 16,
+    name: "Athleisure",
   },
 ];
 
