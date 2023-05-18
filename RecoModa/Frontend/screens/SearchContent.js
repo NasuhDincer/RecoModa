@@ -24,8 +24,8 @@ const SearchContent = ({ setShowCamera }) => {
       const ipv4Address = rawipv4["ip"];
       console.log(ipv4Address);
       const res = await axios.get(`http://${ipv4Address}:5000/api/post/`);
-      console.log(Object.keys(res.data))
-      console.log(Object.keys(res.data[0]))
+      console.log(Object.keys(res.data));
+      console.log(Object.keys(res.data[0]));
       setData(res.data);
     } catch (error) {
       console.log(error);
@@ -35,7 +35,7 @@ const SearchContent = ({ setShowCamera }) => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <MasonryList
         data={data}
         numColumns={2}
@@ -44,8 +44,11 @@ const SearchContent = ({ setShowCamera }) => {
         }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <TouchableOpacity onPress={() => navigation.navigate("ShowPost", {postId: item})}>
-            <Imaa imaa = {item}></Imaa>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ShowPost", { postId: item })}
+            style={{ flexBasis: "49%" }}
+          >
+            <Imaa imaa={item} />
           </TouchableOpacity>
         )}
         keyExtractor={(item, key) => item._id}

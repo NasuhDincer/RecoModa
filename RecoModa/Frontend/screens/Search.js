@@ -138,7 +138,7 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 15,
-    backgroundColor: "white",
+    backgroundColor: "#e3e2e0",
     position: "relative",
   },
   cameraContainer: {
