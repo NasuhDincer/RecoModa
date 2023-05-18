@@ -201,7 +201,7 @@ export default function UploadImage() {
           <View
             style={{
               borderRadius: 20,
-              backgroundColor: "#50C789",
+              backgroundColor: "#B24482",
             }}
           >
             <Picker
@@ -219,6 +219,7 @@ export default function UploadImage() {
                 borderRadius: 10,
                 borderWidth: 2,
                 borderColor: "black",
+                color: "white",
               }}
             >
               <Picker.Item
@@ -259,7 +260,7 @@ export default function UploadImage() {
             style={{
               marginHorizontal: 140,
               height: 40,
-              backgroundColor: "#498FBA",
+              backgroundColor: "#8D3667",
               borderWidth: 1,
               borderRadius: 20,
               paddingTop: 8,
@@ -283,7 +284,7 @@ export default function UploadImage() {
               }
             }}
           >
-            <Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>
+            <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
               NEXT
             </Text>
           </TouchableOpacity>
@@ -297,7 +298,7 @@ export default function UploadImage() {
 const styles = StyleSheet.create({
   containerTop: {
     flex: 1,
-    backgroundColor: "#ffebee",
+    backgroundColor: "#e3e2e0",
   },
   container: {
     marginBottom: 20,
@@ -341,7 +342,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   uploadButton: {
-    backgroundColor: "#498FBA",
+    backgroundColor: "#8D3667",
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -350,7 +351,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   uploadButtonText: {
-    color: "black",
+    color: "white",
     fontSize: 17,
     fontWeight: "bold",
   },
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     paddingTop: 10,
     borderRadius: 10,
-    backgroundColor: "#b2dfdb",
+    backgroundColor: "#CF83AF",
     //backgroundColor: "black",
   },
   selectedColorContainer: {
@@ -380,6 +381,7 @@ const styles = StyleSheet.create({
   selectedColorName: {
     marginLeft: 10,
     marginRight: 5,
+    color: "white",
   },
   removeColorButton: {
     marginLeft: "auto",

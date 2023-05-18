@@ -185,7 +185,7 @@ const Home = (props) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#E5E6E3",
+          backgroundColor: "#e3e2e0",
         }}
       >
         <Text
