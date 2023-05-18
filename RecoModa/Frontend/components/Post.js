@@ -235,12 +235,13 @@ const Post = (props) => {
             style={{ marginHorizontal: 8 }}
             onPress={() => navigation.navigate("ShowPost", { postId: item })}
           >
-            <FontAwesome5
+            <FontAwesome5 
               name="comment"
               style={{
                 fontSize: 25,
               }}
-            />
+              onPress={() => navigation.navigate("DetailedPost")}>
+            </FontAwesome5>
           </TouchableOpacity>
 
           <View

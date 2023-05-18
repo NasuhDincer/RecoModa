@@ -1,9 +1,11 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button,   ScrollView,} from "react-native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
+import Checkbox from "expo-checkbox";
 
 const colors = [
   { id: 1, name: "Red", hex: "#FF0000" },
@@ -52,6 +54,7 @@ const SideBar = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedBodySizes, setSelectedBodySizes] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState();
+  const navigation = useNavigation(); // Use the useNavigation hook
   const [selectedSizeId, setSelectedSizeId] = useState();
   const handleColorPress = (color) => {
     const isColorSelected = selectedColors.some((c) => c.id === color.id);
@@ -96,16 +99,16 @@ const SideBar = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       <Text style={styles.container}>Filter</Text>
-      <View style={{ height: 120 }}>
+      <View style={styles.contentContainer}>
         <Text style={styles.tagContainer}>TAGS</Text>
-        <View style={styles.selectedColorsContainer}>
+        <View style={styles.selectedTagsContainer}>
           {selectedColors.map((color) => (
-            <View key={color.id} style={styles.selectedColorContainer}>
-              <Text style={styles.selectedColorName}>{color.name}</Text>
+            <View key={color.id} style={styles.selectedTag}>
+              <Text style={styles.selectedTagName}>{color.name}</Text>
               <TouchableOpacity
-                style={styles.removeColorButton}
+                style={styles.removeTagButton}
                 onPress={() => handleColorRemove(color)}
               >
                 <Ionicons name="close" size={18} color="black" />
@@ -113,10 +116,10 @@ const SideBar = () => {
             </View>
           ))}
           {selectedBrands.map((brand) => (
-            <View key={brand.id} style={styles.selectedColorContainer}>
-              <Text style={styles.selectedColorName}>{brand.name}</Text>
+            <View key={brand.id} style={styles.selectedTag}>
+              <Text style={styles.selectedTagName}>{brand.name}</Text>
               <TouchableOpacity
-                style={styles.removeColorButton}
+                style={styles.removeTagButton}
                 onPress={() => handleBrandRemove(brand)}
               >
                 <Ionicons name="close" size={18} color="black" />
@@ -124,10 +127,10 @@ const SideBar = () => {
             </View>
           ))}
           {selectedBodySizes.map((size) => (
-            <View key={size.id} style={styles.selectedColorContainer}>
-              <Text style={styles.selectedColorName}>{size.name}</Text>
+            <View key={size.id} style={styles.selectedTag}>
+              <Text style={styles.selectedTagName}>{size.name}</Text>
               <TouchableOpacity
-                style={styles.removeColorButton}
+                style={styles.removeTagButton}
                 onPress={() => handleSizeRemove(size)}
               >
                 <Ionicons name="close" size={18} color="black" />
@@ -135,47 +138,45 @@ const SideBar = () => {
             </View>
           ))}
         </View>
-        <View style={styles.selectedTagContainer}>
-        <Picker
-          selectedValue={selectedBrandId}
-          onValueChange={(itemValue) => {
-            const selectedBrand = brands.find(
-              (brand) => brand.id === itemValue
-            );
-            handleBrandPress(selectedBrand);
-            setSelectedBrandId(itemValue);
-          }}
-          mode="dropdown"
-          style={{ marginHorizontal: 25, borderRadius: 10,
-            borderWidth: 2,
-            borderColor: 'black',}}
-        >
-          <Picker.Item label="Select brand..." value="" />
-          {brands.map((brand) => (
-            <Picker.Item key={brand.id} label={brand.name} value={brand.id} />
-          ))}
-        </Picker>
-        <Picker
-          selectedValue={selectedSizeId}
-          onValueChange={(itemValue) => {
-            const selectedSize = bodySizes.find(
-              (size) => size.id === itemValue
-            );
-            handleSizePress(selectedSize);
-            setSelectedSizeId(itemValue);
-          }}
-          mode="dropdown"
-          style={{ marginHorizontal: 25 }}
-        >
-          <Picker.Item label="Select Body Size..." value="" />
-          {bodySizes.map((size) => (
-            <Picker.Item key={size.id} label={size.name} value={size.id} />
-          ))}
-        </Picker>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedBrandId}
+            onValueChange={(itemValue) => {
+              const selectedBrand = brands.find(
+                (brand) => brand.id === itemValue
+              );
+              handleBrandPress(selectedBrand);
+              setSelectedBrandId(itemValue);
+            }}
+            mode="dropdown"
+            style={styles.picker}
+          >
+            <Picker.Item label="Select brand..." value="" />
+            {brands.map((brand) => (
+              <Picker.Item key={brand.id} label={brand.name} value={brand.id} />
+            ))}
+          </Picker>
+          <Picker
+            selectedValue={selectedSizeId}
+            onValueChange={(itemValue) => {
+              const selectedSize = bodySizes.find(
+                (size) => size.id === itemValue
+              );
+              handleSizePress(selectedSize);
+              setSelectedSizeId(itemValue);
+            }}
+            mode="dropdown"
+            style={styles.picker}
+          >
+            <Picker.Item label="Select Body Size..." value="" />
+            {bodySizes.map((size) => (
+              <Picker.Item key={size.id} label={size.name} value={size.id} />
+            ))}
+          </Picker>
         </View>
       </View>
       <Text style={styles.colorContainer}>Color</Text>
-      <View style={[styles.colorRow, { flex: 1 }]}>
+      <View style={styles.colorRow}>
         {colors.map((color) => (
           <TouchableOpacity
             key={color.id}
@@ -187,23 +188,21 @@ const SideBar = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <View style={{flexDirection: "row", }}>
-        <TouchableOpacity
-          style={[styles.buttonContainer, styles.cancelButton]}
-        >
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={[styles.button, styles.cancelButton]}
+          onPress={() => navigation.navigate("search")}>
           <Text style={styles.btnText}>{"Cancel"}</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonContainer, styles.updateButton]}
-        >
+        <TouchableOpacity style={[styles.button, styles.updateButton]}>
           <Text style={styles.btnText}>{"Apply Filter"}</Text>
         </TouchableOpacity>
       </View>
-
-    </View>
+    </ScrollView>
   );
 };
+
 export default SideBar;
+
 const styles = StyleSheet.create({
   container: {
     fontSize: 24,
@@ -214,43 +213,55 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     borderBottomWidth: 1,
-    
+  },
+  contentContainer: {
+    marginTop: 20,
   },
   tagContainer: {
     marginVertical: 25,
     fontWeight: "bold",
     marginLeft: 20,
-    
   },
-  selectedColorsContainer: {
+  selectedTagsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
     marginHorizontal: 25,
     marginBottom: 20,
-   // backgroundColor: "black"
-    
   },
-  selectedColorContainer: {
+  selectedTag: {
     flexDirection: "row",
     alignItems: "center",
     margin: 5,
     padding: 10,
     borderRadius: 10,
-    backgroundColor: "lightgray",
-    
+    borderWidth: 2,
+    borderColor: "black",
   },
-  selectedColorName: {
+  selectedTagName: {
     marginLeft: 10,
   },
-  removeColorButton: {
+  removeTagButton: {
     marginLeft: "auto",
+  },
+  pickerContainer: {
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "black",
+    margin: 10,
+    marginLeft: 25,
+    marginRight: 20,
+  },
+  picker: {
+    marginHorizontal: 25,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "black",
   },
   colorContainer: {
     marginHorizontal: 25,
     fontWeight: "bold",
     marginBottom: 20,
-    marginTop: 200,
     marginLeft: 20,
   },
   colorRow: {
@@ -262,11 +273,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: "black",
     marginBottom: 20,
     marginTop: 10,
     marginRight: 20,
-    // backgroundColor: "black"
   },
   colorCircle: {
     width: 35,
@@ -274,28 +284,22 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 5,
     margin: 10,
-
-  },
-  selectedTagContainer:{
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'black',
-    margin: 10,
-    marginLeft: 25,
-    marginRight: 20,
-    // marginTop: 60,
   },
   buttonContainer: {
-    height: 45,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 2,
+    marginTop: 20,
     marginBottom: 120,
+  },
+  button: {
+    height: 45,
+    justifyContent: "center",
+    alignItems: "center",
     width: 150,
     borderRadius: 30,
     backgroundColor: "transparent",
-    marginHorizontal: 20
+    marginHorizontal: 20,
   },
   updateButton: {
     backgroundColor: "#00b5ec",
@@ -303,7 +307,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: "lightgrey",
   },
-
+  btnText: {
+    color: "white",
+  },
 });
-
-

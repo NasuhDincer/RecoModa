@@ -67,10 +67,7 @@ export default SearchContent;
 
 const styles = StyleSheet.create({
   searchImageContainer: {
-    width: "220%",
+    width: "100%",
    // backgroundColor: "black",
-    marginLeft: "-60%",
-    marginBottom: "-75%",
-    marginTop: "-25%",
   },
 });

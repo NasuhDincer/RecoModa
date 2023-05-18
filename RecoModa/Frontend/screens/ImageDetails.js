@@ -343,7 +343,7 @@ const ImageDetails = ({ route }) => {
                 ))}
               </View>
               <View>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", }}>
                   <Checkbox
                     style={{
                       margin: 15,

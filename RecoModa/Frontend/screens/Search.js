@@ -175,7 +175,6 @@ const styles = StyleSheet.create({
   preview: {
     width: "100%",
     flex: 1,
-    margin: 1000
   },
   buttons: {
     position: "absolute",
