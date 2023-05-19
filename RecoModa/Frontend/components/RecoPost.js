@@ -2,7 +2,6 @@ import React, { Component, useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import {
   useFonts,
   Nunito_400Regular,
