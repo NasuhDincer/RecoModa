@@ -22,9 +22,11 @@ const Post = (props) => {
   const [data, setData] = useState({});
   const user = useSelector((state) => state.user.currentUser);
   const navigation = useNavigation();
+  const [likeCount, setLikeCount] = useState("");
+  var isLiked = false;
   //const glyphMap = { 'icon-name': 1234, test: '∆' };
   //const Icon = createIconSet(glyphMap, 'FontName', 'font-name.ttf');
-
+  //console.log("Props", Object.keys(props.post))
   useEffect(() => {
     handleSubmit();
   }, []);
@@ -43,6 +45,43 @@ const Post = (props) => {
       );
       //console.log(res2.data.username)
       setData(res2.data.username);
+      const res3= await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/post/${props.post._id}`,
+      );
+      console.log(res3.data.likeList);
+      const myList = res3.data.likeList
+      const lengthOfLikes = myList.length
+      
+      setLikeCount(lengthOfLikes)
+    } catch (error) {
+      // handle error response
+      console.log(error);
+    }
+    
+
+    //props.navigation.navigate("Home")
+  };
+
+  const handleWishList = async () => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      console.log("like::: ");
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+      );
+      console.log("KJASD")
+      const res2 = await axios.put(
+        "http://" + ipv4Address + `:5000/api/media/addLike/${res.data[0]._id}`,
+        { postId: props.post._id }
+      );
+      console.log(res2.data);
+
+      //setData(res.data.userId);
+      /*const res2 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
+      );
+      //console.log(res2.data.username)
+      setData(res2.data.username);*/
     } catch (error) {
       // handle error response
       console.log(error);
@@ -53,16 +92,24 @@ const Post = (props) => {
 
   const handleLike = async () => {
     try {
-      const ipv4Address = rawipv4["ip"];
-      console.log("like::: ");
-      const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
-      );
-      const res2 = await axios.put(
-        "http://" + ipv4Address + `:5000/api/media//addLike/${res.data[0]._id}`,
-        { postId: props.post._id }
-      );
-      console.log(res2.data);
+        const ipv4Address = rawipv4["ip"];
+        console.log(props.post._id)
+        console.log("KJASLELFELFLED")
+        const res = await axios.put(
+          "http://" + ipv4Address + `:5000/api/post/addLike/${props.post._id}`,
+          { userId: user.user._id }
+        );
+        console.log("Data", res.data);
+        console.log(user.user._id )
+        
+        console.log("AAAAA")
+        const res3 = await axios.get(
+          "http://" + ipv4Address + `:5000/api/post/post/${props.post._id}`,
+        );
+        console.log(res3.data.likeList);
+        const myList = res3.data.likeList
+        const lengthOfLikes = myList.length
+        setLikeCount(lengthOfLikes)
       //setData(res.data.userId);
       /*const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
@@ -79,6 +126,8 @@ const Post = (props) => {
   if (!fontsLoaded) {
     return null;
   }
+  
+  
   return (
     <>
       <View
@@ -210,7 +259,7 @@ const Post = (props) => {
               marginBottom: 30,
             }}
           >
-            12
+            {likeCount}
           </Text>
           <TouchableOpacity onPress={handleLike} style={{}}>
             <FontAwesome5
@@ -233,7 +282,7 @@ const Post = (props) => {
           </Text>
           <TouchableOpacity
             style={{ marginHorizontal: 8 }}
-            onPress={() => navigation.navigate("ShowPost", { postId: item })}
+            onPress={() => navigation.navigate("ShowPost", { postId: props.post })}
           >
             <FontAwesome5 
               name="comment"
@@ -261,7 +310,7 @@ const Post = (props) => {
             >
               2
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleWishList} style={{}}>
               <FontAwesome5
                 name="bookmark"
                 style={{

@@ -143,6 +143,7 @@ router.put("/addLike/:id", async (req, res) => {
   // console.log(req.params.id)
   try {
     const updatedPost = await Post.findById(req.params.id);
+    console.log("AKSDDDD")
     console.log(updatedPost.likeList);
     var isLike = true;
     var likeArr = updatedPost.likeList;
@@ -150,6 +151,7 @@ router.put("/addLike/:id", async (req, res) => {
     likeArr.forEach((element) => {
       if (element == req.body.userId) isLike = false;
     });
+    console.log("likearr", likeArr)
 
     console.log(isLike);
 
@@ -157,7 +159,7 @@ router.put("/addLike/:id", async (req, res) => {
       likeArr.push(req.body.userId);
       console.log(likeArr);
 
-      const updatePost = await Post.findOneAndUpdate(
+      const updatePost = await Post.findByIdAndUpdate(
         req.params.id,
         {
           $set: { likeList: likeArr },
@@ -204,8 +206,11 @@ router.put("/removeLike/:id", async (req, res) => {
     var isLike = true;
     var likeArr = updatedPost.likeList;
     console.log(req.body.userId);
-    likeArr.forEach((element) => {
-      if (element == req.body.userId) isLike = false;
+    likeArr.forEach((element, index) => {
+      if (element == req.body.postId) {
+        isLike = false;
+        likeArr.splice(index, 1); // Remove the liked post from the array
+      }
     });
 
     console.log(isLike);
@@ -214,7 +219,7 @@ router.put("/removeLike/:id", async (req, res) => {
       likeArr.remove(req.body.userId);
       console.log(likeArr);
 
-      const updatePost = await Post.findOneAndUpdate(
+      const updatePost = await Post.findByIdAndUpdate(
         req.params.id,
         {
           $set: { likeList: likeArr },
@@ -324,7 +329,7 @@ router.get("/allCategory/:category", async (req, res) => {
 });
 
 router.get("/media/:id", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   // console.log(req.params.id)
   try {
     const posts = await Post.findOne({ mediaId: req.params.id });

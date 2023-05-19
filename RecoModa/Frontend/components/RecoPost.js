@@ -10,6 +10,7 @@ import {
   Nunito_600SemiBold,
 } from "@expo-google-fonts/nunito";
 import rawipv4 from "../ipv4.json";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
 const RecoPost = (props) => {
   let [fontsLoaded] = useFonts({

@@ -11,13 +11,17 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import MasonryList from "@react-native-seoul/masonry-list";
 import RecoPost from "../components/RecoPost";
-
+import rawipv4 from "../ipv4.json";
+import axios from "axios";
 const WhistList = () => {
   const user = useSelector((state) => state.user.currentUser);
   const [posts, setPosts] = useState([]);
-
+  const [wishlist, setWishList] = useState([]);
+  console.log("Userinfo: ", user.user)
+  console.log(user.user.favoriteProductList);
+  console.log(user.user.favoriteProductList.length)
   useEffect(() => {
-    setPosts(user.user.favoriteProductList);
+    setWishList(user.user.favoriteProductList);
     console.log(user.user.favoriteProductList);
     console.log(user.user.favoriteProductList.length)
   }, []);
