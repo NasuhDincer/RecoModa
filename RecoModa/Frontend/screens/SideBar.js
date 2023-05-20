@@ -1,4 +1,4 @@
-import { View, Text, Button,   ScrollView,} from "react-native";
+import { View, Text, Button, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -99,7 +99,7 @@ const SideBar = () => {
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "#e3e2e0" }}>
       <Text style={styles.container}>Filter</Text>
       <View style={styles.contentContainer}>
         <Text style={styles.tagContainer}>TAGS</Text>
@@ -111,7 +111,7 @@ const SideBar = () => {
                 style={styles.removeTagButton}
                 onPress={() => handleColorRemove(color)}
               >
-                <Ionicons name="close" size={18} color="black" />
+                <Ionicons name="close" size={18} color="grey" />
               </TouchableOpacity>
             </View>
           ))}
@@ -189,12 +189,38 @@ const SideBar = () => {
         ))}
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.cancelButton]}
-          onPress={() => navigation.navigate("search")}>
-          <Text style={styles.btnText}>{"Cancel"}</Text>
+        <TouchableOpacity
+          style={{
+            marginHorizontal: 60,
+            height: 40,
+            width: "80%",
+            backgroundColor: "#595959",
+            borderWidth: 1,
+            borderRadius: 20,
+            paddingTop: 5,
+            alignItems: "center",
+          }}
+          onPress={() => navigation.navigate("search")}
+        >
+          <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
+            {"Cancel"}
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.updateButton]}>
-          <Text style={styles.btnText}>{"Apply Filter"}</Text>
+        <TouchableOpacity
+          style={{
+            marginHorizontal: 40,
+            height: 40,
+            width: "80%",
+            backgroundColor: "#8D3667",
+            borderWidth: 1,
+            borderRadius: 20,
+            paddingTop: 5,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
+            {"Apply Filter"}
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -235,19 +261,19 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 10,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "black",
+    backgroundColor: "#CF83AF",
   },
   selectedTagName: {
     marginLeft: 10,
+    color: "white",
   },
   removeTagButton: {
     marginLeft: "auto",
   },
   pickerContainer: {
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "black",
+    borderWidth: 1,
+    borderColor: "grey",
     margin: 10,
     marginLeft: 25,
     marginRight: 20,
@@ -255,8 +281,8 @@ const styles = StyleSheet.create({
   picker: {
     marginHorizontal: 25,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "black",
+    borderWidth: 1,
+    borderColor: "grey",
   },
   colorContainer: {
     marginHorizontal: 25,
@@ -272,8 +298,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
     marginBottom: 20,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "black",
+    borderWidth: 1,
+    borderColor: "grey",
     marginBottom: 20,
     marginTop: 10,
     marginRight: 20,
@@ -287,8 +313,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
     marginTop: 20,
     marginBottom: 120,
   },
