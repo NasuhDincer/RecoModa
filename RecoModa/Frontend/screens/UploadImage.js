@@ -280,7 +280,13 @@ export default function UploadImage() {
                 return;
               } else {
                 //console.log(image)
-                navigation.navigate("ImageDetails", {postInfo: {"image": image,"description": description, "category" : selectedCategory}})
+                navigation.navigate("ImageDetails", {
+                  postInfo: {
+                    image: image,
+                    description: description,
+                    category: selectedCategory,
+                  },
+                });
               }
             }}
           >

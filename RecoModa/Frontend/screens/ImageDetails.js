@@ -18,7 +18,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import pic from "../Assets/user.png";
 
-
 const colors = [
   { id: 1, hex: "#FF0000" },
   { id: 2, hex: "#00FF00" },
@@ -82,6 +81,11 @@ const ImageDetails = ({ route }) => {
   const user = useSelector((state) => state.user.currentUser);
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
+  const getFilenameFromUri = (uri) => {
+    const path = uri.split("/");
+
+    return path[path.length - 1];
+  };
 
   useEffect(() => {
     // this function will be called after the component is mounted or updated
@@ -157,50 +161,42 @@ const ImageDetails = ({ route }) => {
       //navigation.navigate("home");
     }
   };
-  const getFilenameFromUri = (uri) => {
-    const path = uri.split('/');
-    return path[path.length - 1];
-  };
+
   const handleSubmit = async () => {
     const filename = getFilenameFromUri(postInfo.image.uri);
-    console.log("filename : ", filename)
+    console.log("filename : ", filename);
     const ipv4Address = rawipv4["ip"];
     const res2 = await axios.get(
       "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
     );
-    
+
     var mediaId = res2.data._id;
-  
+
     const formData = new FormData();
-   formData.append(
-      'images',
-     {
-      uri:postInfo.image.uri,
-      type: 'image/png',
-      name: filename
-     }
-    );
-    formData.append('mediaId', '1');
-    console.log("fname :" ,formData)
-    //const formData = new FormData();    
-    let res = await fetch('http://' + ipv4Address + ':5000/api/post/upload', {
-      method: 'POST',
+    formData.append("images", {
+      uri: postInfo.image.uri,
+      type: "image/png",
+      name: filename,
+    });
+    formData.append("mediaId", "1");
+    console.log("fname :", formData);
+    //const formData = new FormData();
+    let res = await fetch("http://" + ipv4Address + ":5000/api/post/upload", {
+      method: "POST",
       body: formData,
       headers: {
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data",
       },
-    })
+    });
 
-    
     //console.log(res);
-   
   };
   return (
     <View style={styles.containerTop}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("../Assets/uploadImage.png")}
-          style={styles.pngImage}
+          source={{ uri: postInfo.image.uri }}
+          style={styles.image}
           resizeMode="cover"
         />
       </View>
@@ -208,9 +204,9 @@ const ImageDetails = ({ route }) => {
         onPress={handleAddProduct}
         style={{
           marginHorizontal: 130,
-          marginTop: 70,
+          marginTop: 40,
           height: 40,
-          backgroundColor: "#498FBA",
+          backgroundColor: "#8D3667",
           borderWidth: 1,
           borderRadius: 50,
           paddingTop: 5,
@@ -218,7 +214,14 @@ const ImageDetails = ({ route }) => {
         }}
       >
         {console.log(products)}
-        <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 5 }}>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 18,
+            marginBottom: 5,
+            color: "white",
+          }}
+        >
           Add Product
         </Text>
       </TouchableOpacity>
@@ -240,7 +243,7 @@ const ImageDetails = ({ route }) => {
               <View
                 style={{
                   borderRadius: 20,
-                  backgroundColor: "#B0CFFF",
+                  backgroundColor: "#B24482",
                   marginBottom: 10,
                 }}
               >
@@ -255,7 +258,11 @@ const ImageDetails = ({ route }) => {
                     borderColor: "black",
                   }}
                 >
-                  <Picker.Item label="Select Brand..." value="" />
+                  <Picker.Item
+                    style={{ color: "white" }}
+                    label="Select Brand..."
+                    value=""
+                  />
                   {brands.map((brand) => (
                     <Picker.Item
                       key={brand.id}
@@ -269,7 +276,7 @@ const ImageDetails = ({ route }) => {
               <View
                 style={{
                   borderRadius: 20,
-                  backgroundColor: "#B0CFFF",
+                  backgroundColor: "#B24482",
                   marginBottom: 10,
                 }}
               >
@@ -284,7 +291,11 @@ const ImageDetails = ({ route }) => {
                     borderColor: "black",
                   }}
                 >
-                  <Picker.Item label="Select Category..." value="" />
+                  <Picker.Item
+                    style={{ color: "white" }}
+                    label="Select Category..."
+                    value=""
+                  />
                   {categories.map((category) => (
                     <Picker.Item
                       key={category.id}
@@ -298,7 +309,7 @@ const ImageDetails = ({ route }) => {
               <View
                 style={{
                   borderRadius: 20,
-                  backgroundColor: "#B0CFFF",
+                  backgroundColor: "#B24482",
                   marginBottom: 10,
                 }}
               >
@@ -313,7 +324,11 @@ const ImageDetails = ({ route }) => {
                     borderColor: "black",
                   }}
                 >
-                  <Picker.Item label="Select Size..." value="" />
+                  <Picker.Item
+                    style={{ color: "white" }}
+                    label="Select Size..."
+                    value=""
+                  />
                   {bodySizes.map((sizes) => (
                     <Picker.Item
                       key={sizes.id}
@@ -343,7 +358,7 @@ const ImageDetails = ({ route }) => {
                 ))}
               </View>
               <View>
-                <View style={{ flexDirection: "row", }}>
+                <View style={{ flexDirection: "row" }}>
                   <Checkbox
                     style={{
                       margin: 15,
@@ -451,7 +466,7 @@ const ImageDetails = ({ route }) => {
             marginHorizontal: 130,
             marginTop: 5,
             height: 40,
-            backgroundColor: "#498FBA",
+            backgroundColor: "#8D3667",
             borderWidth: 1,
             borderRadius: 50,
             paddingTop: 5,
@@ -460,7 +475,9 @@ const ImageDetails = ({ route }) => {
           }}
           onPress={handleSave}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Save</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 18, color: "white" }}>
+            Save
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -469,7 +486,7 @@ const ImageDetails = ({ route }) => {
 const styles = StyleSheet.create({
   containerTop: {
     flex: 1,
-    backgroundColor: "#ffebee",
+    backgroundColor: "#e3e2e0",
   },
   container: {
     marginBottom: 20,
@@ -497,6 +514,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     borderWidth: 1,
+    borderColor: "grey",
     borderRadius: 25,
   },
   colorRow: {
