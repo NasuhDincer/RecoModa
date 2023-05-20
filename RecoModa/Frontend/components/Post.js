@@ -3,6 +3,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import rawipv4 from "../ipv4.json";
 import {
@@ -23,6 +24,7 @@ const Post = (props) => {
   const user = useSelector((state) => state.user.currentUser);
   const navigation = useNavigation();
   const [likeCount, setLikeCount] = useState("");
+  const [ifLiked, setIfLiked] = useState(false);
   var isLiked = false;
   //const glyphMap = { 'icon-name': 1234, test: '∆' };
   //const Icon = createIconSet(glyphMap, 'FontName', 'font-name.ttf');
@@ -45,19 +47,18 @@ const Post = (props) => {
       );
       //console.log(res2.data.username)
       setData(res2.data.username);
-      const res3= await axios.get(
-        "http://" + ipv4Address + `:5000/api/post/post/${props.post._id}`,
+      const res3 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/post/${props.post._id}`
       );
       console.log(res3.data.likeList);
-      const myList = res3.data.likeList
-      const lengthOfLikes = myList.length
-      
-      setLikeCount(lengthOfLikes)
+      const myList = res3.data.likeList;
+      const lengthOfLikes = myList.length;
+
+      setLikeCount(lengthOfLikes);
     } catch (error) {
       // handle error response
       console.log(error);
     }
-    
 
     //props.navigation.navigate("Home")
   };
@@ -69,7 +70,7 @@ const Post = (props) => {
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
-      console.log("KJASD")
+      console.log("KJASD");
       const res2 = await axios.put(
         "http://" + ipv4Address + `:5000/api/media/addLike/${res.data[0]._id}`,
         { postId: props.post._id }
@@ -92,32 +93,26 @@ const Post = (props) => {
 
   const handleLike = async () => {
     try {
-        const ipv4Address = rawipv4["ip"];
-        console.log(props.post._id)
-        console.log("KJASLELFELFLED")
-        const res = await axios.put(
-          "http://" + ipv4Address + `:5000/api/post/addLike/${props.post._id}`,
-          { userId: user.user._id }
-        );
-        console.log("Data", res.data);
-        console.log(user.user._id )
-        
-        console.log("AAAAA")
-        const res3 = await axios.get(
-          "http://" + ipv4Address + `:5000/api/post/post/${props.post._id}`,
-        );
-        console.log(res3.data.likeList);
-        const myList = res3.data.likeList
-        const lengthOfLikes = myList.length
-        setLikeCount(lengthOfLikes)
-      //setData(res.data.userId);
-      /*const res2 = await axios.get(
-        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
+      const ipv4Address = rawipv4["ip"];
+      console.log(props.post._id);
+      console.log("KJASLELFELFLED");
+      const res = await axios.put(
+        "http://" + ipv4Address + `:5000/api/post/addLike/${props.post._id}`,
+        { userId: user.user._id }
       );
-      //console.log(res2.data.username)
-      setData(res2.data.username);*/
+      console.log("Data", res.data);
+      console.log(user.user._id);
+
+      console.log("AAAAA");
+      const res3 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/post/${props.post._id}`
+      );
+      console.log(res3.data.likeList);
+      const myList = res3.data.likeList;
+      const lengthOfLikes = myList.length;
+      setLikeCount(lengthOfLikes);
+      setIfLiked(true);
     } catch (error) {
-      // handle error response
       console.log(error);
     }
 
@@ -126,8 +121,7 @@ const Post = (props) => {
   if (!fontsLoaded) {
     return null;
   }
-  
-  
+
   return (
     <>
       <View
@@ -262,10 +256,11 @@ const Post = (props) => {
             {likeCount}
           </Text>
           <TouchableOpacity onPress={handleLike} style={{}}>
-            <FontAwesome5
+            <FontAwesome
               name="heart"
               style={{
                 fontSize: 25,
+                color: ifLiked ? "#8D3667" : "grey",
               }}
             />
           </TouchableOpacity>
@@ -282,15 +277,16 @@ const Post = (props) => {
           </Text>
           <TouchableOpacity
             style={{ marginHorizontal: 8 }}
-            onPress={() => navigation.navigate("ShowPost", { postId: props.post })}
+            onPress={() =>
+              navigation.navigate("ShowPost", { postId: props.post })
+            }
           >
-            <FontAwesome5 
+            <FontAwesome5
               name="comment"
               style={{
                 fontSize: 25,
               }}
-              onPress={() => navigation.navigate("DetailedPost")}>
-            </FontAwesome5>
+            ></FontAwesome5>
           </TouchableOpacity>
 
           <View
