@@ -30,6 +30,7 @@ const PeopleProfile = () => {
   const [followers, setFollowers] = useState("");
   const [following, setFollowing] = useState("");
   const [username, setUserName] = useState("");
+  const [isFollowing, setIsFollowing] = useState(false);
   const route = useRoute();
   const clickedUserId = route.params.userId;
   const navigation = useNavigation(); // Use the useNavigation hook
@@ -72,8 +73,9 @@ const PeopleProfile = () => {
       console.log("Followers", res.data);
       //setMedia(res.data[0])
       //const obj = JSON.parse(res.data);
+      const isUserInFollowerList = res.data[0].followedList.includes(user.user._id);
+      setIsFollowing(isUserInFollowerList);
       var follower = 0;
-
       //console.log("follower :", media.followerList.length)
       setFollowers(res.data[0].followerList.length);
       var followed = 0;
@@ -94,6 +96,45 @@ const PeopleProfile = () => {
       setPosts(res3.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+  const handleFollow = async (clickedUserId, userId) => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      console.log(clickedUserId);
+      console.log(userId);
+      const res = await axios.put(
+        "http://" + ipv4Address + `:5000/api/media/follow/${clickedUserId}`,
+        { userId }
+      );
+      console.log("hehehehehehe", res.data);
+      // Handle success
+      setIsFollowing(true);
+      console.log("You are now following this user");
+      handleFollowers();
+    } catch (error) {
+      // Handle error
+      console.log("Error following user:", error);
+    }
+  };
+
+  const handleUnfollow = async (clickedUserId, userId) => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      console.log(clickedUserId);
+      console.log(userId);
+      const res = await axios.put(
+        "http://" + ipv4Address + `:5000/api/media/unfollow/${clickedUserId}`,
+        { userId }
+      );
+      console.log("hehehehehehe", res.data);
+      // Handle success
+      setIsFollowing(false);
+      console.log("You are now following this user");
+      handleFollowers();
+    } catch (error) {
+      // Handle error
+      console.log("Error following user:", error);
     }
   };
   if (!fontsLoaded) {
@@ -141,7 +182,9 @@ const PeopleProfile = () => {
           </View>
           <View style={[styles.stats, { flexDirection: "row" }]}>
             <View style={{ flexDirection: "column" }}>
-              <Text style={[styles.stat, { fontSize: 18 }]}>{posts.length}</Text>
+              <Text style={[styles.stat, { fontSize: 18 }]}>
+                {posts.length}
+              </Text>
               <Text
                 style={[
                   styles.stat,
@@ -182,6 +225,19 @@ const PeopleProfile = () => {
               </TouchableOpacity>
             </View>
           </View>
+        </View>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            onPress={() =>
+              isFollowing
+                ? handleUnfollow(clickedUserId, user.user._id)
+                : handleFollow(clickedUserId, user.user._id)
+            }
+          >
+            <Text style={styles.followButton}>
+              {isFollowing ? "Unfollow" : "Follow"}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.minibar}>
           <TouchableOpacity style={styles.minibarItem}>
@@ -252,6 +308,15 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     marginTop: 15,
+  },
+  buttonRow: {
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   stats: {
     flexDirection: "row",
@@ -326,5 +391,15 @@ const styles = StyleSheet.create({
   },
   Scrollcontainer: {
     flex: 1,
+  },
+  followButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 5,
+    backgroundColor: "#e3e2e0",
+    alignSelf: "flex-end",
+    margin: 10,
+    fontSize: 18,
+    fontFamily: "Nunito_600SemiBold",
   },
 });

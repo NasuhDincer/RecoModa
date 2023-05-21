@@ -136,4 +136,69 @@ router.get("/homePage/:id", async (req, res) => {
   }
 });
 
+// Define the route for handling the follow request
+router.put("/follow/:id", async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  try {
+    // Find the media document with the given id
+    const media = await Media.findOne({ userId: id });
+
+    if (!media) {
+      return res.status(404).json({ error: "Media not found" });
+    }
+
+    // Check if the user is already following
+    if (media.followerList.includes(userId)) {
+      return res.status(400).json({ error: "You are already following this user" });
+    }
+
+    // Check if the userId is already in followedList
+    if (!media.followedList.includes(userId)) {
+      // Add the userId to the followedList array
+      media.followedList.push(userId);
+    }
+
+    // Add the userId to the followerList array
+    media.followerList.push(userId);
+
+    // Save the updated media document
+    await media.save();
+
+    res.json({ message: "Successfully followed the user" });
+  } catch (error) {
+    console.log("Error following user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+// Define the route for handling the unfollow request
+router.put("/unfollow/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    const media = await Media.findOneAndUpdate(
+      { userId: id, followerList: userId },
+      { $pull: { followerList: userId } },
+      { new: true }
+    );
+
+    if (!media) {
+      return res.status(404).json({ error: "Media not found or you are not following this user" });
+    }
+
+    res.json({ message: "Successfully unfollowed the user" });
+  } catch (error) {
+    console.log("Error unfollowing user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+
 export default router;
