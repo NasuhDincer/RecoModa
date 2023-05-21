@@ -26,6 +26,7 @@ const Post = (props) => {
   const [likeCount, setLikeCount] = useState("");
   const [commentCount, setCommentCount] = useState("");
   const [ifLiked, setIfLiked] = useState(false);
+  const [userIdNavigate, setUserIdNavigate] = useState("")
   var isLiked = false;
   //const glyphMap = { 'icon-name': 1234, test: '∆' };
   //const Icon = createIconSet(glyphMap, 'FontName', 'font-name.ttf');
@@ -37,11 +38,12 @@ const Post = (props) => {
   const handleSubmit = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      //console.log("post : ",props.post.mediaId)
+      console.log("post : ",props.post.mediaId)
+      console.log(Object.keys(props.post));
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/media/${props.post.mediaId}`
       );
-      //console.log(res.data);
+      setUserIdNavigate(res.data.userId)
       //setData(res.data.userId);
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
@@ -191,7 +193,9 @@ const Post = (props) => {
             />
 
             <View style={{ width: "5%" }}></View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() =>
+              navigation.navigate("PeopleProfile", { userId: userIdNavigate })
+            }>
               <Text
                 style={{
                   fontSize: 18,
@@ -199,8 +203,9 @@ const Post = (props) => {
                   fontFamily: "Nunito_600SemiBold",
                 }}
               >
-                {JSON.stringify(data).replace(/"/g, "")}
+                {JSON.stringify(data).replace(/"/g, "")} 
               </Text>
+              
             </TouchableOpacity>
           </View>
         </View>

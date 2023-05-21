@@ -33,7 +33,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import SideBar from "./screens/SideBar";
 import ShowPost from "./screens/ShowPost";
 import ImageDetails from "./screens/ImageDetails";
-import CameraSearch from "./screens/CameraSearch";
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -148,7 +147,6 @@ export default function App() {
               component={RegisterMeasure}
             ></Stack.Screen>
             <Stack.Screen name="SideBar" component={SideBar}></Stack.Screen>
-            <Stack.Screen name="CameraSearch" component={CameraSearch}></Stack.Screen>
             <Stack.Screen name="ShowPost" component={ShowPost}></Stack.Screen>
             <Stack.Screen
               name="FollowersPage"

@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import {
   Dimensions,
@@ -23,13 +23,15 @@ import {
 import AppLoading from "expo-app-loading";
 import rawipv4 from "../ipv4.json";
 
-const Profile = (props) => {
+const PeopleProfile = () => {
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
   const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState("");
   const [following, setFollowing] = useState("");
-
+  const [username, setUserName] = useState("");
+  const route = useRoute();
+  const clickedUserId = route.params.userId;
   const navigation = useNavigation(); // Use the useNavigation hook
   const user = useSelector((state) => state.user.currentUser);
   let [fontsLoaded] = useFonts({
@@ -42,15 +44,17 @@ const Profile = (props) => {
     // this function will be called after the component is mounted or updated
     handleSubmit();
     handleFollowers();
-    console.log("userId : ", user.user._id);
+    console.log("userId : ", clickedUserId);
+    console.log("currenUser", user.user._id);
   }, []);
 
   const handleSubmit = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
+        "http://" + ipv4Address + `:5000/api/mediaprofile/${clickedUserId}`
       );
+      console.log("HEHEHEH", res.data);
       setMediaProfile(res.data);
     } catch (error) {
       // handle error response
@@ -63,9 +67,9 @@ const Profile = (props) => {
     try {
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${clickedUserId}`
       );
-      //console.log("Followers", res.data);
+      console.log("Followers", res.data);
       //setMedia(res.data[0])
       //const obj = JSON.parse(res.data);
       var follower = 0;
@@ -76,13 +80,18 @@ const Profile = (props) => {
 
       //console.log("followerd :", media.followedList.length)
       setFollowing(res.data[0].followedList.length);
-
+      console.log("sakdjsa");
       const res2 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/users/find/${clickedUserId}`
+      );
+      console.log("RES2", res2.data);
+      setUserName(res2.data.username);
+      const res3 = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/allPosts/${res.data[0]._id}`
       );
-      //console.log("res2data", Object.keys(res2.data[0]));
+      console.log("res3data", Object.keys(res3.data[0]));
       //console.log("Hehehe", res2.data[0].description);
-      setPosts(res2.data);
+      setPosts(res3.data);
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +136,7 @@ const Profile = (props) => {
               ]}
             >
               {" "}
-              {user.user.username}
+              {username}
             </Text>
           </View>
           <View style={[styles.stats, { flexDirection: "row" }]}>
@@ -205,7 +214,7 @@ const Profile = (props) => {
     </SafeAreaView>
   );
 };
-export default Profile;
+export default PeopleProfile;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

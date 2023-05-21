@@ -1,37 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import rawipv4 from "../ipv4.json";
 
 const FollowingPage = () => {
   const [following, setFollowing] = useState([]);
+  const [followingDetails, setFollowingDetails] = useState([]);
+  const user = useSelector((state) => state.user.currentUser);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch following data from API or your data source
-    const fetchFollowing = async () => {
-      try {
-        // Make API call or retrieve data from your data source
-        const response = await fetch('https://api.example.com/following');
-        const data = await response.json();
-        setFollowing(data);
-      } catch (error) {
-        console.log('Error fetching following:', error);
-      }
-    };
-
-    fetchFollowing();
+    fetchFollowings();
   }, []);
 
+  const fetchFollowings = async () => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+      );
+      console.log("Followings", res.data);
+      console.log("Following data", res.data[0].followingList);
+      setFollowing(res.data[0].followingList);
+      console.log(res.data);
+      if (!res.data || res.data.length === 0 || !res.data[0].followingList) {
+        // If response data or followerList is undefined or empty, set loading state to false
+        setIsLoading(false);
+        return;
+      }
+      const tempFollowingDetails = [];
+
+      for (let i = 0; i < res.data[0].followingList.length; i++) {
+        console.log("sakdjsa");
+        const res2 = await axios.get(
+          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].userId}`
+        );
+        console.log("RES2", res2.data);
+        const username = res2.data.username;
+        const name = res2.data.username;
+        tempFollowingDetails.push({ id: res.data[0].followingList[i], username, name });
+      }
+
+      setFollowingDetails(tempFollowingDetails);
+
+    } catch (error) {
+      console.log("Error fetching following:", error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Following</Text>
+      <Text style={styles.title}>Followings</Text>
       <FlatList
         data={following}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.followingItem}>
-            <Text style={styles.followingName}>{item.name}</Text>
-            <Text style={styles.followingUsername}>@{item.username}</Text>
-          </View>
-        )}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => {
+          console.log("Item:", item);
+          const followingDetail = followingDetails.find((followings) => followings.id === item);
+
+          if (!followingDetail) {
+            // Return a loading indicator or handle the case where followingDetail is not found
+            return null;
+          }
+
+          return (
+            <View style={styles.followingItem}>
+              <Text style={styles.followingName}>{followingDetail.name} </Text>
+              <Text style={styles.followingUsername}>@{followingDetail.username}{" "} </Text>
+            </View>
+          );
+        }}
       />
     </View>
   );
@@ -45,21 +98,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
   },
   followingItem: {
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
+    borderBottomColor: "#CCCCCC",
   },
   followingName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   followingUsername: {
     fontSize: 14,
-    color: '#888888',
+    color: "#888888",
   },
 });
 

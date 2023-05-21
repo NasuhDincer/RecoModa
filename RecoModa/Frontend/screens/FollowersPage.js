@@ -1,41 +1,99 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import rawipv4 from "../ipv4.json";
 
 const FollowersPage = () => {
   const [followers, setFollowers] = useState([]);
+  const [followerDetails, setFollowerDetails] = useState([]);
+  const user = useSelector((state) => state.user.currentUser);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch followers data from API or your data source
-    const fetchFollowers = async () => {
-      try {
-        // Make API call or retrieve data from your data source
-        const response = await fetch('https://api.example.com/followers');
-        const data = await response.json();
-        setFollowers(data);
-      } catch (error) {
-        console.log('Error fetching followers:', error);
-      }
-    };
-
     fetchFollowers();
   }, []);
+
+  const fetchFollowers = async () => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+      );
+      console.log("Followers", res.data);
+      console.log("Followers data", res.data[0].followerList);
+      setFollowers(res.data[0].followerList);
+      console.log(res.data);
+      if (!res.data || res.data.length === 0 || !res.data[0].followerList) {
+        // If response data or followerList is undefined or empty, set loading state to false
+        setIsLoading(false);
+        return;
+      }
+      const tempFollowerDetails = [];
+
+      for (let i = 0; i < res.data[0].followerList.length; i++) {
+        console.log("sakdjsa");
+        const res2 = await axios.get(
+          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].userId}`
+        );
+        console.log("RES2", res2.data);
+        const username = res2.data.username;
+        const name = res2.data.username;
+        tempFollowerDetails.push({ id: res.data[0].followerList[i], username, name });
+      }
+
+      setFollowerDetails(tempFollowerDetails);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error fetching following:", error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Followers</Text>
       <FlatList
         data={followers}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.followerItem}>
-            <Text style={styles.followerName}>{item.name}</Text>
-            <Text style={styles.followerUsername}>@{item.username}</Text>
-          </View>
-        )}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => {
+          console.log("Item:", item);
+          const followerDetail = followerDetails.find(
+            (follower) => follower.id === item
+          );
+
+          if (!followerDetail) {
+            // Handle the case where followerDetail is not found
+            return null; // Return null or a loading indicator
+          }
+
+          return (
+            <View style={styles.followerItem}>
+              <Text style={styles.followerName}>{followerDetail.name} </Text>
+              <Text style={styles.followerUsername}>
+                @{followerDetail.username}{" "}
+              </Text>
+            </View>
+          );
+        }}
       />
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -45,21 +103,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
   },
   followerItem: {
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
+    borderBottomColor: "#CCCCCC",
   },
   followerName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   followerUsername: {
     fontSize: 14,
-    color: '#888888',
+    color: "#888888",
   },
 });
 
