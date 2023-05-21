@@ -21,10 +21,20 @@ const WhistList = () => {
   console.log(user.user.favoriteProductList);
   console.log(user.user.favoriteProductList.length)
   useEffect(() => {
-    setWishList(user.user.favoriteProductList);
-    console.log(user.user.favoriteProductList);
-    console.log(user.user.favoriteProductList.length)
+    handleWishList();
   }, []);
+
+  const handleWishList = async () => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+      );
+      console.log("FAV : ", res.data[0].favoritePostList);
+      setWishList(res.data[0].favoritePostList);
+      }
+      catch{}
+  }
   
   return (
     <SafeAreaView style={styles.container} forceInset={{ bottom: "never" }}>
@@ -33,7 +43,7 @@ const WhistList = () => {
         contentContainerStyle={{
           width: "100%",
         }}
-        data={user.user.favoriteProductList}
+        data={wishlist}
         renderItem={({ item }) => (
           <RecoPost post={item}></RecoPost>
         )}
