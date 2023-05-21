@@ -57,6 +57,14 @@ const PeopleProfile = () => {
       );
       console.log("HEHEHEH", res.data);
       setMediaProfile(res.data);
+      
+      const res2 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${clickedUserId}`
+      );
+      const isUserInFollowerList = res2.data[0].followedList.includes(user.user._id);
+      console.log("isUserInFollowerList: ", isUserInFollowerList);
+      setIsFollowing(isUserInFollowerList);
+
     } catch (error) {
       // handle error response
       console.log(error);
@@ -73,8 +81,6 @@ const PeopleProfile = () => {
       console.log("Followers", res.data);
       //setMedia(res.data[0])
       //const obj = JSON.parse(res.data);
-      const isUserInFollowerList = res.data[0].followedList.includes(user.user._id);
-      setIsFollowing(isUserInFollowerList);
       var follower = 0;
       //console.log("follower :", media.followerList.length)
       setFollowers(res.data[0].followerList.length);
