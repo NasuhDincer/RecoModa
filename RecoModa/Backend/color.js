@@ -4,6 +4,7 @@ import { createCanvas, Image } from "canvas";
 async function getDominantHex(imagePath) {
   const imageData = fs.readFileSync(imagePath);
   const img = new Image();
+  console.log(imageData)
   img.src = imageData;
 
   const canvas = createCanvas(img.width, img.height);
