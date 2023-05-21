@@ -7,10 +7,12 @@ import {
   ScrollView,
   Text,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import Ionic from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import rawipv4 from "../ipv4.json";
+
 
 const category = [
   {
@@ -74,11 +76,11 @@ const category = [
     name: "Preppy",
   },
   {
-    id: 15,
+    id: 16,
     name: "Business",
   },
   {
-    id: 16,
+    id: 17,
     name: "Athleisure",
   },
 ];
@@ -86,6 +88,7 @@ const category = [
 const SearchBox = ({ setShowCamera }) => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [searchStr, setSearchStr] = useState([]);
   const handleCategoryPress = (categoryName) => {
     if (selectedCategory.includes(categoryName)) {
       // Category already selected, remove it from the array
@@ -106,6 +109,22 @@ const SearchBox = ({ setShowCamera }) => {
     }
   };
 
+  useEffect(() => {
+    console.log("değişim :", searchStr)
+    handleSearchStr()
+  }, [searchStr]);
+
+  const handleSearchStr = async () => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/search/${searchStr}`
+      );
+      console.log("StrSearch : ", res.data);
+      }
+      catch{}
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
@@ -113,6 +132,7 @@ const SearchBox = ({ setShowCamera }) => {
           placeholder="Search"
           placeholderTextColor="#909090"
           style={styles.searchInput}
+          onChangeText={(text) => setSearchStr(text)}
         />
         <Ionic name="search" style={styles.icon} />
         <TouchableOpacity

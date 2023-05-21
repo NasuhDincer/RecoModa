@@ -78,7 +78,7 @@ const Post = (props) => {
         "http://" + ipv4Address + `:5000/api/media/addLike/${res.data[0]._id}`,
         { postId: props.post._id }
       );
-      console.log("Wishlist data2", res2.data);
+     // console.log("Wishlist data2", res2.data);
 
       //setData(res.data.userId);
       /*const res2 = await axios.get(

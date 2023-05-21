@@ -399,6 +399,21 @@ router.get("/embed", async (req, res) => {
   }
 });
 
+router.get("/search/:searchString", async (req, res) => {
+  const searchString = req.params.searchString; // Assuming the search string is passed as a query parameter "q"
+
+  try {
+    // Perform the search query using the User model
+    const searchResults = await Post.find({
+      description: { $regex: searchString, $options: "i" },
+    });
+
+    res.json(searchResults);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred during the search." });
+  }
+});
 //GET ALL
 //successfully tested
 router.get("/", async (req, res) => {
