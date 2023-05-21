@@ -117,6 +117,11 @@ const SearchBox = ({ setShowCamera }) => {
         <Ionic name="search" style={styles.icon} />
         <TouchableOpacity
           style={styles.cameraContainer}
+          onPress={() => navigation.navigate("CameraSearch")}
+        >
+          <Ionicons name="camera" style={styles.cameraIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => navigation.navigate("SideBar")}
         >
           <Ionicons name="filter-sharp" style={styles.cameraIcon} />
@@ -202,6 +207,9 @@ const styles = StyleSheet.create({
   },
   selectedCategoryItemText: {
     color: "#ffffff",
+  },
+  cameraContainer:{
+    marginRight: "3%",
   },
 });
 
