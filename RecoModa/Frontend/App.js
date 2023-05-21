@@ -23,6 +23,7 @@ import RegisterMeasure from "./screens/RegisterMeasure";
 import Likedpost from "./screens/WhistList";
 import FollowersPage from "./screens/FollowersPage";
 import FollowingPage from "./screens/FollowingPage";
+import PeopleProfile from "./screens/PeopleProfile";
 //import ImageDetails from "./screens/ImageDetails";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -159,6 +160,10 @@ export default function App() {
             <Stack.Screen
               name="ImageDetails"
               component={ImageDetails}
+            ></Stack.Screen>
+            <Stack.Screen
+              name="PeopleProfile"
+              component={PeopleProfile}
             ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
