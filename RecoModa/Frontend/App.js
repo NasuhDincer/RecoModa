@@ -31,6 +31,7 @@ import { store, persistor } from "./redux/store";
 import { useState, useEffect } from "react";
 
 import Icon from "react-native-vector-icons/FontAwesome";
+import CameraSearch from "./screens/CameraSearch";
 import SideBar from "./screens/SideBar";
 import ShowPost from "./screens/ShowPost";
 import ImageDetails from "./screens/ImageDetails";
@@ -148,6 +149,7 @@ export default function App() {
               component={RegisterMeasure}
             ></Stack.Screen>
             <Stack.Screen name="SideBar" component={SideBar}></Stack.Screen>
+            <Stack.Screen name="CameraSearch" component={CameraSearch}></Stack.Screen>
             <Stack.Screen name="ShowPost" component={ShowPost}></Stack.Screen>
             <Stack.Screen
               name="FollowersPage"
