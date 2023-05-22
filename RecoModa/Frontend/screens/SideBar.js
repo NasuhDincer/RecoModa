@@ -1,9 +1,10 @@
 import { View, Text, Button, ScrollView } from "react-native";
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet,   TextInput,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
+import { Picker} from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 
@@ -175,6 +176,39 @@ const SideBar = () => {
           </Picker>
         </View>
       </View>
+
+      <View style={{ marginLeft: 16, flexDirection: "row" }}>
+        <Text
+          style={{ fontWeight: "bold", top: 15 }}
+        >
+          Price:
+        </Text>
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          placeholder="Enter min price"
+
+        />
+        <Text
+          style={{ fontWeight: "bold", top: 15 }}
+        >
+          -
+        </Text>
+
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          placeholder="Enter max price"
+
+        />
+        <Text
+          style={{ fontWeight: "bold", top: 15 }}
+        >
+          TL
+        </Text>
+      </View>
+
+
       <Text style={styles.colorContainer}>Color</Text>
       <View style={styles.colorRow}>
         {colors.map((color) => (
@@ -188,6 +222,7 @@ const SideBar = () => {
           </TouchableOpacity>
         ))}
       </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={{
@@ -334,4 +369,16 @@ const styles = StyleSheet.create({
   btnText: {
     color: "white",
   },
+  input: {
+    keyboardType: "numeric",
+    width: "50%",
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginTop: 15,
+    marginBottom: 20,
+    marginRight: 1,
+    marginLeft: 10,
+    width: 150,
+  },
+
 });
