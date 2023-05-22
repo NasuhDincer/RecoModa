@@ -10,6 +10,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import rawipv4 from "../ipv4.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
+
 const FollowersPage = () => {
   const [followers, setFollowers] = useState([]);
   const [followerDetails, setFollowerDetails] = useState([]);
@@ -47,8 +48,6 @@ const FollowersPage = () => {
         console.log("RES2", res2.data);
         const username = res2.data.username;
         const name = res2.data.username;
-        console.log(username)
-        console.log(name)
         tempFollowerDetails.push({ id: res.data[0].followerList[i], username, name });
       }
 

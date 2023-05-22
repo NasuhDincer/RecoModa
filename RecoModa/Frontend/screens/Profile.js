@@ -39,11 +39,13 @@ const Profile = (props) => {
   });
 
   useEffect(() => {
-    // this function will be called after the component is mounted or updated
+    // this function will be called after the component is mounted or update
     handleSubmit();
-    handleFollowers();
-    console.log("userId : ", user.user._id);
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleFollowers();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const handleSubmit = async () => {
     try {
@@ -52,6 +54,7 @@ const Profile = (props) => {
         "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
       );
       setMediaProfile(res.data);
+      
     } catch (error) {
       // handle error response
       console.log(error);
@@ -65,14 +68,9 @@ const Profile = (props) => {
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
-      //console.log("Followers", res.data);
-      //setMedia(res.data[0])
-      //const obj = JSON.parse(res.data);
-      var follower = 0;
 
       //console.log("follower :", media.followerList.length)
       setFollowers(res.data[0].followerList.length);
-      var followed = 0;
 
       //console.log("followerd :", media.followedList.length)
       setFollowing(res.data[0].followedList.length);

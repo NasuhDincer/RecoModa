@@ -11,50 +11,50 @@ import { useSelector } from "react-redux";
 import rawipv4 from "../ipv4.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const FollowingPage = () => {
-  const [followings, setFollowing] = useState([]);
-  const [followingDetails, setFollowingDetails] = useState([]);
+const FollowingsPage = () => {
+  const [followeds, setfollowed] = useState([]);
+  const [followedDetails, setfollowedDetails] = useState([]);
   const user = useSelector((state) => state.user.currentUser);
   const [isLoading, setIsLoading] = useState(true);
   const route = useRoute();
   const userId = route.params.userId
   useEffect(() => {
-    fetchFollowings();
+    fetchfolloweds();
   }, []);
 
-  const fetchFollowings = async () => {
+  const fetchfolloweds = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${userId}`
       );
-      console.log("Followings", res.data);
-      console.log("Following data", res.data[0].followingList);
-      setFollowing(res.data[0].followingList);
+      console.log("followeds", res.data);
+      console.log("followed data", res.data[0].followedList);
+      setfollowed(res.data[0].followedList);
       console.log(res.data);
-      if (!res.data || res.data.length === 0 || !res.data[0].followingList) {
+      if (!res.data || res.data.length === 0 || !res.data[0].followedList) {
         // If response data or followerList is undefined or empty, set loading state to false
         setIsLoading(false);
         return;
       }
-      const tempFollowingDetails = [];
+      const tempfollowedDetails = [];
 
-      for (let i = 0; i < res.data[0].followingList.length; i++) {
+      for (let i = 0; i < res.data[0].followedList.length; i++) {
         console.log("sakdjsa");
         console.log(res.data[0].userId)
         const res2 = await axios.get(
-          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].followingList[i]}`
+          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].followedList[i]}`
         );
         console.log("RES2", res2.data);
         const username = res2.data.username;
         const name = res2.data.username;
-        tempFollowingDetails.push({ id: res.data[0].followingList[i], username, name });
+        tempfollowedDetails.push({ id: res.data[0].followedList[i], username, name });
       }
 
-      setFollowingDetails(tempFollowingDetails);
+      setfollowedDetails(tempfollowedDetails);
       setIsLoading(false);
     } catch (error) {
-      console.log("Error fetching following:", error);
+      console.log("Error fetching followed:", error);
     }
   };
 
@@ -68,23 +68,27 @@ const FollowingPage = () => {
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Followings</Text>
+      <Text style={styles.title}>followeds</Text>
       <FlatList
-        data={followings}
+        data={followeds}
         keyExtractor={(item) => item}
         renderItem={({ item }) => {
           console.log("Item:", item);
-          const followingDetail = followingDetails.find((following) => following.id === item);
+          const followedDetail = followedDetails.find(
+            (followed) => followed.id === item
+            );
 
-          if (!followingDetail) {
-            // Return a loading indicator or handle the case where followingDetail is not found
+          if (!followedDetail) {
+            // Return a loading indicator or handle the case where followedDetail is not found
             return null;
           }
 
           return (
-            <View style={styles.followingItem}>
-              <Text style={styles.followingName}>{followingDetail.name} </Text>
-              <Text style={styles.followingUsername}>@{followingDetail.username}{" "} </Text>
+            <View style={styles.followedItem}>
+              <Text style={styles.followedName}>{followedDetail.name} </Text>
+              <Text style={styles.followedUsername}>
+                @{followedDetail.username}{" "}
+              </Text>
             </View>
           );
         }}
@@ -104,19 +108,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
   },
-  followingItem: {
+  followedItem: {
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#CCCCCC",
   },
-  followingName: {
+  followedName: {
     fontSize: 16,
     fontWeight: "bold",
   },
-  followingUsername: {
+  followedUsername: {
     fontSize: 14,
     color: "#888888",
   },
 });
 
-export default FollowingPage;
+export default FollowingsPage;

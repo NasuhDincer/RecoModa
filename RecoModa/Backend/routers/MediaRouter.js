@@ -139,14 +139,18 @@ router.get("/homePage/:id", async (req, res) => {
 // Define the route for handling the follow request
 router.put("/follow/:id", async (req, res) => {
   const { id } = req.params; // takip ettiğin kisi
-  const { userId } = req.body; // sen
+  const userId = req.body.userId; // sen
 
 
   try {
     // Find the media document with the given id
+    console.log(req.body)
+    console.log(id)
+    console.log(userId)
     const personWillBeFollowed = await Media.findOne({ userId: id });
     const me = await Media.findOne({ userId: userId });
-
+    console.log(personWillBeFollowed)
+    console.log("sadsa", me)
     if (!personWillBeFollowed) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -154,13 +158,6 @@ router.put("/follow/:id", async (req, res) => {
     // Check if the user is already following
     if (personWillBeFollowed.followerList.includes(userId)) {
       return res.status(400).json({ error: "You are already following this user" });
-    }
-
-    // Check if the userId is already in followedList
-    if (!personWillBeFollowed.followedList.includes(userId)) {
-      // Add the userId to the followedList array
-      personWillBeFollowed.followedList.push(userId);
-      me.followerList.push(id)
     }
 
     // Add the userId to the followerList array
@@ -179,7 +176,7 @@ router.put("/follow/:id", async (req, res) => {
 
 router.put("/unfollow/:id", async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.body;
+  const userId = req.body.userId;
 
   try {
     // Find the media document with the given id
@@ -195,12 +192,10 @@ router.put("/unfollow/:id", async (req, res) => {
       return res.status(400).json({ error: "You are not following this user" });
     }
 
-    // Remove the userId from the followedList array
-    personWillBeFollowed.followedList = personWillBeFollowed.followedList.filter((followedId) => followedId !== userId);
-    me.followerList = me.followerList.filter((followerId) => followerId !== id);
     // Remove the userId from the followerList array
     personWillBeFollowed.followerList = personWillBeFollowed.followerList.filter((followerId) => followerId !== userId);
     me.followedList = me.followedList.filter((followedId) => followedId !== id);
+   
     // Save the updated media document
     await personWillBeFollowed.save();
     await me.save();
