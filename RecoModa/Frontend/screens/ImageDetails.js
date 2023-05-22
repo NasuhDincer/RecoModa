@@ -81,6 +81,7 @@ const ImageDetails = ({ route }) => {
   const user = useSelector((state) => state.user.currentUser);
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
+  
   const getFilenameFromUri = (uri) => {
     const path = uri.split("/");
 
@@ -91,6 +92,7 @@ const ImageDetails = ({ route }) => {
     // this function will be called after the component is mounted or updated
     //handleSubmit();
     console.log("postInfo : ", postInfo);
+    console.log((postInfo.color))
   }, []);
 
   const handleAddProduct = () => {
@@ -113,7 +115,7 @@ const ImageDetails = ({ route }) => {
   };
   const handleColorChange = (color, index) => {
     const updatedProducts = [...products];
-    updatedProducts[index].color = color.hex;
+    updatedProducts[index].color = color;
     setProducts(updatedProducts);
   };
   const handleCategoryChange = (value, index) => {
@@ -179,6 +181,21 @@ const ImageDetails = ({ route }) => {
       name: filename,
     });
     formData.append("mediaId", "1");
+    const categoryNameArray = postInfo.category.map(category => category.name);
+    console.log("cc : ", categoryNameArray )
+    categoryNameArray.forEach((categoryName, index) => {
+      console.log(`category[${index}]`, categoryName)
+      formData.append(`category[${index}]`, categoryName);
+    });
+   
+    formData.append("description", postInfo.description);
+    
+    products.forEach((product, index) => {
+      Object.entries(product).forEach(([key, value]) => {
+        formData.append(`productInfo[${index}][${key}]`, value);
+      });
+    });
+
     console.log("fname :", formData);
     //const formData = new FormData();
     let res = await fetch("http://" + ipv4Address + ":5000/api/post/upload", {
@@ -339,7 +356,7 @@ const ImageDetails = ({ route }) => {
                 </Picker>
               </View>
               <View style={styles.colorContainer2}>
-                {colors.map((color) => (
+                {postInfo.color.map((color) => (
                   <View key={color.id}>
                     <TouchableOpacity
                       onPress={() => handleColorChange(color, index)}
@@ -347,8 +364,8 @@ const ImageDetails = ({ route }) => {
                       <View
                         style={[
                           styles.colorCircle,
-                          { backgroundColor: color.hex },
-                          product.color === color.hex
+                          { backgroundColor: color },
+                          product.color === color
                             ? { borderWidth: 3, borderColor: "black" }
                             : null,
                         ]}

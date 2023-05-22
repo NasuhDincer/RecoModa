@@ -4,6 +4,7 @@ import fs from "fs";
 import multer from "multer";
 import Post from "../models/Post.js";
 import path from "path";
+import { createCanvas, Image } from "canvas";
 import { PythonShell } from "python-shell";
 import {
   verifyToken,
@@ -24,7 +25,53 @@ const storage = multer.diskStorage({
   },
 });
 
+const storage2 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "process");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
 const upload = multer({ storage: storage });
+const upload2 = multer({ storage: storage2 });
+
+router.post("/process", upload2.single("images"), (req, res) => {
+  try{
+    console.log("reqF : ", req.file.path)
+    const imageData = fs.readFileSync(req.file.path);
+    const img = new Image();
+    console.log("X1:",imageData)
+    img.src = imageData;
+  
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext("2d");
+  
+    ctx.drawImage(img, 0, 0);
+  
+    const pixelData = ctx.getImageData(0, 0, img.width, img.height).data;
+    const hexCounts = {};
+  
+    for (let i = 0; i < pixelData.length; i += 4) {
+      const r = pixelData[i];
+      const g = pixelData[i + 1];
+      const b = pixelData[i + 2];
+  
+      const hex = `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
+      hexCounts[hex] = hexCounts[hex] ? hexCounts[hex] + 1 : 1;
+    }
+  
+    const sortedHexCounts = Object.entries(hexCounts).sort((a, b) => b[1] - a[1]);
+    const topHexCounts = sortedHexCounts.slice(0, 15);
+    const firstElements = topHexCounts.map(([firstElement]) => firstElement);
+    console.log(firstElements);
+    res.status(200).json(firstElements);
+  }catch (err) {
+    res.status(500).json(err);
+  }
+  
+});
 
 router.post("/upload", upload.single("images"), (req, res) => {
   console.log("req : ", req.body)
@@ -33,6 +80,7 @@ router.post("/upload", upload.single("images"), (req, res) => {
     mediaId: req.body.mediaId,
     description: req.body.description,
     likeList: req.body.likeList,
+    category: req.body.category,
     commentList: req.body.commentList,
     img: {
       data: fs.readFileSync("uploads/" + req.file.filename),

@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
+import rawipv4 from "../ipv4.json";
 const categories = [
   {
     id: 1,
@@ -91,7 +92,43 @@ export default function UploadImage() {
   const [description, setDescription] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState();
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [imageColor, setImageColor] = useState([]);
+
   const navigation = useNavigation();
+  const getFilenameFromUri = (uri) => {
+    const path = uri.split("/");
+
+    return path[path.length - 1];
+  };
+
+  const handleColor = async (uriImg) => {
+    const filename = getFilenameFromUri(uriImg);
+    console.log("filename : ", filename);
+    const ipv4Address = rawipv4["ip"];
+    const formData = new FormData();
+    formData.append("images", {
+      uri: uriImg,
+      type: "image/png",
+      name: filename,
+    });
+
+    let res = await fetch("http://" + ipv4Address + ":5000/api/post/process", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    const data = await res.json();
+
+    console.log(data);
+    console.log(typeof(data))
+    setImageColor(data)
+    console.log(imageColor)
+    console.log(typeof imageColor)
+
+  };
 
   const removeImage = () => {
     setImage(null);
@@ -111,9 +148,9 @@ export default function UploadImage() {
 
     if (!result.canceled) {
       setImage(result.assets[0]);
-      //  Console.log("image : ", result)
+      handleColor(result.assets[0].uri);
     }
-    console.log(result);
+    //console.log(result);
   };
 
   const handleCategoryPress = (category) => {
@@ -285,6 +322,7 @@ export default function UploadImage() {
                     image: image,
                     description: description,
                     category: selectedCategory,
+                    color: imageColor,
                   },
                 });
               }

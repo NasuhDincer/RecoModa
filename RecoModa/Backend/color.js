@@ -1,10 +1,22 @@
 import fs from "fs";
+import axios from "axios";
 import { createCanvas, Image } from "canvas";
+
+async function readImageDataFromURI(uri) {
+  try {
+    const response = await axios.get(uri, { responseType: 'arraybuffer' });
+    const imageData = response.data;
+    return imageData;
+  } catch (error) {
+    console.error('Error reading image data from URI:', error);
+    return null;
+  }
+}
 
 async function getDominantHex(imagePath) {
   const imageData = fs.readFileSync(imagePath);
   const img = new Image();
-  console.log(imageData)
+  console.log("X1:",imageData)
   img.src = imageData;
 
   const canvas = createCanvas(img.width, img.height);
@@ -52,4 +64,4 @@ const rgb2 = hexToRgb(hex2);
 const distance = rgbDistance(rgb1, rgb2);
 
 console.log(distance); // Output: 441.6729559300637
-getDominantHex("Example1.jpg")
+getDominantHex("process\\10020.jpg")
