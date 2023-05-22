@@ -8,6 +8,12 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import {
+  useFonts,
+  Nunito_400Regular,
+  Nunito_500Medium,
+  Nunito_600SemiBold,
+} from "@expo-google-fonts/nunito";
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import rawipv4 from "../ipv4.json";
@@ -15,6 +21,11 @@ import RecoPost from "../components/RecoPost";
 import { element } from "prop-types";
 
 const ShowPost = ({ route }) => {
+  let [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_500Medium,
+    Nunito_600SemiBold,
+  });
   console.log("promppss ", route);
   const [showAll, setShowAll] = useState(false);
   const { postId } = route.params;
@@ -66,33 +77,46 @@ const ShowPost = ({ route }) => {
     setSimilar(res.data);
   };
 
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>DETAILED POST</Text>
+        <Text style={[styles.headerText, { fontFamily: "Nunito_600SemiBold" }]}>
+          DETAILED POST
+        </Text>
       </View>
       <ScrollView nestedScrollEnabled style={styles.Scrollcontainer}>
         <View>
           <RecoPost post={postId._id}></RecoPost>
           <Text style={styles.headerText}>SIMILAR POSTS</Text>
-          {similar.length!=0 ? 
-          <FlatList nestedScrollEnabled
-            contentContainerStyle={{
-              width: "100%",
-            }}
-            data={similar}
-            renderItem={({ item, index }) => <RecoPost post={item}></RecoPost>}
-            keyExtractor={(item, key) => item._id}
-          />
-          :
-          <View>
-            <Image
-              source={require('../Assets/loadinghourglass.png')}
-              style={{width:100, height:100,  alignSelf:"center", marginTop:50}}
+          {similar.length != 0 ? (
+            <FlatList
+              nestedScrollEnabled
+              contentContainerStyle={{
+                width: "100%",
+              }}
+              data={similar}
+              renderItem={({ item, index }) => (
+                <RecoPost post={item}></RecoPost>
+              )}
+              keyExtractor={(item, key) => item._id}
             />
-            <Text style={styles.headerText}>Loading</Text>
-          </View>
-          }
+          ) : (
+            <View>
+              <Image
+                source={require("../Assets/loadinghourglass.png")}
+                style={{
+                  width: 100,
+                  height: 100,
+                  alignSelf: "center",
+                  marginTop: 50,
+                }}
+              />
+              <Text style={styles.headerText}>Loading</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -102,10 +126,10 @@ export default ShowPost;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e3e2e0",
   },
   header: {
-    backgroundColor: "#fff",
+    backgroundColor: "#e3e2e0",
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 1,
@@ -116,6 +140,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: "center",
     fontWeight: "bold",
+    marginTop: 25,
   },
   postList: {
     flex: 1,
@@ -171,7 +196,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
-  Scrollcontainer:{
+  Scrollcontainer: {
     flex: 1,
   },
 });
