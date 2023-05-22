@@ -9,13 +9,14 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import rawipv4 from "../ipv4.json";
-
+import { useNavigation, useRoute } from "@react-navigation/native";
 const FollowersPage = () => {
   const [followers, setFollowers] = useState([]);
   const [followerDetails, setFollowerDetails] = useState([]);
   const user = useSelector((state) => state.user.currentUser);
   const [isLoading, setIsLoading] = useState(true);
-
+  const route = useRoute();
+  const userId = route.params.userId
   useEffect(() => {
     fetchFollowers();
   }, []);
@@ -24,10 +25,10 @@ const FollowersPage = () => {
     try {
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${userId}`
       );
-      console.log("Followers", res.data);
-      console.log("Followers data", res.data[0].followerList);
+      console.log("FollowersDSFSD", res.data);
+      console.log("Followers dataSDFDSFDS", res.data[0].followerList);
       setFollowers(res.data[0].followerList);
       console.log(res.data);
       if (!res.data || res.data.length === 0 || !res.data[0].followerList) {
@@ -39,12 +40,15 @@ const FollowersPage = () => {
 
       for (let i = 0; i < res.data[0].followerList.length; i++) {
         console.log("sakdjsa");
+        console.log(res.data[0].userId)
         const res2 = await axios.get(
-          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].userId}`
+          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].followerList[i]}`
         );
         console.log("RES2", res2.data);
         const username = res2.data.username;
         const name = res2.data.username;
+        console.log(username)
+        console.log(name)
         tempFollowerDetails.push({ id: res.data[0].followerList[i], username, name });
       }
 

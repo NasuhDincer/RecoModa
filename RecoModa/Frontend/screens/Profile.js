@@ -145,7 +145,7 @@ const Profile = (props) => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{followers}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowersPage")}
+                onPress={() => navigation.navigate("FollowersPage", {userId : user.user._id})}
               >
                 <Text
                   style={[
@@ -160,7 +160,7 @@ const Profile = (props) => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{following}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowingPage")}
+                onPress={() => navigation.navigate("FollowingPage", {userId : user.user._id})}
               >
                 <Text
                   style={[

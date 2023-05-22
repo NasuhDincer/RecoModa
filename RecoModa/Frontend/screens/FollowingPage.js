@@ -9,13 +9,15 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import rawipv4 from "../ipv4.json";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const FollowingPage = () => {
-  const [following, setFollowing] = useState([]);
+  const [followings, setFollowing] = useState([]);
   const [followingDetails, setFollowingDetails] = useState([]);
   const user = useSelector((state) => state.user.currentUser);
   const [isLoading, setIsLoading] = useState(true);
-
+  const route = useRoute();
+  const userId = route.params.userId
   useEffect(() => {
     fetchFollowings();
   }, []);
@@ -24,7 +26,7 @@ const FollowingPage = () => {
     try {
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
+        "http://" + ipv4Address + `:5000/api/media/mediaUser/${userId}`
       );
       console.log("Followings", res.data);
       console.log("Following data", res.data[0].followingList);
@@ -39,8 +41,9 @@ const FollowingPage = () => {
 
       for (let i = 0; i < res.data[0].followingList.length; i++) {
         console.log("sakdjsa");
+        console.log(res.data[0].userId)
         const res2 = await axios.get(
-          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].userId}`
+          "http://" + ipv4Address + `:5000/api/users/find/${res.data[0].followingList[i]}`
         );
         console.log("RES2", res2.data);
         const username = res2.data.username;
@@ -49,7 +52,7 @@ const FollowingPage = () => {
       }
 
       setFollowingDetails(tempFollowingDetails);
-
+      setIsLoading(false);
     } catch (error) {
       console.log("Error fetching following:", error);
     }
@@ -67,11 +70,11 @@ const FollowingPage = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Followings</Text>
       <FlatList
-        data={following}
+        data={followings}
         keyExtractor={(item) => item}
         renderItem={({ item }) => {
           console.log("Item:", item);
-          const followingDetail = followingDetails.find((followings) => followings.id === item);
+          const followingDetail = followingDetails.find((following) => following.id === item);
 
           if (!followingDetail) {
             // Return a loading indicator or handle the case where followingDetail is not found

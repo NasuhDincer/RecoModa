@@ -61,8 +61,9 @@ const PeopleProfile = () => {
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${clickedUserId}`
       );
-      const isUserInFollowerList = res2.data[0].followedList.includes(user.user._id);
+      var isUserInFollowerList = res2.data[0].followedList.includes(user.user._id);
       console.log("isUserInFollowerList: ", isUserInFollowerList);
+      console.log("Tarik", res2.data[0].followersList);
       setIsFollowing(isUserInFollowerList);
 
     } catch (error) {
@@ -113,6 +114,7 @@ const PeopleProfile = () => {
         "http://" + ipv4Address + `:5000/api/media/follow/${clickedUserId}`,
         { userId }
       );
+
       console.log("hehehehehehe", res.data);
       // Handle success
       setIsFollowing(true);
@@ -203,7 +205,7 @@ const PeopleProfile = () => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{followers}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowersPage")}
+                onPress={() => navigation.navigate("FollowersPage", {userId : clickedUserId})}
               >
                 <Text
                   style={[
@@ -218,8 +220,8 @@ const PeopleProfile = () => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{following}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowingPage")}
-              >
+                onPress={() => navigation.navigate("FollowingPage", {userId : clickedUserId})}
+              > 
                 <Text
                   style={[
                     styles.stat,

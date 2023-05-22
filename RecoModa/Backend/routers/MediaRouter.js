@@ -138,33 +138,37 @@ router.get("/homePage/:id", async (req, res) => {
 
 // Define the route for handling the follow request
 router.put("/follow/:id", async (req, res) => {
-  const { id } = req.params;
-  const { userId } = req.body;
+  const { id } = req.params; // takip ettiğin kisi
+  const { userId } = req.body; // sen
+
 
   try {
     // Find the media document with the given id
-    const media = await Media.findOne({ userId: id });
+    const personWillBeFollowed = await Media.findOne({ userId: id });
+    const me = await Media.findOne({ userId: userId });
 
-    if (!media) {
-      return res.status(404).json({ error: "Media not found" });
+    if (!personWillBeFollowed) {
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Check if the user is already following
-    if (media.followerList.includes(userId)) {
+    if (personWillBeFollowed.followerList.includes(userId)) {
       return res.status(400).json({ error: "You are already following this user" });
     }
 
     // Check if the userId is already in followedList
-    if (!media.followedList.includes(userId)) {
+    if (!personWillBeFollowed.followedList.includes(userId)) {
       // Add the userId to the followedList array
-      media.followedList.push(userId);
+      personWillBeFollowed.followedList.push(userId);
+      me.followerList.push(id)
     }
 
     // Add the userId to the followerList array
-    media.followerList.push(userId);
-
-    // Save the updated media document
-    await media.save();
+    personWillBeFollowed.followerList.push(userId);
+    me.followedList.push(id)
+    // Save the updated personWillBeFollowed document
+    await personWillBeFollowed.save();
+    await me.save();
 
     res.json({ message: "Successfully followed the user" });
   } catch (error) {
@@ -173,23 +177,33 @@ router.put("/follow/:id", async (req, res) => {
   }
 });
 
-
-
-// Define the route for handling the unfollow request
 router.put("/unfollow/:id", async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+
   try {
-    const { id } = req.params;
-    const { userId } = req.body;
+    // Find the media document with the given id
+    const personWillBeFollowed = await Media.findOne({ userId: id });
+    const me = await Media.findOne({ userId: userId });
 
-    const media = await Media.findOneAndUpdate(
-      { userId: id, followerList: userId },
-      { $pull: { followerList: userId } },
-      { new: true }
-    );
-
-    if (!media) {
-      return res.status(404).json({ error: "Media not found or you are not following this user" });
+    if (!personWillBeFollowed) {
+      return res.status(404).json({ error: "Media not found" });
     }
+
+    // Check if the user is already following
+    if (!personWillBeFollowed.followerList.includes(userId)) {
+      return res.status(400).json({ error: "You are not following this user" });
+    }
+
+    // Remove the userId from the followedList array
+    personWillBeFollowed.followedList = personWillBeFollowed.followedList.filter((followedId) => followedId !== userId);
+    me.followerList = me.followerList.filter((followerId) => followerId !== id);
+    // Remove the userId from the followerList array
+    personWillBeFollowed.followerList = personWillBeFollowed.followerList.filter((followerId) => followerId !== userId);
+    me.followedList = me.followedList.filter((followedId) => followedId !== id);
+    // Save the updated media document
+    await personWillBeFollowed.save();
+    await me.save();
 
     res.json({ message: "Successfully unfollowed the user" });
   } catch (error) {
@@ -197,8 +211,5 @@ router.put("/unfollow/:id", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
-
 
 export default router;
