@@ -164,6 +164,7 @@ const Home = (props) => {
       console.log(error);
     }
   };
+  var FONT_SIZE = 37;
   useEffect(() => {
     // this function will be called after the component is mounted or updated
     handleSubmit();
@@ -191,11 +192,10 @@ const Home = (props) => {
         <Text
           adjustsFontSizeToFit
           style={{
-            fontSize: Dimensions.get("window").width / 12,
+            fontSize: Dimensions.get("window").width / 10,
             marginTop: "5%",
             top: 8,
             textAlign: "center",
-            fontSize: 37,
             fontFamily: "Pacifico_400Regular",
             color: "#8D3667",
           }}
