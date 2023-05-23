@@ -28,6 +28,7 @@ const Search = () => {
   const [showCamera, setShowCamera] = useState(false);
   const [desiredRatio, setRatio] = useState("16:9");
   const [searchStr, setSearchStr] = useState('');
+  const [searchCategory, setSearchCategory] = useState([]);
 
 
   useEffect(() => {
@@ -105,8 +106,8 @@ const Search = () => {
     <View>
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <SearchBox setShowCamera={setShowCamera} setSearchStr={setSearchStr} />
-          <SearchContent searchStr = {searchStr}/>
+          <SearchBox setShowCamera={setShowCamera} setSearchStr={setSearchStr} setSearchCategory={setSearchCategory} />
+          <SearchContent searchStr = {searchStr} searchCategory = {searchCategory}/>
         </ScrollView>
       </View>
       {showCamera && (
