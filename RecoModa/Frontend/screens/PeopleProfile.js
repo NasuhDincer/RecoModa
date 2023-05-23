@@ -24,6 +24,8 @@ import AppLoading from "expo-app-loading";
 import rawipv4 from "../ipv4.json";
 
 const PeopleProfile = () => {
+  const description =
+    "Hi, I am a digital content creator.Hi, I am a digital content creator. Hi, I am a digital content creator. Hi, I am a digital content creator.";
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
   const [posts, setPosts] = useState([]);
@@ -57,15 +59,16 @@ const PeopleProfile = () => {
       );
       console.log("HEHEHEH", res.data);
       setMediaProfile(res.data);
-      
+
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${clickedUserId}`
       );
-      var isUserInFollowerList = res2.data[0].followerList.includes(user.user._id);
+      var isUserInFollowerList = res2.data[0].followerList.includes(
+        user.user._id
+      );
       console.log("isUserInFollowerList: ", isUserInFollowerList);
       console.log("Tarik", res2.data[0].followersList);
       setIsFollowing(isUserInFollowerList);
-
     } catch (error) {
       // handle error response
       console.log(error);
@@ -205,7 +208,11 @@ const PeopleProfile = () => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{followers}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowersPage", {userId : clickedUserId})}
+                onPress={() =>
+                  navigation.navigate("FollowersPage", {
+                    userId: clickedUserId,
+                  })
+                }
               >
                 <Text
                   style={[
@@ -220,8 +227,12 @@ const PeopleProfile = () => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{following}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowingPage", {userId : clickedUserId})}
-              > 
+                onPress={() =>
+                  navigation.navigate("FollowingPage", {
+                    userId: clickedUserId,
+                  })
+                }
+              >
                 <Text
                   style={[
                     styles.stat,
@@ -233,6 +244,16 @@ const PeopleProfile = () => {
               </TouchableOpacity>
             </View>
           </View>
+        </View>
+        <View
+          style={{
+            marginLeft: 20,
+            marginTop: 5,
+            marginBottom: 20,
+            marginRight: 10,
+          }}
+        >
+          <Text>{description}</Text>
         </View>
         <View style={styles.buttonRow}>
           <TouchableOpacity
@@ -250,9 +271,6 @@ const PeopleProfile = () => {
         <View style={styles.minibar}>
           <TouchableOpacity style={styles.minibarItem}>
             <MaterialIcons name="apps" size={36} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.minibarItem}>
-            <MaterialIcons name="bookmark" size={36} color="black" />
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.Scrollcontainer}>
@@ -324,7 +342,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: "white",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 14,
   },
   stats: {
     flexDirection: "row",
@@ -401,13 +419,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   followButton: {
-    paddingHorizontal: 10,
+    paddingHorizontal: "20%",
     paddingVertical: 5,
     borderRadius: 5,
-    backgroundColor: "#e3e2e0",
-    alignSelf: "flex-end",
-    margin: 10,
-    fontSize: 18,
+    backgroundColor: "#8D3667",
+    fontSize: 16,
+    left: 10,
     fontFamily: "Nunito_600SemiBold",
+    color: "white",
   },
 });
