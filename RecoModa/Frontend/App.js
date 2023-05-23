@@ -57,7 +57,7 @@ const UserScreens = () => {
           } else if (route.name === "upload") {
             iconName = "file-upload";
           } else if (route.name === "wishlist") {
-            iconName = "add-shopping-cart";
+            iconName = "favorite";
           } else if (route.name === "profile") {
             iconName = "person";
           }
@@ -149,7 +149,10 @@ export default function App() {
               component={RegisterMeasure}
             ></Stack.Screen>
             <Stack.Screen name="SideBar" component={SideBar}></Stack.Screen>
-            <Stack.Screen name="CameraSearch" component={CameraSearch}></Stack.Screen>
+            <Stack.Screen
+              name="CameraSearch"
+              component={CameraSearch}
+            ></Stack.Screen>
             <Stack.Screen name="ShowPost" component={ShowPost}></Stack.Screen>
             <Stack.Screen
               name="FollowersPage"
@@ -167,10 +170,7 @@ export default function App() {
               name="PeopleProfile"
               component={PeopleProfile}
             ></Stack.Screen>
-            <Stack.Screen
-              name="Profile"
-              component={Profile}
-            ></Stack.Screen>
+            <Stack.Screen name="Profile" component={Profile}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
