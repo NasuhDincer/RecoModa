@@ -13,6 +13,29 @@ import { FontAwesome } from "@expo/vector-icons";
 import rawipv4 from "../ipv4.json";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+const products = [
+  {
+    id: 1,
+    size: "XL",
+    brand: "Bershka",
+    category: "top-wear",
+    price: "1000TL",
+  },
+  {
+    id: 2,
+    size: "XL",
+    brand: "Bershka",
+    category: "top-wear",
+    price: "1000TL",
+  },
+  {
+    id: 3,
+    size: "XL",
+    brand: "Bershka",
+    category: "top-wear",
+    price: "1000TL",
+  },
+];
 const comments = [
   {
     id: 1,
@@ -257,6 +280,25 @@ const RecoPost = (props) => {
                 />
               </TouchableOpacity>
             </View>
+          </View>
+          <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
+            {products.map((product) => (
+              <View
+                key={product.id}
+                style={{
+                  backgroundColor: "lightgrey",
+                  borderRadius: 10,
+                  padding: 5,
+                  marginTop: 5,
+                  marginRight: 5,
+                }}
+              >
+                <Text>
+                  Product {product.id}: {product.brand}, {product.size},
+                  {product.category}, {product.price}
+                </Text>
+              </View>
+            ))}
           </View>
           <View
             style={{
