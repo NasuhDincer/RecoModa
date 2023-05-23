@@ -449,10 +449,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     marginHorizontal: 15,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "#E9EAEC",
     padding: 15,
-    height: 200,
+    height: 100,
   },
   wordCountContainer: {
     position: "absolute",
