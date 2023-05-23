@@ -1,18 +1,14 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import {
-  useFonts,
-  Nunito_400Regular,
-  Nunito_500Medium,
-  Nunito_600SemiBold,
-} from "@expo-google-fonts/nunito";
+import { useFonts, Nunito_400Regular, Nunito_500Medium, Nunito_600SemiBold } from "@expo-google-fonts/nunito";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import rawipv4 from "../ipv4.json";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+
 const products = [
   {
     id: 1,
@@ -36,116 +32,89 @@ const products = [
     price: "1000TL",
   },
 ];
+
 const comments = [
   {
     id: 1,
     name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
+    comment: "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
   },
   {
     id: 2,
     name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
+    comment: "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
   },
   {
     id: 3,
     name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
+    comment: "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
   },
   {
     id: 4,
     name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
+    comment: "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
+  },
+  {
+    id: 5,
+    name: "zulal",
+    comment: "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
   },
 ];
-const description =
-  "Uzaktan seviyorum seni! Kokunu alamadan, Boynuna sarılamadan. Yüzüne dokunamadan. Sadece seviyorum! Öyle uzaktan seviyorum seni! Elini tutmadan.";
+
+const description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown";
+
 const RecoPost = (props) => {
   let [fontsLoaded] = useFonts({
     Nunito_400Regular,
     Nunito_500Medium,
     Nunito_600SemiBold,
   });
+
   const [data, setData] = useState({});
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState("");
   const user = useSelector((state) => state.user.currentUser);
+
   const onCommentChange = (value) => {
     setComment(value);
-    //console.log("description:", description);
   };
 
   useEffect(() => {
-    console.log(props.post);
     handleSubmit();
-    console.log(post.description);
   }, []);
 
   const handleSubmit = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      console.log("post : ", props.post);
-      const p = await axios.get(
-        "http://" + ipv4Address + `:5000/api/post/post/${props.post}`
-      );
-      console.log(p.data.description);
+      const p = await axios.get("http://" + ipv4Address + `:5000/api/post/post/${props.post}`);
       setPost(p.data);
-      const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/media/${p.data.mediaId}`
-      );
-      //console.log(res.data);
-      //setData(res.data.userId);
-      const res2 = await axios.get(
-        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
-      );
-      //console.log(res2.data.username)
+      const res = await axios.get("http://" + ipv4Address + `:5000/api/media/media/${p.data.mediaId}`);
+      const res2 = await axios.get("http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`);
       setData(res2.data.username);
     } catch (error) {
-      // handle error response
       console.log(error);
     }
-
-    //props.navigation.navigate("Home")
   };
 
   const handleLike = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      console.log("like : ");
-      const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
-      );
-      const res2 = await axios.put(
-        "http://" + ipv4Address + `:5000/api/media//addLike/${res.data[0]._id}`,
-        { postId: post._id }
-      );
+      const res = await axios.get("http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`);
+      const res2 = await axios.put("http://" + ipv4Address + `:5000/api/media/addLike/${res.data[0]._id}`, { postId: post._id });
       console.log(res2.data);
-      //setData(res.data.userId);
-      /*const res2 = await axios.get(
-        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
-      );
-      //console.log(res2.data.username)
-      setData(res2.data.username);*/
     } catch (error) {
-      // handle error response
       console.log(error);
     }
-
-    //props.navigation.navigate("Home")
   };
+
   return (
     <>
-      <View style={{ flex: 1, marginVertical: 15 }}>
+      <View style={{ flex: 1, }}>
         <View
           style={{
             flex: 1,
             padding: "2%",
             width: "90%",
-            marginBottom: "5%",
             backgroundColor: "white",
             borderRadius: 10,
             borderWidth: 2,
@@ -164,6 +133,7 @@ const RecoPost = (props) => {
               alignItems: "center",
               justifyContent: "space-between",
               marginBottom: 5,
+              paddingBottom: "8%",
             }}
           >
             <View
@@ -281,7 +251,7 @@ const RecoPost = (props) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
+          <View style={{ flexWrap: "wrap", flexDirection: "row", alignItems: "center", marginBottom:10}}>
             {products.map((product) => (
               <View
                 key={product.id}
@@ -289,11 +259,17 @@ const RecoPost = (props) => {
                   backgroundColor: "lightgrey",
                   borderRadius: 10,
                   padding: 5,
-                  marginTop: 5,
-                  marginRight: 5,
+                  // margin: "5%",
+                  marginRight: "5%",
+                  marginLeft:"5%",
+                  // width: "90%",
+                  marginBottom: "2%",
+
                 }}
               >
-                <Text>
+                <Text
+                style={{paddingLeft: 10, paddingRight: 10,textAlign:"left"}}
+                >
                   Product {product.id}: {product.brand}, {product.size},
                   {product.category}, {product.price}
                 </Text>
@@ -322,7 +298,9 @@ const RecoPost = (props) => {
               >
                 {JSON.stringify(data).replace(/"/g, " ")}
               </Text>
-              : <Text>{description}</Text>
+              : <Text
+               style={{textAlign: 'justify'}}
+              >{description}</Text>
             </Text>
           </View>
 
@@ -337,7 +315,19 @@ const RecoPost = (props) => {
                 </View>
               ))}
             </ScrollView>
-            <View style={{ flexDirection: "row" }}>
+          </View>
+        </View>
+      </View>
+      <View style={{ flexDirection: "row", marginLeft:"5%", marginRight:"5%", 
+                      padding: "2%",
+                      width: "90%",
+                      marginBottom: "5%",
+                      backgroundColor: "white",
+                      borderRadius: 10,
+                      borderWidth: 2,
+                      borderColor: "lightgrey",
+                      shadowColor: "#808080",
+                      backgroundColor: "#F4F5F2", }}>
               <TextInput
                 style={{ width: "90%" }}
                 placeholder="Type some comment"
@@ -346,10 +336,8 @@ const RecoPost = (props) => {
               ></TextInput>
               <Feather name="send" size={24} color="black" />
             </View>
-          </View>
-        </View>
-      </View>
     </>
   );
 };
+
 export default RecoPost;
