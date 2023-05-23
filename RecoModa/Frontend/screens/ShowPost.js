@@ -32,7 +32,8 @@ const ShowPost = ({ route }) => {
   const [userName, setUserName] = useState({});
   const [similar, setSimilar] = useState([]);
 
-  //console.log("PostId: ", postId._id);
+  console.log("PostId: ", postId._id);
+  console.log("pososo", postId.mediaId);
   //console.log("Keys are: ", Object.keys(postId))
   useEffect(() => {
     handleSubmit();
