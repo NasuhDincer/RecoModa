@@ -4,7 +4,7 @@ import fs from "fs";
 import multer from "multer";
 import Post from "../models/Post.js";
 import path from "path";
-import { createCanvas, Image } from "canvas";
+//import { createCanvas, Image } from "canvas";
 import { PythonShell } from "python-shell";
 import {
   verifyToken,
@@ -36,7 +36,7 @@ const storage2 = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const upload2 = multer({ storage: storage2 });
-
+/*
 router.post("/process", upload2.single("images"), (req, res) => {
   try{
     console.log("reqF : ", req.file.path)
@@ -72,7 +72,7 @@ router.post("/process", upload2.single("images"), (req, res) => {
   }
   
 });
-
+*/
 router.post("/upload", upload.single("images"), (req, res) => {
   console.log("req : ", req.body)
   console.log("reqF : ", req.file)
@@ -417,11 +417,11 @@ router.post("/cameraSimilar", upload2.single("images"), (req, res) => {
   try{
     //console.log("reqF : ", req.file.path)
     const imageData = fs.readFileSync(req.file.path);
-   
+    console.log(req.file.path);
     const options = {
       mode: "text",
       scriptPath: "../Model/",
-      args: [imageData],
+      args: [req.file.path],
     };
     let pyshell = new PythonShell("camerasimilar.py", options);
     pyshell.on("message", function (message) {
