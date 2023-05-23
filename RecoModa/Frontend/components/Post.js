@@ -1,9 +1,8 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import rawipv4 from "../ipv4.json";
 import {
@@ -12,7 +11,6 @@ import {
   Nunito_500Medium,
   Nunito_600SemiBold,
 } from "@expo-google-fonts/nunito";
-import { createIconSet } from "react-native-vector-icons";
 
 const Post = (props) => {
   let [fontsLoaded] = useFonts({
@@ -27,7 +25,6 @@ const Post = (props) => {
   const [commentCount, setCommentCount] = useState("");
   const [ifLiked, setIfLiked] = useState(false);
   const [userIdNavigate, setUserIdNavigate] = useState("")
-  var isLiked = false;
   //const glyphMap = { 'icon-name': 1234, test: '∆' };
   //const Icon = createIconSet(glyphMap, 'FontName', 'font-name.ttf');
   //console.log("Props", Object.keys(props.post))

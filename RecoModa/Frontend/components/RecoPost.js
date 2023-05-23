@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -13,6 +13,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import rawipv4 from "../ipv4.json";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 const products = [
   {
     id: 1,
@@ -36,116 +37,105 @@ const products = [
     price: "1000TL",
   },
 ];
+
 const comments = [
   {
     id: 1,
     name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
-  },
-  {
-    id: 2,
-    name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
-  },
-  {
-    id: 3,
-    name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
-  },
-  {
-    id: 4,
-    name: "zulal",
-    comment:
-      "Ah, ellerim kırılaydı O numarayı ben unutaydım Gözlerini kurutaydım Seni öyle arasaydım",
+    comment: "asdfasfsasadf",
   },
 ];
-const description =
-  "Uzaktan seviyorum seni! Kokunu alamadan, Boynuna sarılamadan. Yüzüne dokunamadan. Sadece seviyorum! Öyle uzaktan seviyorum seni! Elini tutmadan.";
+
 const RecoPost = (props) => {
   let [fontsLoaded] = useFonts({
     Nunito_400Regular,
     Nunito_500Medium,
     Nunito_600SemiBold,
   });
+
   const [data, setData] = useState({});
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState("");
+  const [allComments, setAllComments] = useState([]);
+  const [description, setDescription] = useState("");
   const user = useSelector((state) => state.user.currentUser);
-  const onCommentChange = (value) => {
-    setComment(value);
-    //console.log("description:", description);
-  };
-
+  const navigation = useNavigation(); // Use the useNavigation hook
   useEffect(() => {
-    console.log(props.post);
+    // this function will be called after the component is mounted or update
     handleSubmit();
-    console.log(post.description);
   }, []);
 
   const handleSubmit = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      console.log("post : ", props.post);
       const p = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/post/${props.post}`
       );
-      console.log(p.data.description);
+      console.log("PDATA", Object.keys(p.data))
       setPost(p.data);
+      setDescription(p.data.description);
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/media/${p.data.mediaId}`
       );
-      //console.log(res.data);
-      //setData(res.data.userId);
       const res2 = await axios.get(
         "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
       );
-      //console.log(res2.data.username)
       setData(res2.data.username);
     } catch (error) {
-      // handle error response
       console.log(error);
     }
-
-    //props.navigation.navigate("Home")
   };
 
   const handleLike = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      console.log("like : ");
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/media/mediaUser/${user.user._id}`
       );
       const res2 = await axios.put(
-        "http://" + ipv4Address + `:5000/api/media//addLike/${res.data[0]._id}`,
+        "http://" + ipv4Address + `:5000/api/media/addLike/${res.data[0]._id}`,
         { postId: post._id }
       );
-      console.log(res2.data);
-      //setData(res.data.userId);
-      /*const res2 = await axios.get(
-        "http://" + ipv4Address + `:5000/api/users/find/${res.data.userId}`
-      );
-      //console.log(res2.data.username)
-      setData(res2.data.username);*/
+      console.log("POST DATA", res2.data);
     } catch (error) {
-      // handle error response
       console.log(error);
     }
-
-    //props.navigation.navigate("Home")
   };
+
+  const onCommentChange = (text) => {
+    setComment(text);
+  };
+
+  const handleSubmitComment = async () => {
+    try {
+      const ipv4Address = rawipv4["ip"];
+      const id = props.post;
+      console.log(",d,d", typeof id);
+      const res3 = await axios.get(
+        "http://" + ipv4Address + `:5000/api/users/find/${user.user._id}`
+      );
+      const commentorusername = res3.data.username;
+      const res = await axios.put(
+        "http://" + ipv4Address + `:5000/api/post/addComment/${props.post}`,
+        { commentorusername: commentorusername, comment: comment }
+      );
+
+      console.log(res.data);
+      console.log(typeof res.data);
+      setAllComments(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <View style={{ flex: 1, marginVertical: 15 }}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             flex: 1,
             padding: "2%",
             width: "90%",
-            marginBottom: "5%",
             backgroundColor: "white",
             borderRadius: 10,
             borderWidth: 2,
@@ -164,6 +154,7 @@ const RecoPost = (props) => {
               alignItems: "center",
               justifyContent: "space-between",
               marginBottom: 5,
+              paddingBottom: "8%",
             }}
           >
             <View
@@ -281,7 +272,14 @@ const RecoPost = (props) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
+          <View
+            style={{
+              flexWrap: "wrap",
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
             {products.map((product) => (
               <View
                 key={product.id}
@@ -289,11 +287,20 @@ const RecoPost = (props) => {
                   backgroundColor: "lightgrey",
                   borderRadius: 10,
                   padding: 5,
-                  marginTop: 5,
-                  marginRight: 5,
+                  // margin: "5%",
+                  marginRight: "5%",
+                  marginLeft: "5%",
+                  // width: "90%",
+                  marginBottom: "2%",
                 }}
               >
-                <Text>
+                <Text
+                  style={{
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    textAlign: "left",
+                  }}
+                >
                   Product {product.id}: {product.brand}, {product.size},
                   {product.category}, {product.price}
                 </Text>
@@ -322,34 +329,54 @@ const RecoPost = (props) => {
               >
                 {JSON.stringify(data).replace(/"/g, " ")}
               </Text>
-              : <Text>{description}</Text>
+              : <Text style={{ textAlign: "justify" }}>{description}</Text>
             </Text>
           </View>
 
           <View style={{ height: "30%", marginHorizontal: "3%" }}>
             <ScrollView style={{ marginBottom: 10 }}>
-              {comments.map((comment) => (
-                <View key={comment.id}>
+              {allComments.map((comment, index) => (
+                <View key={index}>
                   <Text style={{ marginBottom: 5 }}>
-                    <Text style={{ fontWeight: "bold" }}>{comment.name}</Text>:{" "}
-                    <Text style={{ color: "gray" }}>{comment.comment}</Text>
+                    <Text style={{ fontWeight: "bold" }}>
+                      {comment.username}
+                    </Text>
+                    : <Text style={{ color: "gray" }}>{comment.comment}</Text>
                   </Text>
                 </View>
               ))}
             </ScrollView>
-            <View style={{ flexDirection: "row" }}>
-              <TextInput
-                style={{ width: "90%" }}
-                placeholder="Type some comment"
-                onChangeText={onCommentChange}
-                multiline
-              ></TextInput>
-              <Feather name="send" size={24} color="black" />
-            </View>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          marginLeft: "5%",
+          marginRight: "5%",
+          padding: "2%",
+          width: "90%",
+          marginBottom: "5%",
+          backgroundColor: "white",
+          borderRadius: 10,
+          borderWidth: 2,
+          borderColor: "lightgrey",
+          shadowColor: "#808080",
+          backgroundColor: "#F4F5F2",
+        }}
+      >
+        <TextInput
+          style={{ width: "90%" }}
+          placeholder="Type some comment"
+          onChangeText={onCommentChange}
+          multiline
+        />
+        <TouchableOpacity onPress={handleSubmitComment}>
+          <Feather name="send" size={24} color="black" />
+        </TouchableOpacity>
       </View>
     </>
   );
 };
+
 export default RecoPost;

@@ -285,38 +285,33 @@ router.put("/removeLike/:id", async (req, res) => {
 //LIKE FUNCTION
 //successfully tested
 router.put("/addComment/:id", async (req, res) => {
-  //console.log(req.body);
-  // console.log(req.params.id)
   try {
+    //console.log("asdsadsad", req.params);
+    //console.log("sdadsadsad", typeof req.params);
+    const comment = req.body.comment;
+    const commentorusername = req.body.commentorusername;
+
     const updatedPost = await Post.findById(req.params.id);
-    console.log(updatedPost.likeList);
-    var isLike = true;
-    var likeArr = updatedPost.likeList;
-    console.log(req.body.userId);
-    likeArr.forEach((element) => {
-      if (element == req.body.userId) isLike = false;
-    });
-
-    console.log(isLike);
-
-    if (isLike) {
-      likeArr.push(req.body.userId);
-      console.log(likeArr);
-
-      const updatePost = await Post.findOneAndUpdate(
-        req.params.id,
-        {
-          $set: { likeList: likeArr },
-        },
-        { new: true }
-      );
-      console.log(updatePost.likeList);
-      res.status(200).json(updatePost.likeList);
+    //console.log("Updated post", updatedPost);
+    if (!updatedPost) {
+      return res.status(404).json({ error: "Post not found" });
     }
+
+    const commentObj = {
+      username: commentorusername,
+      comment: comment
+    };
+
+    updatedPost.commentList.push(commentObj);
+
+    const updatedPostWithComment = await updatedPost.save();
+    res.status(200).json(updatedPostWithComment.commentList);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
+
 
 //DELETE POST
 //successfully tested
@@ -368,14 +363,15 @@ router.get("/allPosts/:mediaId", async (req, res) => {
 //successfully tested
 router.get("/allCategory/:category", async (req, res) => {
   try {
-    const post = await Post.find({ category: req.params.category });
+    const categories = req.params.category.split(","); // Assuming req.params.category is an array
+    console.log(categories)
+    const posts = await Post.find({ category: { $elemMatch: { $in: categories } } });
     console.log("category");
-    res.status(200).json(post);
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 router.get("/media/:id", async (req, res) => {
   // console.log(req.body);
   // console.log(req.params.id)

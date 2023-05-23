@@ -85,7 +85,7 @@ const category = [
   },
 ];
 
-const SearchBox = ({ setSearchStr }) => {
+const SearchBox = ({ setSearchStr, setSearchCategory }) => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState([]);
   //const [searchStr, setSearchStr] = useState('');
@@ -112,7 +112,8 @@ const SearchBox = ({ setSearchStr }) => {
   useEffect(() => {
     //console.log("değişim :", searchStr)
     //handleSearchStr()
-  }, []);
+    setSearchCategory(selectedCategory)
+  }, [selectedCategory]);
 
  /* const handleSearchStr = async () => {
     try {

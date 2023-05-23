@@ -9,9 +9,17 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionic from "react-native-vector-icons/Ionicons";
+import rawipv4 from "../ipv4.json";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+
 
 const Accounts = () => {
+  const navigation = useNavigation();
+  const user = useSelector((state) => state.user.currentUser);
   const [image, setImage] = useState(null);
+
   const addImage = async () => {
     let permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -26,6 +34,48 @@ const Accounts = () => {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
+  };
+
+  const getFilenameFromUri = (uri) => {
+    const path = uri.split("/");
+
+    return path[path.length - 1];
+  };
+
+  const handleSubmit = async () => {
+    //console.log(image)
+    const filename = getFilenameFromUri(image);
+    //console.log("filename : ", filename);
+    const ipv4Address = rawipv4["ip"];
+    const res2 = await axios.get(
+      "http://" + ipv4Address + `:5000/api/mediaProfile/userProfileMedia/${user.user._id}`
+    );
+
+    var mediaProfileId = res2.data[0]._id;
+    //console.log("user.user._id :", user.user._id)
+    //console.log("mediaProfileId :", mediaProfileId)
+    const formData = new FormData();
+    formData.append("pp", {
+      uri: image,
+      type: "image/png",
+      name: filename,
+    });
+    formData.append("description", "Hey there! I an using RecoModa");
+
+    //console.log("fname :", formData);
+    //const formData = new FormData();
+    let res = await fetch(
+      "http://" + ipv4Address + `:5000/api/mediaProfile/upload/${mediaProfileId}`,
+      {
+        method: "PUT",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    navigation.navigate("Profile")
+    //console.log(res);
   };
 
   return (
@@ -64,8 +114,30 @@ const Accounts = () => {
           <TouchableOpacity onPress={() => console.log("change your password")}>
             <Text style={styles.buttonText}>Change Your Password</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginHorizontal: 130,
+              marginTop: 5,
+              height: 40,
+              backgroundColor: "#8D3667",
+              borderWidth: 1,
+              borderRadius: 50,
+              paddingTop: 5,
+              alignItems: "center",
+              bottom: 8,
+            }}
+            onPress={handleSubmit}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 18, color: "white" }}>
+              Save
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.seperator}></View>
+        
+     
+          
+        
       </View>
     </SafeAreaView>
   );
