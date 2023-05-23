@@ -24,6 +24,9 @@ import AppLoading from "expo-app-loading";
 import rawipv4 from "../ipv4.json";
 
 const Profile = () => {
+  const [selectedIcon, setSelectedIcon] = useState("apps");
+  const description =
+    "Hi, I am a digital content creator.Hi, I am a digital content creator. Hi, I am a digital content creator. Hi, I am a digital content creator.";
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
   const [posts, setPosts] = useState([]);
@@ -48,17 +51,20 @@ const Profile = () => {
     return unsubscribe;
   }, [navigation]);
 
+  const handleIconSelection = (iconName) => {
+    setSelectedIcon(iconName);
+  };
   const handleSubmit = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-  
+
       const res2 = await axios.get(
         "http://" +
           ipv4Address +
           `:5000/api/mediaProfile/userProfileMedia/${user.user._id}`
       );
-     // console.log(res2.data[0].profilePicture[0].data);
-      setPp( res2.data[0].profilePicture[0].data);
+      // console.log(res2.data[0].profilePicture[0].data);
+      setPp(res2.data[0].profilePicture[0].data);
       //console.log(pp)
     } catch (error) {
       // handle error response
@@ -191,33 +197,74 @@ const Profile = () => {
             </View>
           </View>
         </View>
-        <View style={styles.minibar}>
-          <TouchableOpacity style={styles.minibarItem}>
-            <MaterialIcons name="apps" size={36} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.minibarItem}>
-            <MaterialIcons name="bookmark" size={36} color="black" />
-          </TouchableOpacity>
+        <View
+          style={{
+            marginLeft: 20,
+            marginTop: 5,
+            marginBottom: 20,
+            marginRight: 10,
+          }}
+        >
+          <Text>{description}</Text>
         </View>
-        <ScrollView style={styles.Scrollcontainer}>
-          <View style={styles.postsContainer}>
-            {posts.map((item, index) => (
-              <TouchableOpacity
-                postDetail={item}
-                key={item._id}
-                onPress={() =>
-                  navigation.navigate("ShowPost", { postId: item })
-                }
-                style={index % 3 === 0 ? styles.firstPostItem : styles.postItem}
-              >
-                <Image
-                  style={styles.postImage}
-                  source={{ uri: `data:image/png;base64,${item.img[0].data}` }}
-                />
-              </TouchableOpacity>
-            ))}
+        <View>
+          <View style={styles.minibar}>
+            <TouchableOpacity
+              style={styles.minibarItem}
+              onPress={() => handleIconSelection("apps")}
+            >
+              <MaterialIcons
+                name="apps"
+                size={36}
+                color={selectedIcon === "apps" ? "#8D3667" : "black"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.minibarItem}
+              onPress={() => handleIconSelection("bookmark")}
+            >
+              <MaterialIcons
+                name="bookmark"
+                size={36}
+                color={selectedIcon === "bookmark" ? "#8D3667" : "black"}
+              />
+            </TouchableOpacity>
           </View>
-        </ScrollView>
+        </View>
+        <View style={{ flex: 1 }}>
+          {selectedIcon === "apps" && (
+            <SafeAreaView>
+              <ScrollView>
+                <View style={styles.postsContainer}>
+                  {posts.map((item, index) => (
+                    <TouchableOpacity
+                      postDetail={item}
+                      key={item._id}
+                      onPress={() =>
+                        navigation.navigate("ShowPost", { postId: item })
+                      }
+                      style={
+                        index % 3 === 0 ? styles.firstPostItem : styles.postItem
+                      }
+                    >
+                      <Image
+                        style={styles.postImage}
+                        source={{
+                          uri: `data:image/png;base64,${item.img[0].data}`,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </ScrollView>
+            </SafeAreaView>
+          )}
+          {selectedIcon === "bookmark" && (
+            <View>
+              <Text>HELLO</Text>
+            </View>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
