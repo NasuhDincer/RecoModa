@@ -15,7 +15,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads");
+    cb(null, "profilePictures");
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -24,13 +24,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/upload", upload.single("images"), (req, res) => {
+router.post("/upload", upload.single("pp"), (req, res) => {
   const saveImage = MediaProfile({
-    mediaId: req.body.mediaId,
+    userId: req.body.userId,
     description: req.body.description,
 
     profilePicture: {
-      data: fs.readFileSync("uploads/" + req.file.filename),
+      data: fs.readFileSync("profilePictures/" + req.file.filename),
       contentType: "image/png",
     },
   });
@@ -43,6 +43,35 @@ router.post("/upload", upload.single("images"), (req, res) => {
       console.log(err, "error has occur");
     });
   res.send("image is saved");
+});
+
+router.put("/upload/:id", upload.single("pp"), (req, res) => {
+  const { id } = req.params;
+ console.log(id)
+  // Update the existing media profile document with the new data
+  MediaProfile.findByIdAndUpdate(
+    id,
+    {
+      userId: req.body.userId,
+      description: req.body.description,
+      profilePicture: {
+        data: fs.readFileSync("profilePictures/" + req.file.filename),
+        contentType: "image/png",
+      },
+    },
+    { new: true } // Set { new: true } to return the updated document
+  )
+    .then((updatedProfile) => {
+      if (!updatedProfile) {
+        return res.status(404).send("Media profile not found");
+      }
+      //console.log("Media profile updated successfully:", updatedProfile);
+      res.send("Media profile updated successfully");
+    })
+    .catch((err) => {
+      console.error("Error updating media profile:", err);
+      res.status(500).send("An error occurred while updating media profile");
+    });
 });
 
 //UPDATE POST
@@ -90,7 +119,7 @@ router.delete("/:id", async (req, res) => {
 
 //GET ALL POSTS
 
-router.get("/:userId", async (req, res) => {
+router.get("/userProfileMedia/:userId", async (req, res) => {
   try {
     const profile = await MediaProfile.find({ userId: req.params.userId });
     res.status(200).json(profile);

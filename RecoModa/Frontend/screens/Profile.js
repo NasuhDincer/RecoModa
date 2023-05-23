@@ -23,12 +23,13 @@ import {
 import AppLoading from "expo-app-loading";
 import rawipv4 from "../ipv4.json";
 
-const Profile = (props) => {
+const Profile = () => {
   const [mediaProfile, setMediaProfile] = useState({});
   const [media, setMedia] = useState({});
   const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState("");
   const [following, setFollowing] = useState("");
+  const [pp, setPp] = useState([]);
 
   const navigation = useNavigation(); // Use the useNavigation hook
   const user = useSelector((state) => state.user.currentUser);
@@ -41,7 +42,7 @@ const Profile = (props) => {
   useEffect(() => {
     // this function will be called after the component is mounted or update
     handleSubmit();
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       handleFollowers();
     });
     return unsubscribe;
@@ -50,11 +51,15 @@ const Profile = (props) => {
   const handleSubmit = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
-      const res = await axios.get(
-        "http://" + ipv4Address + `:5000/api/mediaprofile/${user.user._id}`
+  
+      const res2 = await axios.get(
+        "http://" +
+          ipv4Address +
+          `:5000/api/mediaProfile/userProfileMedia/${user.user._id}`
       );
-      setMediaProfile(res.data);
-      
+     // console.log(res2.data[0].profilePicture[0].data);
+      setPp( res2.data[0].profilePicture[0].data);
+      //console.log(pp)
     } catch (error) {
       // handle error response
       console.log(error);
@@ -114,10 +119,14 @@ const Profile = (props) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={{ left: 10 }}>
-            <Image
-              style={[styles.profileImage]}
-              source={require("../Assets/user.png")}
-            />
+            {pp ? (
+              <Image
+                style={[styles.profileImage]}
+                source={{
+                  uri: `data:image/png;base64,${pp}`,
+                }}
+              />
+            ) : null}
             <Text
               style={[
                 styles.stat,
@@ -130,7 +139,9 @@ const Profile = (props) => {
           </View>
           <View style={[styles.stats, { flexDirection: "row" }]}>
             <View style={{ flexDirection: "column" }}>
-              <Text style={[styles.stat, { fontSize: 18 }]}>{posts.length}</Text>
+              <Text style={[styles.stat, { fontSize: 18 }]}>
+                {posts.length}
+              </Text>
               <Text
                 style={[
                   styles.stat,
@@ -143,7 +154,11 @@ const Profile = (props) => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{followers}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowersPage", {userId : user.user._id})}
+                onPress={() =>
+                  navigation.navigate("FollowersPage", {
+                    userId: user.user._id,
+                  })
+                }
               >
                 <Text
                   style={[
@@ -158,7 +173,11 @@ const Profile = (props) => {
             <View style={{ flexDirection: "column" }}>
               <Text style={[styles.stat, { fontSize: 18 }]}>{following}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate("FollowingPage", {userId : user.user._id})}
+                onPress={() =>
+                  navigation.navigate("FollowingPage", {
+                    userId: user.user._id,
+                  })
+                }
               >
                 <Text
                   style={[

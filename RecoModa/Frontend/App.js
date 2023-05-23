@@ -167,6 +167,10 @@ export default function App() {
               name="PeopleProfile"
               component={PeopleProfile}
             ></Stack.Screen>
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+            ></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

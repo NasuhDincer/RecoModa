@@ -4,7 +4,7 @@ const MediaProfileSchema = new mongoose.Schema(
   {
     userId: { type: String, },
     description: { type: String },
-    profilePicture: { data: Buffer, contentType: String }
+    profilePicture: { type : Array }
   },
   { timestamps: true }
 );
