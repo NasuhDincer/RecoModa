@@ -123,11 +123,10 @@ export default function UploadImage() {
     const data = await res.json();
 
     console.log(data);
-    console.log(typeof(data))
-    setImageColor(data)
-    console.log(imageColor)
-    console.log(typeof imageColor)
-
+    console.log(typeof data);
+    setImageColor(data);
+    console.log(imageColor);
+    console.log(typeof imageColor);
   };
 
   const removeImage = () => {
@@ -450,6 +449,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     marginHorizontal: 15,
     borderRadius: 10,
+    textAlignVertical: "top",
     backgroundColor: "#E9EAEC",
     padding: 15,
     height: 100,
