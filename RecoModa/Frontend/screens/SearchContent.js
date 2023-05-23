@@ -9,7 +9,7 @@ import Imaa from "../components/GetImages";
 import rawipv4 from "../ipv4.json";
 import { StyleSheet, Dimensions,ActivityIndicator } from 'react-native';
 
-const SearchContent = ({ searchStr }) => {
+const SearchContent = ({ searchStr, searchCategory }) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +26,19 @@ const SearchContent = ({ searchStr }) => {
     }
     
   }, [searchStr]);
+
+  useEffect(() => {
+    if(searchCategory.length == 0){
+      handleSubmit();
+    }
+    else{
+      console.log("cat:: ", searchCategory)
+      const categoriesString = searchCategory.join(',');
+      console.log("cat:: ", categoriesString)
+      handleSearchCategory(categoriesString);
+    }
+ 
+  }, [searchCategory]);
    
   const handleSearchStr = async () => {
     try {
@@ -38,6 +51,19 @@ const SearchContent = ({ searchStr }) => {
       setData(res.data);
       setIsLoading(false)
 
+      }
+      catch{}
+  };
+  const handleSearchCategory = async (categoryString) => {
+    try {
+      setIsLoading(true)
+      const ipv4Address = rawipv4["ip"];
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/allCategory/${categoryString}`
+      );
+      //console.log("StrSearch : ", res.data);
+      setData(res.data);
+      setIsLoading(false)
       }
       catch{}
   };

@@ -368,14 +368,15 @@ router.get("/allPosts/:mediaId", async (req, res) => {
 //successfully tested
 router.get("/allCategory/:category", async (req, res) => {
   try {
-    const post = await Post.find({ category: req.params.category });
+    const categories = req.params.category.split(","); // Assuming req.params.category is an array
+    console.log(categories)
+    const posts = await Post.find({ category: { $elemMatch: { $in: categories } } });
     console.log("category");
-    res.status(200).json(post);
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 router.get("/media/:id", async (req, res) => {
   // console.log(req.body);
   // console.log(req.params.id)
