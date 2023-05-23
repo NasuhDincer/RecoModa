@@ -248,7 +248,7 @@ const RecoPost = (props) => {
                 right: 20,
               }}
             >
-              <TouchableOpacity style={{}}>
+              <TouchableOpacity style={{}} onPress={handleLike}>
                 <FontAwesome5
                   name="bookmark"
                   style={{

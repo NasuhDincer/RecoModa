@@ -7,27 +7,53 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Imaa from "../components/GetImages";
 import rawipv4 from "../ipv4.json";
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions,ActivityIndicator } from 'react-native';
 
-const SearchContent = ({ setShowCamera }) => {
+const SearchContent = ({ searchStr }) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     // Fetch data on component mount
-    handleSubmit();
-  }, []);
+    if(!searchStr){
+      handleSubmit();
+    }
+    else{
+      handleSearchStr()
+    }
+    
+  }, [searchStr]);
+   
+  const handleSearchStr = async () => {
+    try {
+      setIsLoading(true)
+      const ipv4Address = rawipv4["ip"];
+      const res = await axios.get(
+        "http://" + ipv4Address + `:5000/api/post/search/${searchStr}`
+      );
+      //console.log("StrSearch : ", res.data);
+      setData(res.data);
+      setIsLoading(false)
+
+      }
+      catch{}
+  };
 
   const handleSubmit = async () => {
     try {
-      console.log("There bb");
+     // console.log("There bb");
+      setIsLoading(true)
       const ipv4Address = rawipv4["ip"];
-      console.log(ipv4Address);
+      //console.log(ipv4Address);
       const res = await axios.get(`http://${ipv4Address}:5000/api/post/`);
-      console.log(Object.keys(res.data));
-      console.log(Object.keys(res.data[0]));
+      //console.log(Object.keys(res.data));
+      //console.log(Object.keys(res.data[0]));
       setData(res.data);
+      setIsLoading(false)
+
     } catch (error) {
       console.log(error);
     }
@@ -36,6 +62,14 @@ const SearchContent = ({ setShowCamera }) => {
   };
 
   const windowWidth = Dimensions.get('window').width;
+ 
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>

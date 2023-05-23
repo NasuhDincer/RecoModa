@@ -85,10 +85,10 @@ const category = [
   },
 ];
 
-const SearchBox = ({ setShowCamera }) => {
+const SearchBox = ({ setSearchStr }) => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [searchStr, setSearchStr] = useState([]);
+  //const [searchStr, setSearchStr] = useState('');
   const handleCategoryPress = (categoryName) => {
     if (selectedCategory.includes(categoryName)) {
       // Category already selected, remove it from the array
@@ -110,11 +110,11 @@ const SearchBox = ({ setShowCamera }) => {
   };
 
   useEffect(() => {
-    console.log("değişim :", searchStr)
-    handleSearchStr()
-  }, [searchStr]);
+    //console.log("değişim :", searchStr)
+    //handleSearchStr()
+  }, []);
 
-  const handleSearchStr = async () => {
+ /* const handleSearchStr = async () => {
     try {
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
@@ -123,7 +123,7 @@ const SearchBox = ({ setShowCamera }) => {
       console.log("StrSearch : ", res.data);
       }
       catch{}
-  };
+  };*/
 
   return (
     <SafeAreaView style={styles.container}>

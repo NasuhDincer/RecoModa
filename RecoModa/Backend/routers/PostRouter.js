@@ -391,11 +391,8 @@ router.get("/media/:id", async (req, res) => {
 
 //GET EMBED ARRAY OF POST
 router.get("/findSimilar/:id", async (req, res) => {
-  //console.log(req.body);
-  // console.log(req.params.id)
+
   try {
-    //const post = await Post.findOne({ postId: req.params.id });
-    //console.log(post)
     console.log(req.params.id)
     var count = 2;
     var output = null;
@@ -416,21 +413,32 @@ router.get("/findSimilar/:id", async (req, res) => {
   }
 });
 
+router.post("/cameraSimilar", upload2.single("images"), (req, res) => {
+  try{
+    //console.log("reqF : ", req.file.path)
+    const imageData = fs.readFileSync(req.file.path);
+   
+    const options = {
+      mode: "text",
+      scriptPath: "../Model/",
+      args: [imageData],
+    };
+    let pyshell = new PythonShell("camerasimilar.py", options);
+    pyshell.on("message", function (message) {
+      console.log(message);
+      output = message.replace(/'/g, '"');
+      console.log(output);
+      res.status(200).json(JSON.parse(output));
+    });
+  }catch (err) {
+    res.status(500).json(err);
+  }
+  
+});
+
 //GET ALL EMBED ARRAY OF POSTS
 router.get("/embed", async (req, res) => {
   try {
-    /*const posts = await Post.find();
-    var arr = posts.map((post) => [post._id, post.embedArray]);
-    //var arr = []
-    const arr_str = arr;
-    //const arr_str = JSON.stringify(arr);
-    //console.log(arr_str);
-    //console.log(arr);
-    if (!arr_str || arr_str === "[]") {
-      console.error("Error: arr is empty or undefined");
-      return;
-    }
-    */
     const options = {
       mode: "text",
       scriptPath: "../Model/",

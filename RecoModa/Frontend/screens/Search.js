@@ -27,6 +27,8 @@ const Search = () => {
   const [photo, setPhoto] = useState();
   const [showCamera, setShowCamera] = useState(false);
   const [desiredRatio, setRatio] = useState("16:9");
+  const [searchStr, setSearchStr] = useState('');
+
 
   useEffect(() => {
     (async () => {
@@ -103,8 +105,8 @@ const Search = () => {
     <View>
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <SearchBox setShowCamera={setShowCamera} />
-          <SearchContent />
+          <SearchBox setShowCamera={setShowCamera} setSearchStr={setSearchStr} />
+          <SearchContent searchStr = {searchStr}/>
         </ScrollView>
       </View>
       {showCamera && (

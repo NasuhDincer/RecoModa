@@ -56,7 +56,7 @@ function rgbDistance(rgb1, rgb2) {
 }
 
 const hex1 = "be0910"; // Red
-const hex2 = "c90e15"; // Green
+const hex2 = "cf595e"; // Green
 
 const rgb1 = hexToRgb(hex1);
 const rgb2 = hexToRgb(hex2);
@@ -64,4 +64,4 @@ const rgb2 = hexToRgb(hex2);
 const distance = rgbDistance(rgb1, rgb2);
 
 console.log(distance); // Output: 441.6729559300637
-getDominantHex("process\\10020.jpg")
+//getDominantHex("process\\10020.jpg")

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import MasonryList from "@react-native-seoul/masonry-list";
+import { useNavigation } from "@react-navigation/native";
 import RecoPost from "../components/RecoPost";
 import rawipv4 from "../ipv4.json";
 import axios from "axios";
@@ -17,12 +17,19 @@ const WhistList = () => {
   const user = useSelector((state) => state.user.currentUser);
   const [posts, setPosts] = useState([]);
   const [wishlist, setWishList] = useState([]);
+  const navigation = useNavigation(); // Use the useNavigation hook
+
   console.log("Userinfo: ", user.user)
   console.log(user.user.favoriteProductList);
   console.log(user.user.favoriteProductList.length)
+  
   useEffect(() => {
-    handleWishList();
-  }, []);
+  
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleWishList();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const handleWishList = async () => {
     try {
