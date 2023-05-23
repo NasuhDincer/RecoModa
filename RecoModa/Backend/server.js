@@ -9,6 +9,7 @@ import cartRoute from "./routers/CartRouter.js";
 import mediaRouter from "./routers/MediaRouter.js";
 import product from "./routers/ProductRouter.js";
 import post from "./routers/PostRouter.js";
+import postobject from "./routers/PostObjectRouter.js";
 import mediaProfile from "./routers/MediaProfileRouter.js";
 import color from "./routers/ColorDetectRouter.js";
 
@@ -50,6 +51,7 @@ app.use("/api/cart", cartRoute);
 app.use("/api/media", mediaRouter);
 app.use("/api/product", product);
 app.use("/api/post", post);
+app.use("/api/postobject", postobject);
 app.use("/api/mediaProfile", mediaProfile);
 app.use("/api/color", color);
 
