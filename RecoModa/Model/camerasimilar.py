@@ -18,21 +18,26 @@ from keras.layers import GlobalMaxPooling2D
 import time
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics.pairwise import pairwise_distances
+import os
 #tf.version
 
 post_path = str(sys.argv[1]) # replace with the ID of the post you want to update
 #post_path = r"..\Backend\process\10000.jpg"
-
+#post_path = '10000.jpg'
 count = 2
-
+""" 
+current_directory = os.getcwd()
+print(str(current_directory))
+"""
 ### OPENING THE IMAGE ###
 with open(post_path, 'rb') as file:
     file_content = file.read()
-
+#print(file_content)
 img_bytesio = BytesIO(file_content)
 img = Image.open(img_bytesio)
 # If you want to see the image uncomment below line:
 #img.show()
+#print(img_bytesio)
 
 ### LOAD IMAGE ###
 def load_image(img, resized_fac = 0.1):
@@ -61,10 +66,13 @@ def get_embedding(model, img):
     x   = np.expand_dims(x, axis=0)
     # Pre process Input
     x   = tensorflow.keras.applications.resnet50.preprocess_input(x)
+    #print("emb")
     return model.predict(x).reshape(-1)
 
 emb = get_embedding(model, img_bytesio)
-print("emb")
+print("xxxx")
+
+
 
 embdoublejson = list(emb.astype(np.float64))
 
