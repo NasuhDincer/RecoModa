@@ -19,6 +19,7 @@ import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity } from "react-native";
 import { useWindowDimensions } from "react-native";
 import { Platform } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 const Search = () => {
   let cameraRef = useRef();
@@ -29,6 +30,8 @@ const Search = () => {
   const [desiredRatio, setRatio] = useState("16:9");
   const [searchStr, setSearchStr] = useState('');
   const [searchCategory, setSearchCategory] = useState([]);
+//  const { filter } = route.params;
+const route = useRoute()
 
 
   useEffect(() => {
@@ -39,6 +42,7 @@ const Search = () => {
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
+    console.log('filter :  ', route.params)
   }, []);
 
   if (hasCameraPermission === undefined) {
@@ -107,7 +111,7 @@ const Search = () => {
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <SearchBox setShowCamera={setShowCamera} setSearchStr={setSearchStr} setSearchCategory={setSearchCategory} />
-          <SearchContent searchStr = {searchStr} searchCategory = {searchCategory}/>
+          <SearchContent searchStr = {searchStr} searchCategory = {searchCategory} filter = {route.params.filter}/>
         </ScrollView>
       </View>
       {showCamera && (

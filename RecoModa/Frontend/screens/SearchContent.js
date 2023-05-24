@@ -9,9 +9,11 @@ import Imaa from "../components/GetImages";
 import rawipv4 from "../ipv4.json";
 import { StyleSheet, Dimensions,ActivityIndicator } from 'react-native';
 
-const SearchContent = ({ searchStr, searchCategory }) => {
+const SearchContent = ({ searchStr, searchCategory, filter }) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const user = useSelector((state) => state.user.currentUser);
@@ -39,6 +41,16 @@ const SearchContent = ({ searchStr, searchCategory }) => {
     }
  
   }, [searchCategory]);
+
+  useEffect(() => {
+    if(!filter){
+      handleSubmit();
+    }
+    else{
+      console.log("ff : ", filter)
+    }
+ 
+  }, [filter]);
    
   const handleSearchStr = async () => {
     try {
@@ -72,12 +84,22 @@ const SearchContent = ({ searchStr, searchCategory }) => {
     try {
      // console.log("There bb");
       setIsLoading(true)
-      const ipv4Address = rawipv4["ip"];
-      //console.log(ipv4Address);
-      const res = await axios.get(`http://${ipv4Address}:5000/api/post/`);
-      //console.log(Object.keys(res.data));
-      //console.log(Object.keys(res.data[0]));
-      setData(res.data);
+      if(originalData.length == 0)
+      {
+        const ipv4Address = rawipv4["ip"];
+        //console.log(ipv4Address);
+        const res = await axios.get(`http://${ipv4Address}:5000/api/post/`);
+        //console.log(Object.keys(res.data));
+        //console.log(Object.keys(res.data[0]));
+        setData(res.data);
+        setOriginalData(res.data)
+        console.log(" işlemmm")
+      }
+      else{
+        setData(originalData)
+      }
+     
+      
       setIsLoading(false)
 
     } catch (error) {

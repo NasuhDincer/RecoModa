@@ -55,8 +55,15 @@ const SideBar = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedBodySizes, setSelectedBodySizes] = useState([]);
   const [selectedBrandId, setSelectedBrandId] = useState();
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+
+
+  const [filter, setFilter] = useState([]);
   const navigation = useNavigation(); // Use the useNavigation hook
   const [selectedSizeId, setSelectedSizeId] = useState();
+  
+  
   const handleColorPress = (color) => {
     const isColorSelected = selectedColors.some((c) => c.id === color.id);
     if (!isColorSelected) {
@@ -97,6 +104,14 @@ const SideBar = () => {
     setSelectedBodySizes((prevSelectedBodySizes) =>
       prevSelectedBodySizes.filter((s) => s.id !== size.id)
     );
+  };
+
+  const handleSubmit = () => {
+    var selection = {'brand' : selectedBrands, 'size' : selectedBodySizes, 'minPrice' : minPrice, 'maxPrice': maxPrice}
+    setFilter(selection)
+    console.log(filter)
+    navigation.navigate("search", {filter: {'brand' : selectedBrands, 'size' : selectedBodySizes, 'minPrice' : minPrice, 'maxPrice': maxPrice}})
+
   };
 
   return (
@@ -187,6 +202,7 @@ const SideBar = () => {
           style={styles.input}
           keyboardType="numeric"
           placeholder="Enter min price"
+          onChangeText={(text) => setMinPrice(text)}
 
         />
         <Text
@@ -199,7 +215,7 @@ const SideBar = () => {
           style={styles.input}
           keyboardType="numeric"
           placeholder="Enter max price"
-
+          onChangeText={(text) => setMaxPrice(text)}
         />
         <Text
           style={{ fontWeight: "bold", top: 15 }}
@@ -252,9 +268,11 @@ const SideBar = () => {
             paddingTop: 5,
             alignItems: "center",
           }}
+          onPress= {handleSubmit}
         >
           <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
             {"Apply Filter"}
+            
           </Text>
         </TouchableOpacity>
       </View>

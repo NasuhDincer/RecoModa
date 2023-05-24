@@ -63,8 +63,9 @@ const Profile = () => {
           ipv4Address +
           `:5000/api/mediaProfile/userProfileMedia/${user.user._id}`
       );
-      // console.log(res2.data[0].profilePicture[0].data);
-      setPp(res2.data[0].profilePicture[0].data);
+       //console.log(res2.data[0].profilePicture);
+      if(res2.data[0].profilePicture.length != 0)
+          setPp(res2.data[0].profilePicture[0].data);
       //console.log(pp)
     } catch (error) {
       // handle error response

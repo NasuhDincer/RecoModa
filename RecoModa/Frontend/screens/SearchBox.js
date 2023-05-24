@@ -88,6 +88,7 @@ const category = [
 const SearchBox = ({ setSearchStr, setSearchCategory }) => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState([]);
+
   //const [searchStr, setSearchStr] = useState('');
   const handleCategoryPress = (categoryName) => {
     if (selectedCategory.includes(categoryName)) {
