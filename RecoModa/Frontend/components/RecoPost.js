@@ -144,6 +144,7 @@ const RecoPost = (props) => {
             shadowColor: "#808080",
             elevation: 15,
             backgroundColor: "#F4F5F2",
+            paddingTop: 20,
           }}
         >
           <View

@@ -52,7 +52,9 @@ const WhistList = () => {
         }}
         data={wishlist}
         renderItem={({ item }) => (
+          <View style={styles.wishcontainer}>
           <RecoPost post={item}></RecoPost>
+          </View>
         )}
         keyExtractor={(item, key) => item} 
       />
@@ -64,15 +66,23 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 10,
     paddingTop: 25,
+    // backgroundColor: "black"
   },
   title: {
-    fontSize: 28,
-    marginBottom: 20,
+    fontSize: 24,
+    marginBottom: 10,
+    marginTop: 5,
+    marginLeft: 5,
+    color: "#8D3667",
   },
   image: {
     width: "49%",
     height: undefined,
     aspectRatio: 1,
+    // backgroundColor: "black"
+  },
+  wishcontainer:  {
+    // backgroundColor: "black"
   },
 });
 export default WhistList;
