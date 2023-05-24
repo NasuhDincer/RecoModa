@@ -74,7 +74,7 @@ const Accounts = () => {
         },
       }
     );
-    navigation.navigate("Profile")
+    // navigation.navigate("Profile")
     //console.log(res);
   };
 

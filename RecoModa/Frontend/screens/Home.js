@@ -192,7 +192,7 @@ const Home = (props) => {
         <Text
           adjustsFontSizeToFit
           style={{
-            fontSize: Dimensions.get("window").width / 10,
+           fontSize: Dimensions.get("window").width / 10,
             marginTop: "5%",
             top: 8,
             textAlign: "center",
