@@ -47,7 +47,7 @@ const SearchContent = ({ searchStr, searchCategory, filter }) => {
       handleSubmit();
     }
     else{
-      console.log("ff : ", filter)
+      handleFilter()
     }
  
   }, [filter]);
@@ -55,12 +55,27 @@ const SearchContent = ({ searchStr, searchCategory, filter }) => {
   const handleSearchStr = async () => {
     try {
       setIsLoading(true)
+      console.log("ff: ",filter)
       const ipv4Address = rawipv4["ip"];
       const res = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/search/${searchStr}`
       );
       //console.log("StrSearch : ", res.data);
       setData(res.data);
+      setIsLoading(false)
+
+      }
+      catch{}
+  };
+
+  const handleFilter = async () => {
+    try {
+      setIsLoading(true)
+      const brandsToFilter = ['Channel', 'Zara']; // Brands to filter (case-sensitive)
+
+      const filteredProductInfo = data.productInfo.filter(product => brandsToFilter.includes(product.brand));
+
+      console.log(filteredProductInfo);
       setIsLoading(false)
 
       }

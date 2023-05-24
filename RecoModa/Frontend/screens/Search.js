@@ -30,8 +30,8 @@ const Search = () => {
   const [desiredRatio, setRatio] = useState("16:9");
   const [searchStr, setSearchStr] = useState('');
   const [searchCategory, setSearchCategory] = useState([]);
-//  const { filter } = route.params;
-const route = useRoute()
+  const [filter, setFilter] = useState([]);
+  const route = useRoute()
 
 
   useEffect(() => {
@@ -43,6 +43,13 @@ const route = useRoute()
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
     console.log('filter :  ', route.params)
+    if(route.params)
+    {
+      console.log( "not empty")
+      setFilter(route.params.filter)
+    }
+  
+    
   }, []);
 
   if (hasCameraPermission === undefined) {
@@ -111,7 +118,7 @@ const route = useRoute()
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <SearchBox setShowCamera={setShowCamera} setSearchStr={setSearchStr} setSearchCategory={setSearchCategory} />
-          <SearchContent searchStr = {searchStr} searchCategory = {searchCategory} filter = {route.params.filter}/>
+          <SearchContent searchStr = {searchStr} searchCategory = {searchCategory} filter = {filter}/>
         </ScrollView>
       </View>
       {showCamera && (

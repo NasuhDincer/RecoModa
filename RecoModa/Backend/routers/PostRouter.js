@@ -372,6 +372,18 @@ router.get("/allCategory/:category", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+router.get("/allBrand/:brand", async (req, res) => {
+  try {
+    const brands = req.params.brand.split(","); // Assuming req.params.brand is an array of brands
+    console.log(brands);
+    const products = await Post.find({ brand: { $in: brands } });
+    console.log("brands");
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 router.get("/media/:id", async (req, res) => {
   // console.log(req.body);
   // console.log(req.params.id)
