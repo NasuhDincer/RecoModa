@@ -71,7 +71,7 @@ const RecoPost = (props) => {
       const p = await axios.get(
         "http://" + ipv4Address + `:5000/api/post/post/${props.post}`
       );
-      console.log("PDATA", Object.keys(p.data))
+      //console.log("PDATA", Object.keys(p.data))
       setPost(p.data);
       setDescription(p.data.description);
       const res = await axios.get(
@@ -96,7 +96,7 @@ const RecoPost = (props) => {
         "http://" + ipv4Address + `:5000/api/media/addLike/${res.data[0]._id}`,
         { postId: post._id }
       );
-      console.log("POST DATA", res2.data);
+      //console.log("POST DATA", res2.data);
     } catch (error) {
       console.log(error);
     }
@@ -110,7 +110,7 @@ const RecoPost = (props) => {
     try {
       const ipv4Address = rawipv4["ip"];
       const id = props.post;
-      console.log(",d,d", typeof id);
+      //console.log(",d,d", typeof id);
       const res3 = await axios.get(
         "http://" + ipv4Address + `:5000/api/users/find/${user.user._id}`
       );
@@ -120,8 +120,8 @@ const RecoPost = (props) => {
         { commentorusername: commentorusername, comment: comment }
       );
 
-      console.log(res.data);
-      console.log(typeof res.data);
+     // console.log(res.data);
+     // console.log(typeof res.data);
       setAllComments(res.data);
     } catch (error) {
       console.log(error);

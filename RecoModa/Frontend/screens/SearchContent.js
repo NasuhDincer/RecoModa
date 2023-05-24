@@ -22,6 +22,13 @@ const SearchContent = ({ searchStr, searchCategory, filter }) => {
     // Fetch data on component mount
     if(!searchStr){
       handleSubmit();
+      if(filter.length == 0){
+        console.log("ff: empty")
+        handleSubmit();
+      }
+      else{
+        console.log("ffx: ",filter)
+      }
     }
     else{
       handleSearchStr()
@@ -43,11 +50,12 @@ const SearchContent = ({ searchStr, searchCategory, filter }) => {
   }, [searchCategory]);
 
   useEffect(() => {
-    if(!filter){
+    if(filter.length == 0){
+      console.log("ff: empty")
       handleSubmit();
     }
     else{
-      handleFilter()
+      console.log("ff: ",filter)
     }
  
   }, [filter]);

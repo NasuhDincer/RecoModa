@@ -31,7 +31,7 @@ const RegisterMeasure = ({ route }) => {
     );
     console.log(res.status)
     //if(res.status == '201')
-     //navigation.navigate("LoginScreen")
+    navigation.navigate("Login")
   };
 
   const handleWeightChange = (value) => {

@@ -180,7 +180,7 @@ const ImageDetails = ({ route }) => {
       type: "image/png",
       name: filename,
     });
-    formData.append("mediaId", "1");
+    formData.append("mediaId", mediaId);
     const categoryNameArray = postInfo.category.map(category => category.name);
     console.log("cc : ", categoryNameArray )
     categoryNameArray.forEach((categoryName, index) => {
@@ -207,6 +207,7 @@ const ImageDetails = ({ route }) => {
     });
 
     //console.log(res);
+    navigation.navigate("Home")
   };
   return (
     <View style={styles.containerTop}>

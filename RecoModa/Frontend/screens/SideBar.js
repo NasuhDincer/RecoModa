@@ -109,7 +109,7 @@ const SideBar = () => {
   const handleSubmit = () => {
     var selection = {'brand' : selectedBrands, 'size' : selectedBodySizes, 'minPrice' : minPrice, 'maxPrice': maxPrice}
     setFilter(selection)
-    console.log(filter)
+    //console.log({filter: {'brand' : selectedBrands, 'size' : selectedBodySizes, 'minPrice' : minPrice, 'maxPrice': maxPrice}})
     navigation.navigate("search", {filter: {'brand' : selectedBrands, 'size' : selectedBodySizes, 'minPrice' : minPrice, 'maxPrice': maxPrice}})
 
   };

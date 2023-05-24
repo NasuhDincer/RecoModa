@@ -20,6 +20,8 @@ import { TouchableOpacity } from "react-native";
 import { useWindowDimensions } from "react-native";
 import { Platform } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+
 
 const Search = () => {
   let cameraRef = useRef();
@@ -32,6 +34,8 @@ const Search = () => {
   const [searchCategory, setSearchCategory] = useState([]);
   const [filter, setFilter] = useState([]);
   const route = useRoute()
+  const navigation = useNavigation(); // Use the useNavigation hook
+
 
 
   useEffect(() => {
@@ -42,12 +46,18 @@ const Search = () => {
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
-    console.log('filter :  ', route.params)
-    if(route.params)
+    console.log('route1 :  ', route.params)
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      console.log('route :  ', route.params)
+      if(route.params)
     {
       console.log( "not empty")
       setFilter(route.params.filter)
     }
+    });
+    return unsubscribe;
+    
   
     
   }, []);
