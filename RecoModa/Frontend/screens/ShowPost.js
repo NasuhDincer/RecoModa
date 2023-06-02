@@ -18,9 +18,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import rawipv4 from "../ipv4.json";
 import RecoPost from "../components/RecoPost";
+import { LogBox } from 'react-native';
 import { element } from "prop-types";
 
 const ShowPost = ({ route }) => {
+  LogBox.ignoreAllLogs();//Ignore all log notifications
   let [fontsLoaded] = useFonts({
     Nunito_400Regular,
     Nunito_500Medium,
@@ -88,6 +90,7 @@ const ShowPost = ({ route }) => {
           DETAILED POST
         </Text>
       </View>
+      
       <ScrollView nestedScrollEnabled style={styles.Scrollcontainer}>
         <View>
           <RecoPost post={postId._id}></RecoPost>

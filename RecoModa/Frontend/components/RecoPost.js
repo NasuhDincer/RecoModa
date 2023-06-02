@@ -21,21 +21,7 @@ const products = [
     brand: "Bershka",
     category: "top-wear",
     price: "1000TL",
-  },
-  {
-    id: 2,
-    size: "XL",
-    brand: "Bershka",
-    category: "top-wear",
-    price: "1000TL",
-  },
-  {
-    id: 3,
-    size: "XL",
-    brand: "Bershka",
-    category: "top-wear",
-    price: "1000TL",
-  },
+  }
 ];
 
 const comments = [
@@ -170,7 +156,7 @@ const RecoPost = (props) => {
                 source={require("../Assets/user.png")}
                 style={{
                   width: 40,
-                  height: "95%",
+                  height: "80%",
                   aspectRatio: 1,
                   borderRadius: 20,
                   resizeMode: "contain",
@@ -187,14 +173,7 @@ const RecoPost = (props) => {
                 {JSON.stringify(data).replace(/"/g, "")}
               </Text>
             </View>
-            <View
-              style={{
-                height: "100%",
-                width: "20%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            ></View>
+
           </View>
           <View
             style={{
@@ -206,6 +185,7 @@ const RecoPost = (props) => {
               backgroundColor: "white",
               borderRadius: 25,
               marginHorizontal: 10,
+              
             }}
           >
             {post && post.img && post.img[0] ? (
@@ -213,7 +193,7 @@ const RecoPost = (props) => {
                 source={{ uri: `data:image/png;base64,${post.img[0].data}` }}
                 style={{
                   width: "100%",
-                  aspectRatio: 1.7,
+                  aspectRatio: 1.2,
                   resizeMode: "contain",
                 }}
               />
@@ -232,8 +212,9 @@ const RecoPost = (props) => {
           <View
             style={{
               flexDirection: "row",
-              height: "5%",
+              height: "8%",
               marginVertical: 5,
+              marginBottom: 20,
             }}
           >
             <Text

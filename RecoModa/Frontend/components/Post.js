@@ -220,6 +220,12 @@ const Post = (props) => {
             marginHorizontal: 10,
           }}
         >
+                    <TouchableOpacity
+            style={{ marginHorizontal: 8 }}
+            onPress={() =>
+              navigation.navigate("ShowPost", { postId: props.post })
+            }
+          >
           <Image
             source={{ uri: `data:image/png;base64,${props.post.img[0].data}` }}
             style={{
@@ -229,6 +235,7 @@ const Post = (props) => {
               resizeMode: "contain",
             }}
           />
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -326,7 +333,6 @@ const Post = (props) => {
                 marginRight: 10,
               }}
             >
-              2
             </Text>
             <TouchableOpacity onPress={handleWishList} style={{}}>
               <FontAwesome5
