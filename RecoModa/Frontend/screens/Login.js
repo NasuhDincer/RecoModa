@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import {login} from "../redux/apiCalls.js"
-import {logout} from "../redux/userRedux.js"
+import { login } from "../redux/apiCalls.js";
+import { logout } from "../redux/userRedux.js";
 import { RNNetworkInfo } from "react-native-network-info";
 import {
   Image,
@@ -15,30 +15,33 @@ import {
 } from "react-native";
 import RegisterScreen from "./RegisterScreen";
 import rawipv4 from "../ipv4.json";
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import { LogBox } from "react-native";
 
 const Login = (props) => {
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation(); // Use the useNavigation hook
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
   const user = useSelector((state) => state.user.currentUser);
-  
-
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       const ipv4Address = rawipv4["ip"];
-      login(dispatch, { email, password } , navigation);
+      login(dispatch, { email, password }, navigation);
       //dispatch(logout())
-      console.log("user : " , user)
+      console.log("user : ", user);
       /*const res = await axios.post(
         "http://" + ipv4Address + ":5000/api/auth/login",
         { email, password }
       );*/
-      if(user != null)
-         navigation.navigate("UserScreens");
+      if (user != null) navigation.navigate("UserScreens");
     } catch (error) {
       // handle error response
       console.log(error);
@@ -46,12 +49,14 @@ const Login = (props) => {
 
     //props.navigation.navigate("Home")
   };
-
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Image style={styles.bgImage} source={require("../Assets/back1.jpg")} />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>RecoModa</Text>
+        <Text style={[styles.title]}>RecoModa</Text>
       </View>
 
       <View style={styles.inputContainer}>
@@ -127,9 +132,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 42,
-    color: "#fff",
     fontWeight: "bold",
-
+    color: "white",
+    fontFamily: "Pacifico_400Regular",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 1,
     textShadowColor: "black",

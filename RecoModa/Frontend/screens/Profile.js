@@ -63,9 +63,9 @@ const Profile = () => {
           ipv4Address +
           `:5000/api/mediaProfile/userProfileMedia/${user.user._id}`
       );
-       //console.log(res2.data[0].profilePicture);
-      if(res2.data[0].profilePicture.length != 0)
-          setPp(res2.data[0].profilePicture[0].data);
+      //console.log(res2.data[0].profilePicture);
+      if (res2.data[0].profilePicture.length != 0)
+        setPp(res2.data[0].profilePicture[0].data);
       //console.log(pp)
     } catch (error) {
       // handle error response
@@ -102,7 +102,7 @@ const Profile = () => {
   }
   return (
     <SafeAreaView
-      style={{ width: "100%", height: "100%", backgroundColor: "#e3e2e0" }}
+      style={{ width: "100%", height: "100%", backgroundColor: "#E5E6E3" }}
     >
       <View
         style={{
